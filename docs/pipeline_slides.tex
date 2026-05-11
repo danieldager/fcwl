@@ -520,32 +520,56 @@
 \end{frame}
 
 % ── 21. Verifier cost comparison ────────────────────────────
-\begin{frame}{Scenario A — Verifier Cost Comparison (100\,K checks)}
+\begin{frame}{Scenario A — Model Cost Comparison (100\,K checks)}
 
-  Extraction fixed at Qwen3-32B (\$59). Serper \$700\,+\,hosting \$50 constant.
-
-  \bigskip
-  \renewcommand{\arraystretch}{1.3}
-  \begin{tabular}{llrrrr}
-    \toprule
-    Verifier & Price in\,/\,out per 1M & Verif.\ cost & Total LLM & \textbf{Grand total} & Eval \\
-    \midrule
-    Llama-3.3-70B \emph{(current)} & \$0.59\,/\,\$0.79 & \$840 & \$900  & \textbf{\$1,650} & 61\%\ ($n$=200, SC$\times$3) \\
-    GPT OSS 120B                    & \$0.15\,/\,\$0.60 & \$297 & \$356  & \textbf{\$1,106} & not yet run \\
-    Llama-4-Scout                   & \$0.11\,/\,\$0.34 & \$197 & \$256  & \textbf{\$1,006} & $\sim$40\%\ ($n$=10, limited) \\
-    GPT OSS 20B                     & \$0.075\,/\,\$0.30 & \$148 & \$207 & \textbf{\$957}   & not yet run \\
-    \bottomrule
-  \end{tabular}
+  Grand total = extraction + verification + \$750 (Serper \$700 + hosting \$50).
 
   \bigskip
-  GPT OSS 120B is the most interesting config: larger than Llama-3.3-70B (120B vs.\ 70B),
-  \alert{3$\times$ cheaper}, and untested on our benchmark.
-  Serper (\$700) now dominates for all cheap configs —
-  improving retrieval coverage beats switching models on cost.
+  \begin{columns}[T]
+    \begin{column}{0.34\textwidth}
+      \textbf{Extraction cost}\\[4pt]
+      \renewcommand{\arraystretch}{1.25}
+      \begin{tabular}{lr}
+        \toprule
+        Model & Cost \\
+        \midrule
+        Llama-3.1-8B  & \$9   \\
+        GPT OSS 20B   & \$21  \\
+        Llama-4-Scout & \$27  \\
+        GPT OSS 120B  & \$42  \\
+        Qwen3-32B     & \$59  \\
+        Llama-3.3-70B & \$104 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.60\textwidth}
+      \textbf{Verification cost}\\[4pt]
+      \renewcommand{\arraystretch}{1.25}
+      \begin{tabular}{lrr}
+        \toprule
+        Model & Cost & Eval \\
+        \midrule
+        GPT OSS 20B    & \$148 & untested \\
+        Llama-4-Scout  & \$197 & $\sim$40\%\ ($n$=10) \\
+        GPT OSS 120B   & \$297 & untested \\
+        Qwen3-32B      & \$456 & untested \\
+        Llama-3.3-70B  & \$840 & 61\%\ ($n$=200, SC$\times$3) \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+
+  \bigskip
+  {\small
+  \textbf{Example totals:}
+  Qwen3-32B\,+\,Llama-3.3-70B \emph{(current)}: \$1,649 \quad
+  Llama-3.1-8B\,+\,GPT OSS 120B: \$1,041 \quad
+  Llama-3.1-8B\,+\,GPT OSS 20B: \$907
+  }
 
   \smallskip
-  {\small\textcolor{slate}{Note: slide 20 shows \$1,900 — that used blended per-token rates
-  (\$0.70/1M and \$0.69/1M). Corrected with actual input/output split pricing: \$1,650.}}
+  {\small\textcolor{slate}{Note: Scenario A slide shows \$1,900 — based on blended per-token rates.
+  Corrected with actual input/output split pricing: \$1,649.}}
 
 % ─────────────────────────────────────────────────────────────
 % COST CALCULATIONS — all figures ×100,000 checks
@@ -573,28 +597,22 @@
 %   Calls per check: 1.5 claims/post × 2.5 FIRE rounds avg = 3.75 calls
 %   Total verification per check:  input 11,531t  |  output 2,063t
 %
-% EXTRACTION COST (Qwen3-32B  @  $0.29/$0.59 per 1M):
-%   (1,250 × 0.29  +  380 × 0.59) / 1e6  ×  100,000
-%   = (362.5 + 224.2) / 1e6  ×  100,000
-%   = $58.67  ≈  $59
+% EXTRACTION COSTS (× 100,000 checks, formula: (1250×in + 380×out)/1e6 × 100K):
 %
-% VERIFICATION COSTS (× 100,000 checks):
+%   Llama-3.1-8B   @  $0.05/$0.08:   (62.5  +  30.4)  / 1e6 × 100K  =  $9.29  →  $9
+%   GPT OSS 20B    @  $0.075/$0.30:  (93.8  + 114.0)  / 1e6 × 100K  = $20.78  →  $21
+%   Llama-4-Scout  @  $0.11/$0.34:   (137.5 + 129.2)  / 1e6 × 100K  = $26.67  →  $27
+%   GPT OSS 120B   @  $0.15/$0.60:   (187.5 + 228.0)  / 1e6 × 100K  = $41.55  →  $42
+%   Qwen3-32B      @  $0.29/$0.59:   (362.5 + 224.2)  / 1e6 × 100K  = $58.67  →  $59
+%   Llama-3.3-70B  @  $0.59/$0.79:   (737.5 + 300.2)  / 1e6 × 100K  = $103.77 →  $104
 %
-%   Llama-3.3-70B  @  $0.59/$0.79:
-%     (11,531×0.59  +  2,063×0.79) / 1e6  ×  100,000
-%     = (6,803 + 1,630) / 1e6  ×  100,000  =  $843  →  $840 (table)
+% VERIFICATION COSTS (× 100,000 checks, formula: (11531×in + 2063×out)/1e6 × 100K):
 %
-%   GPT OSS 120B  @  $0.15/$0.60:
-%     (11,531×0.15  +  2,063×0.60) / 1e6  ×  100,000
-%     = (1,730 + 1,238) / 1e6  ×  100,000  =  $297  (table)
-%
-%   Llama-4-Scout  @  $0.11/$0.34:
-%     (11,531×0.11  +  2,063×0.34) / 1e6  ×  100,000
-%     = (1,268 + 702) / 1e6  ×  100,000  =  $197  (table)
-%
-%   GPT OSS 20B  @  $0.075/$0.30:
-%     (11,531×0.075  +  2,063×0.30) / 1e6  ×  100,000
-%     = (865 + 619) / 1e6  ×  100,000  =  $148  (table)
+%   GPT OSS 20B    @  $0.075/$0.30:  (864.8  +  618.9) / 1e6 × 100K  = $148.37 →  $148
+%   Llama-4-Scout  @  $0.11/$0.34:   (1,268  +  701.4) / 1e6 × 100K  = $196.98 →  $197
+%   GPT OSS 120B   @  $0.15/$0.60:   (1,730  + 1,237.8)/ 1e6 × 100K  = $296.75 →  $297
+%   Qwen3-32B      @  $0.29/$0.59:   (3,344  + 1,217.2)/ 1e6 × 100K  = $456.12 →  $456
+%   Llama-3.3-70B  @  $0.59/$0.79:   (6,803  + 1,629.8)/ 1e6 × 100K  = $843.31 →  $840
 %
 % SERPER SEARCH:
 %   Initial queries:       3 queries/claim × 1.5 claims/post  =  4.5 queries/check
