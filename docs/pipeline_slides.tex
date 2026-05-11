@@ -519,8 +519,101 @@
   \end{columns}
 \end{frame}
 
-% ── 21. Scenario A stack ─────────────────────────────────────
-\begin{frame}{Scenario A — Experimentation Phase: Stack}
+% ── 21. Verifier cost comparison ────────────────────────────
+\begin{frame}{Scenario A — Verifier Cost Comparison (100\,K checks)}
+
+  Extraction fixed at Qwen3-32B (\$59). Serper \$700\,+\,hosting \$50 constant.
+
+  \bigskip
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{llrrrr}
+    \toprule
+    Verifier & Price in\,/\,out per 1M & Verif.\ cost & Total LLM & \textbf{Grand total} & Eval \\
+    \midrule
+    Llama-3.3-70B \emph{(current)} & \$0.59\,/\,\$0.79 & \$840 & \$900  & \textbf{\$1,650} & 61\%\ ($n$=200, SC$\times$3) \\
+    GPT OSS 120B                    & \$0.15\,/\,\$0.60 & \$297 & \$356  & \textbf{\$1,106} & not yet run \\
+    Llama-4-Scout                   & \$0.11\,/\,\$0.34 & \$197 & \$256  & \textbf{\$1,006} & $\sim$40\%\ ($n$=10, limited) \\
+    GPT OSS 20B                     & \$0.075\,/\,\$0.30 & \$148 & \$207 & \textbf{\$957}   & not yet run \\
+    \bottomrule
+  \end{tabular}
+
+  \bigskip
+  GPT OSS 120B is the most interesting config: larger than Llama-3.3-70B (120B vs.\ 70B),
+  \alert{3$\times$ cheaper}, and untested on our benchmark.
+  Serper (\$700) now dominates for all cheap configs —
+  improving retrieval coverage beats switching models on cost.
+
+  \smallskip
+  {\small\textcolor{slate}{Note: slide 20 shows \$1,900 — that used blended per-token rates
+  (\$0.70/1M and \$0.69/1M). Corrected with actual input/output split pricing: \$1,650.}}
+
+% ─────────────────────────────────────────────────────────────
+% COST CALCULATIONS — all figures ×100,000 checks
+%
+% TOKEN BREAKDOWN PER CHECK
+%
+% Extraction (Qwen3-32B, 2 calls):
+%   Call 1 (detection + decomposition + queries):
+%     Input:  _SYSTEM ≈ 880t  +  post text ≈ 100t                   = 980t
+%     Output: is_checkable + 1.5 claims × (text + 3 queries)        ≈ 200t
+%   Call 2 (verifying questions):
+%     Input:  _QUESTIONS_SYSTEM ≈ 210t  +  claims list ≈ 60t        = 270t
+%     Output: 1.5 claims × 6 questions × ~20t                       ≈ 180t
+%   Total per check:  input 1,250t  |  output 380t
+%
+% Verification (per FIRE call):
+%   Input:
+%     _SYSTEM Likert rubric                 ≈  900t
+%     claim text                            ≈   50t
+%     verifying questions  (6 × ~25t)       ≈  150t
+%     evidence block (5 items × ~395t each) ≈ 1,975t   [URL~10 + cred~10 + 1500char≈375]
+%     total input per call                   = 3,075t
+%   Output: reasoning ≈ 400t  +  JSON blob ≈ 150t      =   550t
+%
+%   Calls per check: 1.5 claims/post × 2.5 FIRE rounds avg = 3.75 calls
+%   Total verification per check:  input 11,531t  |  output 2,063t
+%
+% EXTRACTION COST (Qwen3-32B  @  $0.29/$0.59 per 1M):
+%   (1,250 × 0.29  +  380 × 0.59) / 1e6  ×  100,000
+%   = (362.5 + 224.2) / 1e6  ×  100,000
+%   = $58.67  ≈  $59
+%
+% VERIFICATION COSTS (× 100,000 checks):
+%
+%   Llama-3.3-70B  @  $0.59/$0.79:
+%     (11,531×0.59  +  2,063×0.79) / 1e6  ×  100,000
+%     = (6,803 + 1,630) / 1e6  ×  100,000  =  $843  →  $840 (table)
+%
+%   GPT OSS 120B  @  $0.15/$0.60:
+%     (11,531×0.15  +  2,063×0.60) / 1e6  ×  100,000
+%     = (1,730 + 1,238) / 1e6  ×  100,000  =  $297  (table)
+%
+%   Llama-4-Scout  @  $0.11/$0.34:
+%     (11,531×0.11  +  2,063×0.34) / 1e6  ×  100,000
+%     = (1,268 + 702) / 1e6  ×  100,000  =  $197  (table)
+%
+%   GPT OSS 20B  @  $0.075/$0.30:
+%     (11,531×0.075  +  2,063×0.30) / 1e6  ×  100,000
+%     = (865 + 619) / 1e6  ×  100,000  =  $148  (table)
+%
+% SERPER SEARCH:
+%   Initial queries:       3 queries/claim × 1.5 claims/post  =  4.5 queries/check
+%   FIRE follow-up:        (2.5 rounds − 1) × 1.5 claims      =  2.25 queries/check
+%   Total:                 6.75 queries/check × 100,000        =  675,000 queries
+%   Serper price $1 / 1,000 queries  →  $675  ≈  $700 (conservative ceiling)
+%
+% NOTE — DISCREPANCY WITH SLIDE 20 ($1,900 vs $1,650):
+%   Slide 20 used single blended rates: $0.70/1M (Qwen) and $0.69/1M (Llama).
+%   Those over-weighted the higher output price because extraction is input-heavy
+%   (1,250 input vs 380 output per check). With actual in/out split pricing the
+%   extraction bill drops from ~$119 to $59; verification from $994 to $840.
+%   Total: $59 + $840 + $700 + $50 = $1,649 ≈ $1,650.
+% ─────────────────────────────────────────────────────────────
+
+\end{frame}
+
+% ── 22. Scenario A stack ─────────────────────────────────────
+\begin{frame}{Scenario A — Stack}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
       \textbf{Stack — cloud APIs only}
