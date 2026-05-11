@@ -672,34 +672,93 @@
   \end{columns}
 \end{frame}
 
-% ── 15. Scenario B: Cost Table ───────────────────────────────
+% ── 15. KB Routing ───────────────────────────────────────────
+\begin{frame}{Cost Lever: KB Routing Before Web Search}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{The problem with the current architecture}\\[4pt]
+      {\footnotesize All three retrieval sources — FCTAPI, Wikipedia,
+      and Serper — run \emph{in parallel} on every claim, regardless
+      of whether a professional fact-check already exists.
+      At scale, this means paying for Serper queries on claims that
+      could be answered for free.}
+
+      \bigskip
+      \textbf{The fix: sequential KB-first routing}
+      \begin{enumerate}
+        \item Query FCTAPI + vector DB first
+              {\footnotesize (~300ms, free)}
+        \item If a high-confidence match is found:\\
+              return cached verdict, skip Serper entirely,
+              FIRE exits after 1 round
+        \item If no match:\\
+              proceed to full Serper retrieval + FIRE
+      \end{enumerate}
+
+      \bigskip
+      {\footnotesize\textcolor{slate}{Code change: the parallel
+      \texttt{ThreadPoolExecutor} in \texttt{retrieval.py} becomes
+      two-phase. Latency cost is negligible in an async Tier~3
+      pipeline (already 5--30\,s total).}}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{What qualifies as a KB hit?}
+      \begin{itemize}
+        \item \textbf{FCTAPI match} — a professional fact-checker
+              (AFP, PolitiFact, Snopes, \ldots) has already reviewed
+              this claim or a semantically close one
+        \item \textbf{Vector DB match} — our own growing database of
+              previously verified claims (cosine similarity above
+              threshold)
+      \end{itemize}
+
+      \bigskip
+      \textbf{Expected hit rate (mature system)}\\[4pt]
+      {\footnotesize For viral political and health misinformation —
+      the content our users are most likely to share — professional
+      fact-checkers have high coverage. Conservative estimate: \alert{40\%}
+      of novel claims (post cache-miss) resolved without Serper.
+      Hit rate grows as the vector DB matures.}
+
+      \bigskip
+      \textbf{Effect on FIRE}\\[4pt]
+      {\footnotesize KB hits carry credibility 0.90. The verifier
+      receives a strong, directly relevant source and almost always
+      exits after round~1, cutting verification tokens by $\sim$60\%
+      for those claims.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ── 16. Scenario B: Cost Table ───────────────────────────────
 \begin{frame}{Scenario B — Wide Study: Cost Breakdown}
   \textbf{Recurring deployment:} 2\,000 participants $\times$ 10 countries $=$ 20\,000 users,
   100 fact-checked posts/user/day $=$ \textbf{2M pipeline calls/day.}
 
   \bigskip
   \begin{columns}[T]
-    \begin{column}{0.52\textwidth}
-      \textbf{Daily LLM cost at API pricing}\\[4pt]
-      \renewcommand{\arraystretch}{1.2}
-      \begin{tabular}{lrr}
+    \begin{column}{0.56\textwidth}
+      \textbf{Combined LLM + search cost at API pricing}\\[4pt]
+      \renewcommand{\arraystretch}{1.3}
+      \begin{tabular}{lrrr}
         \toprule
-        Scenario & Checks/day & Cost/day \\
+        Optimisation & Novel checks/day & Cost/day & /month \\
         \midrule
-        No caching (raw)        & 2M    & \alert{\$22\,000} \\
-        80\% cache hit rate     & 400K  & \$4\,400 \\
-        \midrule
-        \textbf{With caching} & & \textbf{\$132K/month} \\
+        None (raw)               & 2M    & \alert{\$35\,500} & \alert{\$1.1M} \\
+        Claim cache (80\% hit)   & 400K  & \$7\,100          & \$213K \\
+        Cache + KB routing       & 240K Serper & \$5\,050   & \$152K \\
         \bottomrule
       \end{tabular}
 
       \medskip
-      {\footnotesize Search adds $\sim$\$2\,800/day at full load,
-      $\sim$\$560/day with caching.}
+      {\footnotesize\textit{Cache + KB routing:} of 400K post-cache novel checks,
+      40\% resolved by FCTAPI (no Serper, FIRE exits round~1).
+      Remaining 60\% run full Serper + FIRE (2.5 rounds avg).}
 
       \bigskip
-      \textbf{$\Rightarrow$ API pricing is unviable even with caching.\\
-      Self-hosted inference on HPC is required.}
+      \textbf{$\Rightarrow$ All three scenarios require self-hosted HPC.}\\
+      {\footnotesize But compute requirement drops \alert{6$\times$} from raw
+      to optimised: 32B tokens/day $\to$ 5B tokens/day.}
     \end{column}
     \begin{column}{0.44\textwidth}
       \textbf{Human resources}\\[4pt]
