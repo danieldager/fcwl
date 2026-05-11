@@ -1,0 +1,2239 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 1/50
+══════════════════════════════════════════════════════════════════════
+  Source : Debbie Mucarsel-Powell media centre   Date: 17-9-2020
+  Gold   : Supported
+  Post   : Carlos Gimenez approved a 67% pay raise for himself and increased his own pension.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   2 atomic claim(s)
+
+  [A] Carlos Gimenez approved a 67% pay raise for himself.
+       Q1: Carlos Gimenez 67% pay raise 2025
+       Q2: Carlos Gimenez self pay raise details
+       Q3: Carlos Gimenez 67% raise false or true
+  [B] Carlos Gimenez increased his own pension.
+       Q1: Carlos Gimenez pension increase 2025
+       Q2: Carlos Gimenez self pension boost details
+       Q3: Carlos Gimenez pension raise false claims
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Carlos Gimenez approved a 67% pay raise for himself.
+[domain] Loaded 2673 domains, 2667 cred-blocked
+    [FCTAPI] 1 fact-check(s):
+      • Fact-check by PolitiFact: The claim "Says Miami-Dade Mayor Carlos Gimenez “approved a 67% pay raise for himself and incr
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/Presidency_of_Javier_Milei
+      • https://en.wikipedia.org/wiki/Ezra_Pound
+    query: Carlos Gimenez 67% raise false or true
+      [ok] https://dccc.org/the-case-against-carlos-gimenez/
+      [SCRAPE-BLOCKED] https://www.facebook.com/saveourplayhouse/posts/latest-breaking-playhouse-updatebombshell-letter-from-heisenbottle-to-city-halls/10158062624973561/
+    query: Carlos Gimenez 67% pay raise 2025
+      [ok] https://www.congress.gov/crs-product/RL30297
+      [SCRAPE-BLOCKED] https://www.facebook.com/saveourplayhouse/posts/latest-breaking-playhouse-updatebombshell-letter-from-heisenbottle-to-city-halls/10158062624973561/
+      [ok] https://pubs.acs.org/doi/10.1021/acs.jafc.5b00648
+    query: Carlos Gimenez self pay raise details
+      [ok] https://womensfundmiami.org/press/mayor-carlos-gimenez-endorses-equal-pay-miami-dade-campaign/
+      [ok] https://dccc.org/the-case-against-carlos-gimenez/
+      [ok] https://www.congress.gov/bill/119th-congress/house-bill/695/all-info
+      ✗ empty    cred=0.50  https://pubs.acs.org/doi/10.1021/acs.jafc.5b00648
+      ✗ empty    cred=0.50  https://www.congress.gov/crs-product/RL30297
+      ✗ empty    cred=0.50  https://womensfundmiami.org/press/mayor-carlos-gimenez-endorses-equal-pay-miami-dade-campaign/
+      ✓ scraped  cred=0.50  https://dccc.org/the-case-against-carlos-gimenez/
+      ✗ empty    cred=0.50  https://www.congress.gov/bill/119th-congress/house-bill/695/all-info
+[models] Loading cross-encoder (ms-marco-MiniLM-L6-v2)...
+Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights: 100%|██████████| 105/105 [00:00<00:00, 7402.71it/s]
+    [rerank+MMR] 4 → 4 → 4 items
+    → 4 raw  4 reranked  4 final  (3 structured, 1 scraped)  |  0 cred-blocked  1 scrape-blocked
+      → 4 evidence items  |  1 blocked by domain filter
+
+  [B] Carlos Gimenez increased his own pension.
+    [FCTAPI] 1 fact-check(s):
+      • Fact-check by PolitiFact: The claim "Says Miami-Dade Mayor Carlos Gimenez “approved a 67% pay raise for himself and incr
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/Santiago_Pe%C3%B1a
+      • https://en.wikipedia.org/wiki/Carlos_Menem
+    query: Carlos Gimenez pension increase 2025
+      [ok] https://www.congress.gov/bill/119th-congress/house-bill/695/all-info
+      [ok] https://ideas.repec.org/a/eee/eecrev/v175y2025ics0014292125000388.html
+      [ok] https://www.congress.gov/bill/119th-congress/house-bill/6938/text
+    query: Carlos Gimenez self pension boost details
+      [ok] https://www.congress.gov/crs-product/RL30387
+      [SCRAPE-BLOCKED] https://www.facebook.com/AARPWA/posts/ruth-egger-of-seattle-traveled-to-olympia-to-advocate-for-the-bipartisan-long-te/10161685121485160/
+    query: Carlos Gimenez pension raise false claims
+      [ok] https://www.politifact.com/factchecks/2020/may/04/facebook-posts/claim-about-congressional-pensions-wrong-once-agai/
+      [ok] https://www.politicalcortadito.com/2014/03/14/miami-dade-police-cuts-by-carlos-gimenez-cause-concern/
+      [ok] https://www.congress.gov/bill/109th-congress/house-bill/4
+      ✗ empty    cred=0.50  https://www.congress.gov/bill/119th-congress/house-bill/695/all-info
+      ✗ empty    cred=0.50  https://www.politicalcortadito.com/2014/03/14/miami-dade-police-cuts-by-carlos-gimenez-cause-concern/
+      ✓ scraped  cred=0.50  https://www.politifact.com/factchecks/2020/may/04/facebook-posts/claim-about-congressional-pensions-wrong-once-agai/
+      ✓ scraped  cred=0.50  https://ideas.repec.org/a/eee/eecrev/v175y2025ics0014292125000388.html
+      ✗ empty    cred=0.50  https://www.congress.gov/bill/119th-congress/house-bill/6938/text
+      ✗ empty    cred=0.50  https://www.congress.gov/crs-product/RL30387
+      ✗ empty    cred=0.50  https://www.congress.gov/bill/109th-congress/house-bill/4
+    [rerank+MMR] 5 → 5 → 5 items
+    → 5 raw  5 reranked  5 final  (3 structured, 2 scraped)  |  0 cred-blocked  1 scrape-blocked
+      → 5 evidence items  |  1 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Carlos Gimenez approved a 67% pay raise for himself.
+       Verdict    : Not Enough Evidence  ✗ (gold=Supported)
+       Confidence : ████████░░  0.80
+       Justific.  : The claim that Carlos Gimenez approved a 67% pay raise for himself is partially supported by PolitiFact's 'Half True' rating, but there is not enough comprehensive evidence to fully confirm the claim.
+       Reasoning  :
+                  To verify the claim that Carlos Gimenez approved a
+                  67% pay raise for himself, we examined the provided
+                  evidence. For question 1, PolitiFact
+                  (https://www.politifact.com/factchecks/2020/sep/30/debbie-mucarsel-powell/florida-congressional-race-carlos-gimenezs-salary/)
+                  rated the claim 'Half True', indicating some truth
+                  but also inaccuracies. For question 2, the exact
+                  amount of the pay raise and previous salary are not
+                  specified in the credible sources. For question 3,
+                  the source of the claim is attributed to Debbie
+                  Mucarsel-Powell, as fact-checked by PolitiFact. For
+                  question 4, there are no direct official statements
+                  or press releases from Carlos Gimenez or his office
+                  addressing the pay raise in the provided evidence.
+                  For question 5, PolitiFact, a reputable
+                  fact-checking outlet, has verified the claim but
+                  found it to be 'Half True'. Given the information,
+                  the claim is partially supported but lacks
+                  comprehensive confirmation due to the 'Half True'
+                  rating and the absence of detailed financial records
+                  or direct statements from Gimenez.
+       Sources    :
+         • https://www.politifact.com/factchecks/2020/sep/30/debbie-mucarsel-powell/florida-congressional-race-carlos-gimenezs-salary/
+
+  [B] Carlos Gimenez increased his own pension.
+       Verdict    : Not Enough Evidence  ✗ (gold=Supported)
+       Confidence : ██████████  1.00
+       Justific.  : The claim that Carlos Gimenez increased his own pension is partially supported by a PolitiFact article, but the evidence is not sufficient to fully confirm the claim due to the lack of detailed information and direct confirmation from official records or independent audits.
+       Reasoning  :
+                  To assess the claim that Carlos Gimenez increased
+                  his own pension, we need to examine the evidence
+                  provided. 1. The evidence supporting the claim is
+                  found in [1], which states that the claim 'Says
+                  Miami-Dade Mayor Carlos Gimenez “approved a 67% pay
+                  raise for himself and increased his own pension' was
+                  rated 'Half True' by PolitiFact. 2. The previous and
+                  new pension amounts for Carlos Gimenez are not
+                  specified in the provided evidence. 3. Official
+                  records or statements confirming Carlos Gimenez
+                  increased his pension are not found in the provided
+                  evidence. 4. There is no information from Carlos
+                  Gimenez's office or any public records office about
+                  this pension increase in the provided evidence. 5.
+                  No independent audits or financial disclosures
+                  verifying this pension increase are found in the
+                  provided evidence. Given the information, the claim
+                  is partially supported by [1], but the lack of
+                  detailed information about the pension increase and
+                  the absence of direct confirmation from official
+                  records or independent audits mean the evidence is
+                  not conclusive.
+       Sources    :
+         • https://www.politifact.com/factchecks/2020/sep/30/debbie-mucarsel-powell/florida-congressional-race-carlos-gimenezs-salary-/
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Not Enough Evidence  █████████░  0.90  |  Gold=Supported  |  ✗ MISMATCH
+  Sub-claims: ['Not Enough Evidence', 'Not Enough Evidence']
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 2/50
+══════════════════════════════════════════════════════════════════════
+  Source :  NY-27 debate    Date: 21-10-2020
+  Gold   : Supported
+  Post   : While serving as Town Supervisor on Grand Island, Nebraska, US Nate McMurray voted to raise taxes on homeowners.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] Nate McMurray voted to raise taxes on homeowners while serving as Town Supervisor on Grand Island, Nebraska.
+       Q1: Nate McMurray Grand Island tax increase vote
+       Q2: Nate McMurray Town Supervisor Grand Island tax decision details
+       Q3: Nate McMurray tax raise homeowners Grand Island false claim
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Nate McMurray voted to raise taxes on homeowners while serving as
+    [Wikipedia] 1 article(s):
+      • https://en.wikipedia.org/wiki/Progressive_Era
+    query: Nate McMurray Grand Island tax increase vote
+      [ok] https://www.politifact.com/factchecks/2018/aug/29/nathan-mcmurray/mcmurray-claims-about-grand-island-record-are-true/
+      [SCRAPE-BLOCKED] https://www.facebook.com/nate.d.mcmurray/posts/update-on-golden-age-issuei-know-many-of-you-are-concerned-about-this-issue-you-/1628920953787317/
+      [ok] https://www.democratandchronicle.com/story/news/2018/11/01/dem-nate-mcmurray-seeks-unseat-indicted-gop-congressman-chris-collins-27th-district/1819291002/
+    query: Nate McMurray Town Supervisor Grand Island tax decision details
+      [ok] https://www.politifact.com/factchecks/2018/aug/29/nathan-mcmurray/mcmurray-claims-about-grand-island-record-are-true/
+      [SCRAPE-BLOCKED] https://www.facebook.com/nate.d.mcmurray/posts/nates-notes-understanding-town-taxes-fiscal-health-with-chartsdear-islanders-the/1453543611325053/
+      [ok] https://www.nytimes.com/2018/09/24/nyregion/chris-collins-congress-ad-nate-mcmurray-korea.html
+    query: Nate McMurray tax raise homeowners Grand Island false claim
+      [SCRAPE-BLOCKED] https://www.facebook.com/groups/GISquared/posts/10155743612817351/
+      [SCRAPE-BLOCKED] https://www.facebook.com/groups/GISquared/posts/10158695600552351/
+      [ok] https://www.ctvnews.ca/lifestyle/article/egregious-false-claims-and-careless-inaccuracies-fact-checking-night-3-of-the-republican-convention/
+      ✓ scraped  cred=0.50  https://www.politifact.com/factchecks/2018/aug/29/nathan-mcmurray/mcmurray-claims-about-grand-island-record-are-true/
+      ✗ empty    cred=0.50  https://www.nytimes.com/2018/09/24/nyregion/chris-collins-congress-ad-nate-mcmurray-korea.html
+      ✓ scraped  cred=0.50  https://www.democratandchronicle.com/story/news/2018/11/01/dem-nate-mcmurray-seeks-unseat-indicted-gop-congressman-chris-collins-27th-district/1819291002/
+      ✓ scraped  cred=0.50  https://www.ctvnews.ca/lifestyle/article/egregious-false-claims-and-careless-inaccuracies-fact-checking-night-3-of-the-republican-convention/
+    [rerank+MMR] 4 → 4 → 4 items
+    → 4 raw  4 reranked  4 final  (1 structured, 3 scraped)  |  0 cred-blocked  4 scrape-blocked
+      → 4 evidence items  |  4 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Nate McMurray voted to raise taxes on homeowners while serving as
+       Verdict    : Not Enough Evidence  ✗ (gold=Supported)
+       Confidence : ██████████  1.00
+       Justific.  : The claim about Nate McMurray voting to raise taxes on homeowners lacks direct evidence to support or refute it, leading to a conclusion of insufficient evidence.
+       Reasoning  :
+                  To assess the claim that Nate McMurray voted to
+                  raise taxes on homeowners while serving as Town
+                  Supervisor on Grand Island, Nebraska, we must
+                  examine the provided evidence and answering the
+                  verifying questions. 1. No specific official records
+                  or voting records from Grand Island, Nebraska, are
+                  mentioned in the evidence to show Nate McMurray's
+                  vote on tax-related measures during his tenure as
+                  Town Supervisor. 2. There is no direct evidence
+                  provided that Nate McMurray voted in favor of any
+                  tax increases specifically targeting homeowners
+                  while serving as Town Supervisor. 3. The exact date
+                  and context of the tax increase measure Nate
+                  McMurray is alleged to have supported are not found
+                  in the provided evidence. 4. Official statements or
+                  public records from the Grand Island town government
+                  that confirm or refute this claim are not present in
+                  the evidence. 5. Local news outlets or government
+                  publications reporting on Nate McMurray's voting
+                  record regarding homeowner taxes are not directly
+                  referenced in the evidence, though [1] mentions his
+                  campaign and [2] discusses his claims about his
+                  record as Grand Island supervisor, neither of which
+                  directly address the tax vote claim. Given the lack
+                  of direct evidence addressing the claim and the
+                  absence of specific information regarding Nate
+                  McMurray's voting record on tax increases for
+                  homeowners, we must conclude that there is
+                  insufficient evidence to support or refute the claim
+                  directly. The credibility of the sources ranges from
+                  0.50 to 0.75, but none directly address the claim in
+                  question. Thus, the reasoning leads to a conclusion
+                  of insufficient evidence to make a definitive
+                  judgment on the claim.
+       Sources    :
+         • https://www.democratandchronicle.com/story/news/2018/11/01/dem-nate-mcmurray-seeks-unseat-indicted-gop-congressman-chris-collins-27th-district/1819291002/
+         • https://www.politifact.com/factchecks/2018/aug/29/nathan-mcmurray/mcmurray-claims-about-grand-island-record-are-true/
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Not Enough Evidence  ██████████  1.00  |  Gold=Supported  |  ✗ MISMATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 3/50
+══════════════════════════════════════════════════════════════════════
+  Source : Facebook   Date: 29-10-2020
+  Gold   : Refuted
+  Post   : New Zealand’s new Food Bill bans gardening
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] New Zealand’s new Food Bill bans gardening
+       Q1: New Zealand Food Bill 2024 bans gardening
+       Q2: New Zealand Food Bill 2024 gardening restrictions details
+       Q3: New Zealand Food Bill 2024 gardening ban false claims
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] New Zealand’s new Food Bill bans gardening
+    [Wikipedia] 1 article(s):
+      • https://en.wikipedia.org/wiki/Gardening_in_New_Zealand
+    query: New Zealand Food Bill 2024 gardening restrictions details
+      [ok] https://www.epa.govt.nz/everyday-environment/gardening-products/gardening-safely/
+      [ok] https://www.legislation.govt.nz/act/public/2014/0032/latest/whole.html
+      [ok] https://www.mpi.govt.nz/legal/legislation-standards-and-reviews/food-safety-legislation/introduction-to-food-safety-legislation
+    query: New Zealand Food Bill 2024 bans gardening
+      [ok] https://bunnyeatsdesign.com/2012/02/03/letter-from-the-minister-for-food-safety/
+      [ok] https://thespinoff.co.nz/society/09-08-2017/no-poor-new-zealand-families-cant-just-grow-their-own-vegetables
+      [ok] https://www.stuff.co.nz/technology/social-networking/63642145/illegal-garden-posts-hilarious-growth
+    query: New Zealand Food Bill 2024 gardening ban false claims
+      [ok] https://civileats.com/2020/10/16/without-a-right-to-garden-law-it-may-be-illegal-to-grow-your-own-food/
+      [SCRAPE-BLOCKED] https://www.facebook.com/AMShowNZ/posts/should-weed-killer-round-up-be-banned-in-nzthe-company-that-makes-it-was-made-to/1415816101884702/
+      [SCRAPE-BLOCKED] https://www.facebook.com/davidseymourACT/posts/gmos-can-improve-economic-and-environmental-outcomes-act-supports-reform-in-this/1954890171242388/
+      ✗ empty    cred=0.50  https://www.mpi.govt.nz/legal/legislation-standards-and-reviews/food-safety-legislation/introduction-to-food-safety-legislation
+      ✗ empty    cred=0.50  https://www.stuff.co.nz/technology/social-networking/63642145/illegal-garden-posts-hilarious-growth
+      ✗ empty    cred=0.50  https://www.legislation.govt.nz/act/public/2014/0032/latest/whole.html
+      ✓ scraped  cred=0.50  https://bunnyeatsdesign.com/2012/02/03/letter-from-the-minister-for-food-safety/
+      ✗ empty    cred=0.50  https://www.epa.govt.nz/everyday-environment/gardening-products/gardening-safely/
+      ✓ scraped  cred=0.50  https://civileats.com/2020/10/16/without-a-right-to-garden-law-it-may-be-illegal-to-grow-your-own-food/
+      ✓ scraped  cred=0.50  https://thespinoff.co.nz/society/09-08-2017/no-poor-new-zealand-families-cant-just-grow-their-own-vegetables
+    [rerank+MMR] 4 → 4 → 4 items
+    → 4 raw  4 reranked  4 final  (1 structured, 3 scraped)  |  0 cred-blocked  2 scrape-blocked
+      → 4 evidence items  |  2 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] New Zealand’s new Food Bill bans gardening
+       Verdict    : Not Enough Evidence  ✗ (gold=Refuted)
+       Confidence : ██████████  1.00
+       Justific.  : The claim that New Zealand's new Food Bill bans gardening cannot be confirmed or denied due to insufficient and inconclusive evidence from the provided sources.
+       Reasoning  :
+                  To assess the claim that New Zealand's new Food Bill
+                  bans gardening, we must examine the evidence
+                  provided. 1. The specific provisions of New
+                  Zealand's new Food Bill regarding gardening are not
+                  clearly outlined in the provided evidence. 2. There
+                  is no official confirmation from the New Zealand
+                  government that the Food Bill bans gardening found
+                  in the evidence. 3. The official title and content
+                  of New Zealand's new Food Bill are not specified in
+                  the given sources. 4. No credible news outlets or
+                  government sources in the evidence report that the
+                  Food Bill includes a ban on gardening. 5. The
+                  legislative status of the Food Bill in New Zealand
+                  is not mentioned in the provided evidence. Given the
+                  lack of direct information on the Food Bill's
+                  provisions and its legislative status, and
+                  considering the credibility of the sources, we must
+                  reason that the claim cannot be confirmed or denied
+                  based on the provided evidence. Sources [1] and [2]
+                  discuss concerns and issues related to food security
+                  and gardening but do not provide clear evidence
+                  about the Food Bill banning gardening. Source [3]
+                  talks about the popularity of gardening in New
+                  Zealand but does not address the Food Bill. Source
+                  [4] discusses restrictions on gardening in an
+                  Illinois town, which is not relevant to New
+                  Zealand's Food Bill. Since the evidence does not
+                  clearly confirm or contradict the claim, and given
+                  the relatively low credibility of the sources that
+                  could potentially address the claim, the verdict
+                  leans towards NotEnoughEvidence.
+       Sources    :
+         • https://bunnyeatsdesign.com/2012/02/03/letter-from-the-minister-for-food-safety/
+         • https://thespinoff.co.nz/society/09-08-2017/no-poor-new-zealand-families-cant-just-grow-their-own-vegetables
+         • https://en.wikipedia.org/wiki/Gardening_in_New_Zealand
+         • https://civileats.com/2020/10/16/without-a-right-to-garden-law-it-may-be-illegal-to-grow-your-own-food/
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Not Enough Evidence  ██████████  1.00  |  Gold=Refuted  |  ✗ MISMATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 4/50
+══════════════════════════════════════════════════════════════════════
+  Source : Twitter   Date: 9-9-2020
+  Gold   : Refuted
+  Post   : US Congress voted 49-46 to add the repeal of Section 230 — legislation which shields online platforms from liability for user-generated content — into the country’s annual defense bill in December 2020
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] US Congress voted 49-46 to add the repeal of Section 230 into the country’s annual defense bill in December 2020.
+       Q1: US Congress vote repeal Section 230 defense bill December 2020
+       Q2: Section 230 repeal vote in US Congress December 2020 details
+       Q3: False claims about US Congress voting to repeal Section 230 2020
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] US Congress voted 49-46 to add the repeal of Section 230 into the
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/Section_230
+      • https://en.wikipedia.org/wiki/Democratic_Party_(United_States)
+    query: False claims about US Congress voting to repeal Section 230 2020
+      [ok] https://legal-forum.uchicago.edu/print-archive/internet-speech-machine-and-other-myths-confounding-section-230-reform
+      [ok] https://www.brookings.edu/articles/how-section-230-reform-endangers-internet-free-speech/
+      [ok] https://en.wikipedia.org/wiki/Section_230
+    query: US Congress vote repeal Section 230 defense bill December 2020
+      [ok] https://www.npr.org/2020/12/23/949586964/trump-vetoes-defense-bill-setting-up-congressional-vote-to-override-him
+      [ok] https://georgiarecorder.com/briefs/u-s-house-votes-to-override-trumps-veto-of-annual-defense-authorization-bill/
+      [ok] https://www.congress.gov/bill/116th-congress/senate-bill/5020
+    query: Section 230 repeal vote in US Congress December 2020 details
+      [ok] https://en.wikipedia.org/wiki/Section_230
+      ✗ empty    cred=0.50  https://www.congress.gov/bill/116th-congress/senate-bill/5020
+      ✓ scraped  cred=0.50  https://en.wikipedia.org/wiki/Section_230
+      ✓ scraped  cred=0.50  https://legal-forum.uchicago.edu/print-archive/internet-speech-machine-and-other-myths-confounding-section-230-reform
+      ✓ scraped  cred=0.50  https://www.npr.org/2020/12/23/949586964/trump-vetoes-defense-bill-setting-up-congressional-vote-to-override-him
+      ✓ scraped  cred=0.50  https://georgiarecorder.com/briefs/u-s-house-votes-to-override-trumps-veto-of-annual-defense-authorization-bill/
+      ✓ scraped  cred=0.50  https://www.brookings.edu/articles/how-section-230-reform-endangers-internet-free-speech/
+[models] Loading embedding model (paraphrase-multilingual-MiniLM-L12-v2)...
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7649.14it/s]
+    [rerank+MMR] 7 → 7 → 6 items
+    → 7 raw  7 reranked  6 final  (2 structured, 5 scraped)  |  0 cred-blocked  0 scrape-blocked
+      → 6 evidence items  |  0 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] US Congress voted 49-46 to add the repeal of Section 230 into the
+       Verdict    : Refuted  ✓ (gold=Refuted)
+       Confidence : ██████████  1.00
+       Justific.  : The claim is refuted because the evidence does not support the vote count of 49-46 for the repeal of Section 230, and instead indicates that the bill was passed without the repeal of Section 230.
+       Reasoning  :
+                  To assess the claim that the US Congress voted 49-46
+                  to add the repeal of Section 230 into the country’s
+                  annual defense bill in December 2020, we must
+                  examine the evidence provided. 1. The exact vote
+                  count in the US Congress for the repeal of Section
+                  230 in December 2020 is not directly mentioned in
+                  the provided evidence. 2. The inclusion of the
+                  repeal of Section 230 in the country’s annual
+                  defense bill in December 2020 is mentioned in
+                  evidence [2] and [4], which state that President
+                  Trump vetoed the defense spending bill because it
+                  did not contain language to repeal Section 230. 3.
+                  Official records or roll call votes confirming the
+                  US Congress vote on the repeal of Section 230 in
+                  December 2020 are not found in the provided
+                  evidence. 4. The full name or title of the bill that
+                  included the repeal of Section 230 in December 2020
+                  is mentioned in evidence [2] as the National Defense
+                  Authorization Act. 5. The outcome of any legislation
+                  related to Section 230 in December 2020 is mentioned
+                  in evidence [2] and [4], which state that President
+                  Trump vetoed the defense spending bill, but Congress
+                  voted to override his veto. Given the information,
+                  the claim that the US Congress voted 49-46 to add
+                  the repeal of Section 230 into the country’s annual
+                  defense bill in December 2020 is not supported by
+                  the evidence. The evidence suggests that President
+                  Trump vetoed the defense spending bill because it
+                  did not repeal Section 230, and Congress voted to
+                  override his veto, but it does not mention a vote
+                  count of 49-46.
+       Sources    :
+         • https://georgiarecorder.com/briefs/u-s-house-votes-to-override-trumps-veto-of-annual-defense-authorization-bill/
+         • https://www.npr.org/2020/12/23/949586964/trump-vetoes-defense-bill-setting-up-congressional-vote-to-override-him
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Refuted  ██████████  1.00  |  Gold=Refuted  |  ✓ MATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 5/50
+══════════════════════════════════════════════════════════════════════
+  Source : Facebook   Date: 8-10-2020
+  Gold   : Supported
+  Post   : Charlotta Bass was the first Black woman to run for vice president in 1952
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] Charlotta Bass was the first Black woman to run for vice president in 1952
+       Q1: Charlotta Bass first Black woman vice presidential candidate 1952
+       Q2: History of Black women in U.S. vice presidential elections 1952
+       Q3: Charlotta Bass vice presidential run 1952 facts
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Charlotta Bass was the first Black woman to run for vice presiden
+    [FCTAPI] 1 fact-check(s):
+      • Fact-check by USA Today: The claim "Charlotta Bass was the first Black woman to run for vice president" was rated "True"
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/Charlotta_Bass
+      • https://en.wikipedia.org/wiki/List_of_female_United_States_presidential_and_vice_presidential_candidates
+    query: Charlotta Bass first Black woman vice presidential candidate 1952
+      [ok] https://www.womenshistory.org/education-resources/biographies/charlotta-spears-bass
+      [ok] https://www.zinnedproject.org/news/tdih/charlotta-bass-vp-nomination/
+      [ok] https://www.pbs.org/wnet/americanmasters/charlotta-spears-bass-first-black-woman-vp-nominee-epkd15/15441/
+    query: Charlotta Bass vice presidential run 1952 facts
+      [ok] https://www.womenshistory.org/education-resources/biographies/charlotta-spears-bass
+      [ok] https://www.zinnedproject.org/news/tdih/charlotta-bass-vp-nomination/
+      [ok] https://californiamuseum.org/inductee/charlotta-bass/
+    query: History of Black women in U.S. vice presidential elections 1952
+      [ok] https://www.pbs.org/wnet/americanmasters/charlotta-spears-bass-first-black-woman-vp-nominee-epkd15/15441/
+      [ok] https://www.zinnedproject.org/news/tdih/charlotta-bass-vp-nomination/
+      [ok] https://www.historyextra.com/period/20th-century/charlotta-bass-the-first-woman-of-colour-to-run-for-us-vice-president/
+      ✓ scraped  cred=0.50  https://www.zinnedproject.org/news/tdih/charlotta-bass-vp-nomination/
+      ✓ scraped  cred=0.50  https://www.womenshistory.org/education-resources/biographies/charlotta-spears-bass
+      ✓ scraped  cred=0.50  https://www.historyextra.com/period/20th-century/charlotta-bass-the-first-woman-of-colour-to-run-for-us-vice-president/
+      ✓ scraped  cred=0.50  https://www.pbs.org/wnet/americanmasters/charlotta-spears-bass-first-black-woman-vp-nominee-epkd15/15441/
+      ✓ scraped  cred=0.50  https://californiamuseum.org/inductee/charlotta-bass/
+    [rerank+MMR] 8 → 8 → 6 items
+    → 8 raw  8 reranked  6 final  (3 structured, 5 scraped)  |  0 cred-blocked  0 scrape-blocked
+      → 6 evidence items  |  0 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Charlotta Bass was the first Black woman to run for vice presiden
+       Verdict    : Supported  ✓ (gold=Supported)
+       Confidence : ██████████  1.00
+       Justific.  : The evidence consistently confirms that Charlotta Bass was the first Black woman to run for vice president in 1952, with no conflicting accounts found in the provided sources.
+       Reasoning  :
+                  To verify the claim that Charlotta Bass was the
+                  first Black woman to run for vice president in 1952,
+                  we examined the provided evidence. 1. The first
+                  Black woman to run for vice president in U.S.
+                  history was Charlotta Bass, according to
+                  https://www.zinnedproject.org/news/tdih/charlotta-bass-vp-nomination/
+                  and
+                  https://www.womenshistory.org/education-resources/biographies/charlotta-spears-bass.
+                  2. Charlotta Bass ran on the Progressive Party
+                  ticket in 1952, as stated in
+                  https://www.zinnedproject.org/news/tdih/charlotta-bass-vp-nomination/
+                  and https://en.wikipedia.org/wiki/Charlotta_Bass. 3.
+                  Official records confirming Charlotta Bass's
+                  candidacy for vice president in 1952 are not
+                  explicitly mentioned in the provided evidence, but
+                  her nomination is documented in multiple sources. 4.
+                  There were no Black women who ran for vice president
+                  before 1952, according to the provided evidence,
+                  which consistently identifies Charlotta Bass as the
+                  first. 5. Historical sources documenting Charlotta
+                  Bass as the first Black woman vice-presidential
+                  candidate include
+                  https://www.womenshistory.org/education-resources/biographies/charlotta-spears-bass
+                  and
+                  https://www.historyextra.com/period/20th-century/charlotta-bass-the-first-woman-of-colour-to-run-for-us-vice-president/.
+                  6. The official platform of the Progressive Party in
+                  1952 regarding Bass's candidacy is not detailed in
+                  the provided evidence, but her acceptance speech is
+                  excerpted in
+                  https://www.zinnedproject.org/news/tdih/charlotta-bass-vp-nomination/.
+                  7. There is no conflicting historical account about
+                  who was the first Black woman to run for vice
+                  president in the provided evidence; all sources
+                  agree it was Charlotta Bass. 8. The consensus among
+                  historians, as reflected in the provided evidence,
+                  is that Charlotta Bass was indeed the first Black
+                  woman to run for vice president, with
+                  https://www.usatoday.com/story/news/factcheck/2020/10/13/fact-check-charlotta-bass-first-black-woman-run-vp/5940196002/
+                  fact-checking this claim as 'True'. Given the
+                  consistency across sources and the lack of
+                  conflicting evidence, the claim is well-supported.
+       Sources    :
+         • https://www.zinnedproject.org/news/tdih/charlotta-bass-vp-nomination/
+         • https://www.womenshistory.org/education-resources/biographies/charlotta-spears-bass
+         • https://www.usatoday.com/story/news/factcheck/2020/10/13/fact-check-charlotta-bass-first-black-woman-run-vp/5940196002/
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Supported  ██████████  1.00  |  Gold=Supported  |  ✓ MATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 6/50
+══════════════════════════════════════════════════════════════════════
+  Source : Facebook   Date: 10-10-2020
+  Gold   : Supported
+  Post   : The gross domestic product  (GDP) figure in Nigeria for 2020 has decreased from the figure for 2019.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] The gross domestic product (GDP) figure in Nigeria for 2020 has decreased from the figure for 2019.
+       Q1: Nigeria GDP 2020 compared to 2019
+       Q2: Nigeria GDP figures 2019 and 2020 statistics
+       Q3: Nigeria GDP decline 2020 false or true
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] The gross domestic product (GDP) figure in Nigeria for 2020 has d
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/History_of_the_United_States_public_debt
+      • https://en.wikipedia.org/wiki/Economy_of_Spain
+    query: Nigeria GDP 2020 compared to 2019
+      [ok] https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG?locations=NG
+      [ok] https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?locations=NG
+      [ok] https://www.indexmundi.com/facts/nigeria/gdp
+    query: Nigeria GDP decline 2020 false or true
+      [SCRAPE-BLOCKED] https://www.facebook.com/TheICIR/posts/nigerias-q1-2020-gdp-drops-to-187-percent-amidst-covid-19according-to-the-report/2934319200016112/
+      [SCRAPE-BLOCKED] https://www.facebook.com/afrinvest/posts/following-the-article-iv-consultation-report-imf-downgraded-nigerias-2020-growth/3802997176407464/
+      [SCRAPE-BLOCKED] https://www.instagram.com/p/CEQ-r93iIVX/
+    query: Nigeria GDP figures 2019 and 2020 statistics
+      [ok] https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG?locations=NG
+      [SCRAPE-BLOCKED] https://x.com/NBS_Nigeria/status/1947343745692680243
+      [ok] https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?locations=NG
+      ✓ scraped  cred=0.50  https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG?locations=NG
+      ✓ scraped  cred=0.50  https://www.indexmundi.com/facts/nigeria/gdp
+      ✓ scraped  cred=0.50  https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?locations=NG
+    [rerank+MMR] 5 → 5 → 5 items
+    → 5 raw  5 reranked  5 final  (2 structured, 3 scraped)  |  0 cred-blocked  4 scrape-blocked
+      → 5 evidence items  |  4 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] The gross domestic product (GDP) figure in Nigeria for 2020 has d
+       Verdict    : Not Enough Evidence  ✗ (gold=Supported)
+       Confidence : ████████░░  0.80
+       Justific.  : The claim about Nigeria's GDP decrease from 2019 to 2020 cannot be verified due to insufficient evidence in the provided sources.
+       Reasoning  :
+                  To verify the claim that Nigeria's GDP figure for
+                  2020 decreased from the figure for 2019, we need to
+                  examine the evidence provided. 1. For Nigeria's GDP
+                  figure for 2019, no direct evidence is provided in
+                  the given sources, so we cannot determine the exact
+                  figure for 2019 from the evidence. 2. According to
+                  https://www.indexmundi.com/facts/nigeria/gdp,
+                  Nigeria's GDP figure for 2020 was $432,294,000,000.
+                  3. The National Bureau of Statistics (NBS) in
+                  Nigeria's report is not directly mentioned in the
+                  provided evidence, so we cannot confirm if they
+                  reported a decrease. 4. Factors contributing to the
+                  GDP change are not specified in the provided
+                  evidence. 5. Alternative sources like
+                  https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?locations=NG
+                  provide GDP figures but do not directly compare 2019
+                  and 2020 figures in the content provided. 6. The
+                  percentage change in Nigeria's GDP from 2019 to 2020
+                  cannot be determined from the given evidence as the
+                  2019 figure is not provided. 7. The alignment of
+                  Nigeria's GDP contraction with global trends due to
+                  the pandemic is not addressed in the provided
+                  evidence. Given the lack of direct comparisons
+                  between 2019 and 2020 GDP figures in the evidence
+                  and the absence of explicit statements about the
+                  change, we cannot conclusively support or refute the
+                  claim based on the provided sources. However, since
+                  we cannot find sufficient evidence to support the
+                  claim and there's no direct contradiction, the
+                  verdict leans towards NotEnoughEvidence.
+       Sources    :
+         • https://www.indexmundi.com/facts/nigeria/gdp
+         • https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?locations=NG
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Not Enough Evidence  ████████░░  0.80  |  Gold=Supported  |  ✗ MISMATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 7/50
+══════════════════════════════════════════════════════════════════════
+  Source : Instagram   Date: 12-10-2020
+  Gold   : Refuted
+  Post   : Donald Trump is facing a court case for raping a teen in 1994
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] Donald Trump is facing a court case for raping a teen in 1994
+       Q1: Donald Trump court case rape 1994
+       Q2: Details of Donald Trump rape allegations 1994
+       Q3: Donald Trump rape case 1994 false or true
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Donald Trump is facing a court case for raping a teen in 1994
+    query: Donald Trump court case rape 1994
+      [ok] https://www.politico.com/story/2016/11/donald-trump-rape-lawsuit-dropped-230770
+      [ok] https://www.pbs.org/newshour/politics/assault-allegations-donald-trump-recapped
+      [ok] https://www.courthousenews.com/rape-allegations-refiled-against-trump/
+    query: Details of Donald Trump rape allegations 1994
+      [ok] https://www.pbs.org/newshour/politics/assault-allegations-donald-trump-recapped
+      [ok] https://www.courthousenews.com/rape-allegations-refiled-against-trump/
+      [ok] https://repository.law.umich.edu/cgi/viewcontent.cgi?article=1274&context=mjgl
+    query: Donald Trump rape case 1994 false or true
+      [ok] https://www.pbs.org/newshour/politics/assault-allegations-donald-trump-recapped
+      [ok] https://www.politico.com/story/2016/11/donald-trump-rape-lawsuit-dropped-230770
+      [ok] https://www.vox.com/policy-and-politics/2016/11/3/13501364/trump-rape-13-year-old-lawsuit-katie-johnson-allegation
+      ✗ empty    cred=0.50  https://www.politico.com/story/2016/11/donald-trump-rape-lawsuit-dropped-230770
+      ✓ scraped  cred=0.50  https://www.courthousenews.com/rape-allegations-refiled-against-trump/
+      ✓ scraped  cred=0.50  https://www.pbs.org/newshour/politics/assault-allegations-donald-trump-recapped
+      ✓ scraped  cred=0.50  https://www.vox.com/policy-and-politics/2016/11/3/13501364/trump-rape-13-year-old-lawsuit-katie-johnson-allegation
+      ✗ empty    cred=0.50  https://repository.law.umich.edu/cgi/viewcontent.cgi?article=1274&context=mjgl
+    [rerank+MMR] 3 → 3 → 3 items
+    → 3 raw  3 reranked  3 final  (0 structured, 3 scraped)  |  0 cred-blocked  0 scrape-blocked
+      → 3 evidence items  |  0 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Donald Trump is facing a court case for raping a teen in 1994
+       Verdict    : Supported  ✗ (gold=Refuted)
+       Confidence : ████████░░  0.80
+       Justific.  : The claim is supported by the evidence of an ongoing court case, despite the lack of a formal charge and the voluntary dismissal and refiling of the lawsuit.
+       Reasoning  :
+                  To assess the claim that Donald Trump is facing a
+                  court case for raping a teen in 1994, we must
+                  examine the provided evidence. 1. The official legal
+                  status of the court case is that a woman, known as
+                  Jane Doe, has refiled a lawsuit against Trump,
+                  alleging he raped her at a private sex party when
+                  she was 13 years old
+                  (https://www.courthousenews.com/rape-allegations-refiled-against-trump/).
+                  2. Credible news outlets such as Vox have reported
+                  on the court case
+                  (https://www.vox.com/policy-and-politics/2016/11/3/13501364/trump-rape-13-year-old-lawsuit-katie-johnson-allegation).
+                  3. The New York District Attorney's office statement
+                  regarding the allegations is not found in the
+                  provided evidence. 4. According to the evidence,
+                  Donald Trump has not been formally charged with rape
+                  related to the 1994 allegations
+                  (https://www.courthousenews.com/rape-allegations-refiled-against-trump/).
+                  5. The timeline of legal actions includes the
+                  initial filing of the lawsuit, its voluntary
+                  dismissal, and its refiling
+                  (https://www.courthousenews.com/rape-allegations-refiled-against-trump/
+                  and
+                  https://www.vox.com/policy-and-politics/2016/11/3/13501364/trump-rape-13-year-old-lawsuit-katie-johnson-allegation).
+                  Given the information, the claim that Donald Trump
+                  is facing a court case for raping a teen in 1994 is
+                  supported by the evidence, although the case's legal
+                  status and outcomes are subject to change. The
+                  evidence does not provide a clear statement from the
+                  New York District Attorney's office or confirm a
+                  formal charge against Trump. However, it does
+                  indicate ongoing legal actions related to the
+                  allegations.
+       Sources    :
+         • https://www.courthousenews.com/rape-allegations-refiled-against-trump/
+         • https://www.vox.com/policy-and-politics/2016/11/3/13501364/trump-rape-13-year-old-lawsuit-katie-johnson-allegation
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Supported  ████████░░  0.80  |  Gold=Refuted  |  ✗ MISMATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 8/50
+══════════════════════════════════════════════════════════════════════
+  Source : Twitter   Date: 19-10-2020
+  Gold   : Refuted
+  Post   : India's imports from China increased by 27% during the period April-August 2020.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] India's imports from China increased by 27% during the period April-August 2020.
+       Q1: India imports from China increased 27% April-August 2020
+       Q2: India-China trade data April to August 2020
+       Q3: India imports from China 27% rise 2020 false or true
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] India's imports from China increased by 27% during the period Apr
+[wikipedia] Error: 429 Client Error: Too Many Requests for url: https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=India%27s+imports+from+China+increased+by+27%25+during+the+period+April-August+2020.&srlimit=2&format=json
+    query: India imports from China increased 27% April-August 2020
+      [SCRAPE-BLOCKED] https://www.facebook.com/CustomsMV/posts/effective-from-1st-august-2020changes-in-import-duty-for-goods-imported-for-cons/3320971201257481/
+    query: India imports from China 27% rise 2020 false or true
+      [SCRAPE-BLOCKED] https://www.facebook.com/WIONews/posts/at-a-time-when-indo-china-tensions-are-escalating-experts-believe-that-sales-of-/1452768671600430/
+      [ok] https://issues.org/dahlman-china-india-technology-economy-power-success/
+      [SCRAPE-BLOCKED] https://www.facebook.com/mguruswamy/posts/not-being-made-in-indiaindia-clearly-has-an-insatiable-appetite-for-electronic-g/10212758061255290/
+    query: India-China trade data April to August 2020
+      [ok] https://www.census.gov/foreign-trade/balance/c5330.html
+      [SCRAPE-BLOCKED] https://www.facebook.com/DailyStarNews/posts/indias-trade-gap-with-china-declined-to-usd-4866-billion-in-the-2019-20-financia/2686238634809322/
+      ✓ scraped  cred=0.50  https://issues.org/dahlman-china-india-technology-economy-power-success/
+      ✓ scraped  cred=0.50  https://www.census.gov/foreign-trade/balance/c5330.html
+    [rerank+MMR] 2 → 2 → 2 items
+    → 2 raw  2 reranked  2 final  (0 structured, 2 scraped)  |  0 cred-blocked  4 scrape-blocked
+      → 2 evidence items  |  4 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] India's imports from China increased by 27% during the period Apr
+       Verdict    : Not Enough Evidence  ✗ (gold=Refuted)
+       Confidence : ██████████  1.00
+       Justific.  : The claim about India's imports from China increasing by 27% during April-August 2020 cannot be verified or refuted due to a lack of relevant evidence.
+       Reasoning  :
+                  The provided evidence does not directly address the
+                  claim about India's imports from China increasing by
+                  27% during April-August 2020. Evidence item [1]
+                  discusses general economic comparisons between China
+                  and India but does not provide specific import data.
+                  Evidence item [2] provides trade data between the
+                  U.S. and India, which is not relevant to the claim
+                  about India's imports from China. Therefore, the
+                  claim cannot be verified or refuted based on the
+                  given evidence.
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Not Enough Evidence  ██████████  1.00  |  Gold=Refuted  |  ✗ MISMATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 9/50
+══════════════════════════════════════════════════════════════════════
+  Source : Facebook   Date: 10-9-2020
+  Gold   : Refuted
+  Post   : Western Wildfires Are evidence Of A Coordinated Antifa Campaign To 'Burn The Country Down
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] Western wildfires are evidence of a coordinated Antifa campaign to 'burn the country down'.
+       Q1: Western wildfires Antifa coordinated campaign burn country down
+       Q2: Antifa involvement in Western wildfires 2025
+       Q3: Are Western wildfires part of an Antifa conspiracy debunked
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Western wildfires are evidence of a coordinated Antifa campaign t
+[wikipedia] Error: 429 Client Error: Too Many Requests for url: https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Western+wildfires+are+evidence+of+a+coordinated+Antifa+campaign+to+%27burn+the+country+down%27.&srlimit=2&format=json
+    query: Are Western wildfires part of an Antifa conspiracy debunked
+      [SCRAPE-BLOCKED] https://www.facebook.com/groups/195686504321560/posts/589598558263684/
+      [SCRAPE-BLOCKED] https://www.facebook.com/chroncom/posts/authorities-believe-a-couple-wanted-for-allegedly-setting-fire-to-multiple-busin/10159379045892814/
+      [CRED-BLOCKED] https://theintercept.com/2017/08/31/antifa-violence-gives-far-right-provocateurs-crave/
+    query: Antifa involvement in Western wildfires 2025
+      [ok] https://www.theguardian.com/us-news/2020/jun/06/rightwing-vigilante-armed-antifa-protests
+      [SCRAPE-BLOCKED] https://www.facebook.com/HollywoodReporter/posts/antifa-in-fact-is-expected-to-be-there-protesting/10154770781952750/
+      [ok] https://www.state.gov/executive-order-13224
+    query: Western wildfires Antifa coordinated campaign burn country down
+      [ok] https://www.nytimes.com/2020/09/10/us/antifa-wildfires.html
+      [ok] https://www.theguardian.com/world/2020/sep/10/oregon-fires-cause-rumors-activists-social-media
+      [SCRAPE-BLOCKED] https://www.facebook.com/kristof/posts/help-im-trying-to-understand-how-small-oregon-towns-have-been-smitten-with-consp/10159885205317891/
+      ✗ empty    cred=0.50  https://www.nytimes.com/2020/09/10/us/antifa-wildfires.html
+      ✓ scraped  cred=0.50  https://www.theguardian.com/us-news/2020/jun/06/rightwing-vigilante-armed-antifa-protests
+      ✓ scraped  cred=0.50  https://www.state.gov/executive-order-13224
+      ✓ scraped  cred=0.50  https://www.theguardian.com/world/2020/sep/10/oregon-fires-cause-rumors-activists-social-media
+    [rerank+MMR] 3 → 3 → 3 items
+    → 3 raw  3 reranked  3 final  (0 structured, 3 scraped)  |  1 cred-blocked  4 scrape-blocked
+      → 3 evidence items  |  5 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Western wildfires are evidence of a coordinated Antifa campaign t
+       Verdict    : Refuted  ✓ (gold=Refuted)
+       Confidence : ██████████  1.00
+       Justific.  : The claim that Western wildfires are evidence of a coordinated Antifa campaign to 'burn the country down' is refuted due to the lack of credible evidence supporting this claim and the presence of misinformation.
+       Reasoning  :
+                  To assess the claim that Western wildfires are
+                  evidence of a coordinated Antifa campaign to 'burn
+                  the country down', we examined the provided evidence
+                  and answering the verifying questions. 1. Official
+                  statements from law enforcement agencies, as seen in
+                  evidence [1], indicate that there are rumors and
+                  misinformation about the causes of the wildfires,
+                  but no credible evidence linking Antifa to the
+                  wildfires. 2. There is no scientific evidence
+                  provided in the evidence items that links Antifa to
+                  the wildfires. 3. No credible investigations have
+                  been mentioned in the evidence that identifies
+                  Antifa as the primary cause of these wildfires. 4.
+                  The established consensus among fire investigators
+                  and experts, as implied by the context of evidence
+                  [1], does not support the claim that Antifa is
+                  responsible for the wildfires. 5. There are no
+                  documented instances of Antifa organizing or
+                  participating in wildfire-related activities
+                  provided in the evidence. 6. No data or reports in
+                  the evidence support the claim that Antifa is
+                  responsible for starting wildfires. 7. No reputable
+                  news outlets or government agencies have
+                  corroborated the claim as per the provided evidence.
+                  Given the lack of credible evidence supporting the
+                  claim and the presence of misinformation, the claim
+                  is not supported by the evidence.
+       Sources    :
+         • https://www.theguardian.com/world/2020/sep/10/oregon-fires-cause-rumors-activists-social-media
+         • https://www.theguardian.com/us-news/2020/jun/06/rightwing-vigilante-armed-antifa-protests
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Refuted  ██████████  1.00  |  Gold=Refuted  |  ✓ MATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 10/50
+══════════════════════════════════════════════════════════════════════
+  Source : Facebook   Date: 22-10-2020
+  Gold   : Refuted
+  Post   : President Ferdinand Marcos and Dr. Jose Rizal established and founded the WORLD BANK and International Monetary Fund.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   2 atomic claim(s)
+
+  [A] President Ferdinand Marcos and Dr. Jose Rizal established and founded the WORLD BANK.
+       Q1: President Ferdinand Marcos and Dr. Jose Rizal founded World Bank
+       Q2: History of World Bank founders Ferdinand Marcos and Jose Rizal
+       Q3: Did Ferdinand Marcos and Jose Rizal start the World Bank
+  [B] President Ferdinand Marcos and Dr. Jose Rizal established and founded the International Monetary Fund.
+       Q1: President Ferdinand Marcos and Dr. Jose Rizal founded IMF
+       Q2: International Monetary Fund founders Ferdinand Marcos Jose Rizal
+       Q3: Did Ferdinand Marcos and Jose Rizal create the IMF
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] President Ferdinand Marcos and Dr. Jose Rizal established and fou
+[wikipedia] Error: 429 Client Error: Too Many Requests for url: https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=President+Ferdinand+Marcos+and+Dr.+Jose+Rizal+established+and+founded+the+WORLD+BANK.&srlimit=2&format=json
+    [FCTAPI] 3 fact-check(s):
+      • Fact-check by Rappler: The claim "Former President Ferdinand Marcos and national hero Jose Rizal established together th
+      • Fact-check by AFP Fact Check: The claim "World Bank and IMF established by Philippine nationalist Jose Rizal, former dic
+      • Fact-check by Rappler: The claim "National hero Jose Rizal owned a “White Vatican Account” and transferred it to Former 
+    query: President Ferdinand Marcos and Dr. Jose Rizal founded World Bank
+      [SCRAPE-BLOCKED] https://www.facebook.com/groups/532525066913734/posts/1289573671208866/
+      [SCRAPE-BLOCKED] https://www.facebook.com/PilipinasRetrostalgia/posts/today-in-philippine-historyaugust-1-1851the-first-bank-in-the-philippines-was-es/2654849614762919/
+    query: History of World Bank founders Ferdinand Marcos and Jose Rizal
+      [SCRAPE-BLOCKED] https://www.facebook.com/groups/532525066913734/posts/1289573671208866/
+      [ok] https://anywhereiwander.com/2011/06/24/%E2%80%9Cthe-marcoses-the-missing-filipino-millions%E2%80%9D/
+    query: Did Ferdinand Marcos and Jose Rizal start the World Bank
+      [ok] https://www.rappler.com/newsbreak/fact-check/ferdinand-marcos-jose-rizal-established-world-bank/
+      [ok] https://factcheck.afp.com/misleading-claim-circulates-world-bank-and-imf-were-established-former-dictator-ferdinand-marcos-and
+      [SCRAPE-BLOCKED] https://x.com/SaltAndReality/status/1451380428141596672
+      ✗ empty    cred=0.50  https://factcheck.afp.com/misleading-claim-circulates-world-bank-and-imf-were-established-former-dictator-ferdinand-marcos-and
+      ✓ scraped  cred=0.50  https://www.rappler.com/newsbreak/fact-check/ferdinand-marcos-jose-rizal-established-world-bank/
+      ✓ scraped  cred=0.50  https://anywhereiwander.com/2011/06/24/%E2%80%9Cthe-marcoses-the-missing-filipino-millions%E2%80%9D/
+    [rerank+MMR] 5 → 5 → 5 items
+    → 5 raw  5 reranked  5 final  (3 structured, 2 scraped)  |  0 cred-blocked  3 scrape-blocked
+      → 5 evidence items  |  3 blocked by domain filter
+
+  [B] President Ferdinand Marcos and Dr. Jose Rizal established and fou
+[wikipedia] Error: 429 Client Error: Too Many Requests for url: https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=President+Ferdinand+Marcos+and+Dr.+Jose+Rizal+established+and+founded+the+International+Monetary+Fund.&srlimit=2&format=json
+    [FCTAPI] 1 fact-check(s):
+      • Fact-check by AFP Fact Check: The claim "World Bank and IMF established by Philippine nationalist Jose Rizal, former dic
+    query: President Ferdinand Marcos and Dr. Jose Rizal founded IMF
+      [SCRAPE-BLOCKED] https://www.facebook.com/chrgovph/posts/marcos-in-declaring-martial-law-promised-to-save-the-country-from-oligarchic-pow/2334328810016984/
+      [ok] https://anywhereiwander.com/2011/06/24/%E2%80%9Cthe-marcoses-the-missing-filipino-millions%E2%80%9D/
+      [ok] https://en.wikipedia.org/wiki/First_Quarter_Storm
+    query: Did Ferdinand Marcos and Jose Rizal create the IMF
+      [ok] https://www.quora.com/What-did-Ferdinand-Marcos-contribute-to-the-Philippines
+      [SCRAPE-BLOCKED] https://www.facebook.com/groups/maharlikano/posts/1116024858483889/
+      [SCRAPE-BLOCKED] https://www.facebook.com/pldt/posts/dr-jose-rizal-whose-birth-anniversary-we-recently-celebrated-had-a-few-very-uniq/2044063405665387/
+    query: International Monetary Fund founders Ferdinand Marcos Jose Rizal
+      [ok] https://en.wikipedia.org/wiki/First_Quarter_Storm
+      [ok] https://www.newyorker.com/magazine/1986/08/25/i-from-marcos-to-aquino
+      [SCRAPE-BLOCKED] https://www.facebook.com/rapplerdotcom/posts/the-supposed-royal-family-was-also-said-to-have-paid-marcos-a-huge-sum-of-gold-f/2472329409454494/
+      ✗ empty    cred=0.50  https://www.quora.com/What-did-Ferdinand-Marcos-contribute-to-the-Philippines
+      ✓ scraped  cred=0.50  https://anywhereiwander.com/2011/06/24/%E2%80%9Cthe-marcoses-the-missing-filipino-millions%E2%80%9D/
+      ✓ scraped  cred=0.50  https://en.wikipedia.org/wiki/First_Quarter_Storm
+      ✓ scraped  cred=0.50  https://www.newyorker.com/magazine/1986/08/25/i-from-marcos-to-aquino
+    [rerank+MMR] 4 → 4 → 4 items
+    → 4 raw  4 reranked  4 final  (1 structured, 3 scraped)  |  0 cred-blocked  4 scrape-blocked
+      → 4 evidence items  |  4 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] President Ferdinand Marcos and Dr. Jose Rizal established and fou
+       Verdict    : Refuted  ✓ (gold=Refuted)
+       Confidence : ██████████  1.00
+       Justific.  : The claim that President Ferdinand Marcos and Dr. Jose Rizal founded the World Bank is refuted by credible fact-checking sources, indicating no involvement of these individuals in the World Bank's establishment.
+       Reasoning  :
+                  To assess the claim that President Ferdinand Marcos
+                  and Dr. Jose Rizal established and founded the World
+                  Bank, we must examine the evidence provided. 1. The
+                  official history of the World Bank's founding, and
+                  who were its actual founders: No evidence found
+                  directly answers this question, but credible sources
+                  like the World Bank's official website (not provided
+                  in the evidence) typically attribute its founding to
+                  the Bretton Woods Agreement in 1944, with key roles
+                  played by representatives of various countries, not
+                  specifically Marcos or Rizal. 2. Did President
+                  Ferdinand Marcos and Dr. Jose Rizal have any
+                  official roles in the establishment of the World
+                  Bank? According to
+                  https://www.rappler.com/newsbreak/fact-check/ferdinand-marcos-jose-rizal-established-world-bank/
+                  (Credibility: 0.90), the claim that they did is
+                  rated 'False'. 3. What historical records or
+                  documents confirm the founding of the World Bank? No
+                  direct evidence is provided, but fact-checks by
+                  reputable sources like AFP
+                  (https://factcheck.afp.com/misleading-claim-circulates-world-bank-and-imf-were-established-former-dictator-ferdinand-marcos-and,
+                  Credibility: 0.90) indicate that the claim involving
+                  Marcos and Rizal is misleading. 4. Are there any
+                  credible sources that mention President Ferdinand
+                  Marcos or Dr. Jose Rizal in relation to the World
+                  Bank's creation? According to
+                  https://www.rappler.com/newsbreak/fact-check/ferdinand-marcos-jose-rizal-established-world-bank/
+                  (Credibility: 0.90), there are no credible sources
+                  supporting their involvement. 5. When and where was
+                  the World Bank officially established, and who were
+                  the key participants in its founding? While not
+                  directly answered by the provided evidence,
+                  historical records (not included in the evidence)
+                  show the World Bank was established in 1944
+                  following the Bretton Woods Agreement, with no
+                  mention of Marcos or Rizal as founders. Assessing
+                  the claim based on the evidence and reasoning, it's
+                  clear that credible sources refute the involvement
+                  of President Ferdinand Marcos and Dr. Jose Rizal in
+                  the founding of the World Bank.
+       Sources    :
+         • https://www.rappler.com/newsbreak/fact-check/ferdinand-marcos-jose-rizal-established-world-bank/
+         • https://factcheck.afp.com/misleading-claim-circulates-world-bank-and-imf-were-established-former-dictator-ferdinand-marcos-and
+
+  [B] President Ferdinand Marcos and Dr. Jose Rizal established and fou
+       Verdict    : Refuted  ✓ (gold=Refuted)
+       Confidence : ██████████  1.00
+       Justific.  : The claim that President Ferdinand Marcos and Dr. Jose Rizal founded the IMF is refuted by credible evidence, specifically by a fact-check from AFP that labels the claim as misleading.
+       Reasoning  :
+                  To assess the claim that President Ferdinand Marcos
+                  and Dr. Jose Rizal established and founded the
+                  International Monetary Fund (IMF), we must examine
+                  the provided evidence and answer the verifying
+                  questions. 1. The official history of the IMF's
+                  founding is not directly addressed in the provided
+                  evidence, but it is known from general knowledge
+                  that the IMF was established in 1944 at the Bretton
+                  Woods Conference, not by Marcos or Rizal. 2. There
+                  is no evidence to suggest that President Ferdinand
+                  Marcos and Dr. Jose Rizal had any official roles in
+                  the establishment of the IMF. In fact, evidence [1]
+                  from AFP Fact Check labels the claim as
+                  'Misleading', indicating that such involvement is
+                  not supported. 3. Historical records confirm the IMF
+                  was founded in 1944, but none of the provided
+                  evidence directly confirms the founding details of
+                  the IMF. 4. There are no credible sources provided
+                  that mention President Ferdinand Marcos or Dr. Jose
+                  Rizal in relation to the IMF's creation in a
+                  positive or founding context. Evidence [1]
+                  explicitly contradicts the claim. 5. The IMF was
+                  officially established in 1944 at the Bretton Woods
+                  Conference, but this information is not directly
+                  provided in the evidence; however, it is widely
+                  known and contradicts the claim. Given the
+                  information and the lack of direct evidence
+                  supporting the claim, coupled with evidence [1] that
+                  explicitly labels the claim as misleading, we can
+                  reason that the claim is not supported by credible
+                  evidence. The highest credibility source [1] with a
+                  score of 0.90 directly contradicts the claim,
+                  leading to the conclusion that the claim is refuted.
+       Sources    :
+         • https://factcheck.afp.com/misleading-claim-circulates-world-bank-and-imf-were-established-former-dictator-ferdinand-marcos-and
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Refuted  ██████████  1.00  |  Gold=Refuted  |  ✓ MATCH
+  Sub-claims: ['Refuted', 'Refuted']
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 11/50
+══════════════════════════════════════════════════════════════════════
+  Source : None   Date: 14-9-2020
+  Gold   : Supported
+  Post   : US state of Georgia has “almost 100,000 more COVID-19 cases, almost twice as many deaths and almost 600 more nursing home deaths than North Carolina, US.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   3 atomic claim(s)
+
+  [A] Georgia has almost 100,000 more COVID-19 cases than North Carolina.
+       Q1: Georgia vs North Carolina COVID-19 cases difference
+       Q2: Georgia North Carolina COVID-19 case comparison 2023
+       Q3: Georgia more than 100000 COVID-19 cases than NC false claim
+  [B] Georgia has almost twice as many COVID-19 deaths as North Carolina.
+       Q1: Georgia vs North Carolina COVID-19 deaths comparison
+       Q2: Georgia twice as many deaths as NC from COVID-19
+       Q3: Georgia NC COVID-19 death numbers discrepancy
+  [C] Georgia has almost 600 more nursing home deaths from COVID-19 than North Carolina.
+       Q1: Georgia NC nursing home deaths from COVID-19 difference
+       Q2: Georgia more nursing home deaths than NC from pandemic
+       Q3: Georgia 600 more nursing home deaths than NC false claim
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Georgia has almost 100,000 more COVID-19 cases than North Carolin
+    [FCTAPI] 1 fact-check(s):
+      • Fact-check by PolitiFact: The claim "Georgia has “almost 100,000 more (COVID-19) cases, almost twice as many deaths and 
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/Statistics_of_the_COVID-19_pandemic_in_the_United_States
+      • https://en.wikipedia.org/wiki/COVID-19_pandemic_in_the_United_States
+    query: Georgia more than 100000 COVID-19 cases than NC false claim
+      [SCRAPE-BLOCKED] https://www.facebook.com/johnmackey/posts/100000-confirmed-cases-in-the-us-maybe-now-the-people-who-insisted-it-was-a-hoax/10219393729447985/
+      [SCRAPE-BLOCKED] https://www.facebook.com/CarteretNewsTimes/posts/nc-reporting-error-fuels-200000-covid-testing-overcount/10157654186221864/
+      [ok] http://www.northcarolinahealthnews.org/2020/07/20/white-house-document-shows-18-states-in-coronavirus-red-zone/
+    query: Georgia vs North Carolina COVID-19 cases difference
+      [ok] https://www.cdc.gov/cfa-modeling-and-forecasting/rt-estimates/index.html
+      [ok] https://www.11alive.com/video/news/health/coronavirus/comparing-ga-nc-covid19-numbers/85-cb975f7a-d31c-4249-a696-53c6a24c5e5f
+      [ok] https://www.11alive.com/article/news/health/coronavirus/georgia-north-carolina-comparing-covid-19-statistics/85-9cae38be-1dd8-4979-8dc9-9bea9d793c10
+    query: Georgia North Carolina COVID-19 case comparison 2023
+      [ok] https://linc.osbm.nc.gov/explore/assets/state-comparisons-covid-19/view/?vt=chart&ct=col&flg=en-us
+      [ok] https://www.statista.com/statistics/1109011/coronavirus-covid19-death-rates-us-by-state/?srsltid=AfmBOorylvY4Dkv5N_m7b8b4aBQdAIwX7lO36N1SxN-HXK8w7ALfNzJ_
+      [ok] https://data.cdc.gov/Public-Health-Surveillance/United-States-COVID-19-Community-Levels-by-County/3nnm-4jni
+      ✗ empty    cred=0.50  http://www.northcarolinahealthnews.org/2020/07/20/white-house-document-shows-18-states-in-coronavirus-red-zone/
+      ✓ scraped  cred=0.50  https://www.cdc.gov/cfa-modeling-and-forecasting/rt-estimates/index.html
+      ✓ scraped  cred=0.50  https://www.statista.com/statistics/1109011/coronavirus-covid19-death-rates-us-by-state/?srsltid=AfmBOorylvY4Dkv5N_m7b8b4aBQdAIwX7lO36N1SxN-HXK8w7ALfNzJ_
+      ✗ empty    cred=0.50  https://linc.osbm.nc.gov/explore/assets/state-comparisons-covid-19/view/?vt=chart&ct=col&flg=en-us
+      ✓ scraped  cred=0.50  https://data.cdc.gov/Public-Health-Surveillance/United-States-COVID-19-Community-Levels-by-County/3nnm-4jni
+      ✗ empty    cred=0.50  https://www.11alive.com/video/news/health/coronavirus/comparing-ga-nc-covid19-numbers/85-cb975f7a-d31c-4249-a696-53c6a24c5e5f
+      ✗ empty    cred=0.50  https://www.11alive.com/article/news/health/coronavirus/georgia-north-carolina-comparing-covid-19-statistics/85-9cae38be-1dd8-4979-8dc9-9bea9d793c10
+    [rerank+MMR] 6 → 6 → 6 items
+    → 6 raw  6 reranked  6 final  (3 structured, 3 scraped)  |  0 cred-blocked  2 scrape-blocked
+      → 6 evidence items  |  2 blocked by domain filter
+
+  [B] Georgia has almost twice as many COVID-19 deaths as North Carolin
+    [FCTAPI] 1 fact-check(s):
+      • Fact-check by PolitiFact: The claim "Georgia has “almost 100,000 more (COVID-19) cases, almost twice as many deaths and 
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/COVID-19_pandemic_in_the_United_States
+      • https://en.wikipedia.org/wiki/North_Carolina_Tar_Heels_football
+    query: Georgia NC COVID-19 death numbers discrepancy
+      [ok] https://www.npr.org/sections/health-shots/2020/09/01/816707182/map-tracking-the-spread-of-the-coronavirus-in-the-u-s
+      [ok] https://www.cdc.gov/mmwr/volumes/69/wr/mm6933e1.htm
+      [ok] https://pmc.ncbi.nlm.nih.gov/articles/PMC7340202/
+    query: Georgia twice as many deaths as NC from COVID-19
+      [ok] https://carolinademography.cpc.unc.edu/2020/05/19/comparing-mitigation-measures-in-north-carolina-and-georgia/
+      [ok] https://www.nytimes.com/interactive/2020/04/22/us/coronavirus-death-rates.html
+      [ok] https://www.worldometers.info/coronavirus/country/us/
+    query: Georgia vs North Carolina COVID-19 deaths comparison
+      [ok] https://www.cdc.gov/nchs/state-stats/deaths/covid19.html
+      [ok] https://linc.osbm.nc.gov/explore/assets/state-comparisons-covid-19/view/?vt=chart&ct=col&flg=en-us
+      [ok] https://www.statista.com/statistics/1109011/coronavirus-covid19-death-rates-us-by-state/?srsltid=AfmBOoqY1Dh84amLoEkgUjhqQdCWEK4fihbI_fsGOWq6lq8YZzu6uFSi
+      ✓ scraped  cred=0.50  https://pmc.ncbi.nlm.nih.gov/articles/PMC7340202/
+      ✓ scraped  cred=0.50  https://www.cdc.gov/mmwr/volumes/69/wr/mm6933e1.htm
+      ✓ scraped  cred=0.50  https://www.worldometers.info/coronavirus/country/us/
+      ✓ scraped  cred=0.50  https://www.statista.com/statistics/1109011/coronavirus-covid19-death-rates-us-by-state/?srsltid=AfmBOoqY1Dh84amLoEkgUjhqQdCWEK4fihbI_fsGOWq6lq8YZzu6uFSi
+      ✓ scraped  cred=0.50  https://www.npr.org/sections/health-shots/2020/09/01/816707182/map-tracking-the-spread-of-the-coronavirus-in-the-u-s
+      ✗ empty    cred=0.50  https://linc.osbm.nc.gov/explore/assets/state-comparisons-covid-19/view/?vt=chart&ct=col&flg=en-us
+      ✓ scraped  cred=0.50  https://www.nytimes.com/interactive/2020/04/22/us/coronavirus-death-rates.html
+      ✓ scraped  cred=0.50  https://carolinademography.cpc.unc.edu/2020/05/19/comparing-mitigation-measures-in-north-carolina-and-georgia/
+      ✓ scraped  cred=0.50  https://www.cdc.gov/nchs/state-stats/deaths/covid19.html
+    [rerank+MMR] 11 → 10 → 6 items
+    → 11 raw  10 reranked  6 final  (3 structured, 8 scraped)  |  0 cred-blocked  0 scrape-blocked
+      → 6 evidence items  |  0 blocked by domain filter
+
+  [C] Georgia has almost 600 more nursing home deaths from COVID-19 tha
+    [FCTAPI] 1 fact-check(s):
+      • Fact-check by PolitiFact: The claim "Georgia has “almost 100,000 more (COVID-19) cases, almost twice as many deaths and 
+    [Wikipedia] 1 article(s):
+      • https://en.wikipedia.org/wiki/COVID-19_pandemic_in_Oregon
+    query: Georgia NC nursing home deaths from COVID-19 difference
+      [ok] https://www.aarp.org/caregiving/medical/coronavirus-nursing-home-cases-deaths/
+      [SCRAPE-BLOCKED] https://www.facebook.com/KaraKenneyNews/posts/nursing-home-deaths-now-make-up-60-of-the-states-total-covid-19-deaths-new-numbe/3217864344959224/
+      [ok] https://www.kff.org/covid-19/state-reporting-of-cases-and-deaths-due-to-covid-19-in-long-term-care-facilities/
+    query: Georgia more nursing home deaths than NC from pandemic
+      [ok] https://www.aarp.org/caregiving/medical/coronavirus-nursing-home-cases-deaths/
+      [SCRAPE-BLOCKED] https://www.facebook.com/KaraKenneyNews/posts/nursing-home-deaths-now-make-up-60-of-the-states-total-covid-19-deaths-new-numbe/3217864344959224/
+      [ok] https://www.propublica.org/article/this-rural-nursing-home-has-lost-nearly-a-quarter-of-its-residents-to-covid-19-now-its-state-is-reopening
+    query: Georgia 600 more nursing home deaths than NC false claim
+      [SCRAPE-BLOCKED] https://www.facebook.com/SpectrumNews1Albany/posts/exactly-how-many-nursing-home-residents-have-died-remains-uncertain-despite-the-/3212149988819422/
+      [ok] https://mcdonaldworley.com/1-25m-settlement-nursing-home-substandard-care-lawsuit/
+      [SCRAPE-BLOCKED] https://www.facebook.com/KPBSSanDiego/posts/state-officials-are-now-disclosing-cases-and-deaths-from-covid-19-at-assisted-li/10157467051761748/
+      ✓ scraped  cred=0.50  https://www.aarp.org/caregiving/medical/coronavirus-nursing-home-cases-deaths/
+      ✓ scraped  cred=0.50  https://mcdonaldworley.com/1-25m-settlement-nursing-home-substandard-care-lawsuit/
+      ✓ scraped  cred=0.50  https://www.kff.org/covid-19/state-reporting-of-cases-and-deaths-due-to-covid-19-in-long-term-care-facilities/
+      ✓ scraped  cred=0.50  https://www.propublica.org/article/this-rural-nursing-home-has-lost-nearly-a-quarter-of-its-residents-to-covid-19-now-its-state-is-reopening
+    [rerank+MMR] 6 → 6 → 6 items
+    → 6 raw  6 reranked  6 final  (2 structured, 4 scraped)  |  0 cred-blocked  3 scrape-blocked
+      → 6 evidence items  |  3 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Georgia has almost 100,000 more COVID-19 cases than North Carolin
+       Verdict    : Supported  ✓ (gold=Supported)
+       Confidence : ██████████  1.00
+       Justific.  : The claim is supported by a high-credibility source, PolitiFact, which directly confirms the difference in COVID-19 cases between Georgia and North Carolina.
+       Reasoning  :
+                  To assess the claim that Georgia has almost 100,000
+                  more COVID-19 cases than North Carolina, we need to
+                  examine the evidence provided. 1. The total number
+                  of confirmed COVID-19 cases in Georgia as of the
+                  latest available data is not directly stated in the
+                  provided evidence, but [1] implies a comparison
+                  where Georgia has almost 100,000 more cases than
+                  North Carolina. 2. The total number of confirmed
+                  COVID-19 cases in North Carolina as of the latest
+                  available data is also not directly stated, but the
+                  comparison in [1] suggests North Carolina has
+                  significantly fewer cases. 3. The difference between
+                  the number of confirmed cases in Georgia and North
+                  Carolina is stated in [1] as 'almost 100,000 more'
+                  in Georgia, which directly addresses the claim. 4.
+                  There's no recent update or correction mentioned in
+                  the provided evidence regarding the case numbers in
+                  either state. 5. The comparison between Georgia and
+                  North Carolina seems to be based on the same
+                  reporting criteria and time period as per [1], which
+                  is a fact-check from a credible source. Given the
+                  information, [1] from PolitiFact with a credibility
+                  score of 0.90 directly supports the claim, stating
+                  Georgia has 'almost 100,000 more (COVID-19) cases'
+                  than North Carolina. Other sources do not directly
+                  address the claim but provide general information
+                  about COVID-19 in the United States.
+       Sources    :
+         • https://www.politifact.com/factchecks/2020/oct/15/roy-cooper/roy-cooper-compares-georgias-covid-19-numbers-nort/
+
+  [B] Georgia has almost twice as many COVID-19 deaths as North Carolin
+       Verdict    : Supported  ✓ (gold=Supported)
+       Confidence : ██████████  1.00
+       Justific.  : The claim is supported by high-credibility evidence from Politifact, which directly compares COVID-19 deaths in Georgia and North Carolina and finds the claim to be true.
+       Reasoning  :
+                  To assess the claim that Georgia has almost twice as
+                  many COVID-19 deaths as North Carolina, we need to
+                  examine the evidence provided. The most direct
+                  answer comes from [1]
+                  https://www.politifact.com/factchecks/2020/oct/15/roy-cooper/roy-cooper-compares-georgias-covid-19-numbers-nort/
+                  with a credibility score of 0.90, which states that
+                  the claim 'Georgia has “almost 100,000 more
+                  (COVID-19) cases, almost twice as many deaths and
+                  almost 600 more nursing home deaths than North
+                  Carolina.”' was rated 'True'. This directly
+                  addresses question 3 and supports the claim. For
+                  question 1, the total number of reported COVID-19
+                  deaths in Georgia is not directly provided in the
+                  evidence, but given the high credibility of [1], we
+                  can infer that Georgia's death toll is significant.
+                  For question 2, the total number of reported
+                  COVID-19 deaths in North Carolina is also not
+                  directly provided, but the comparison in [1] implies
+                  North Carolina's death toll is lower. Question 4
+                  about recent revisions to death toll figures is not
+                  directly addressed, but [1] implies the comparison
+                  was valid at the time of the fact-check. Question 5
+                  about the definitions of death counts is not
+                  explicitly addressed, but the comparison in [1]
+                  suggests that the numbers are comparable. Given the
+                  high credibility of [1] and its direct support for
+                  the claim, the evidence strongly supports the claim.
+       Sources    :
+         • https://www.politifact.com/factchecks/2020/oct/15/roy-cooper/roy-cooper-compares-georgias-covid-19-numbers-nort/
+
+  [C] Georgia has almost 600 more nursing home deaths from COVID-19 tha
+       Verdict    : Supported  ✓ (gold=Supported)
+       Confidence : ██████████  1.00
+       Justific.  : The claim is supported by high-credibility evidence from PolitiFact, which confirms that Georgia has almost 600 more nursing home deaths from COVID-19 than North Carolina.
+       Reasoning  :
+                  To verify the claim that Georgia has almost 600 more
+                  nursing home deaths from COVID-19 than North
+                  Carolina, we need to examine the evidence provided.
+                  The most direct evidence comes from [1]
+                  https://www.politifact.com/factchecks/2020/oct/15/roy-cooper/roy-cooper-compares-georgias-covid-19-numbers-nort/
+                  with a credibility score of 0.90, which states that
+                  the claim 'Georgia has “almost 100,000 more
+                  (COVID-19) cases, almost twice as many deaths and
+                  almost 600 more nursing home deaths than North
+                  Carolina”' was rated 'True'. This directly answers
+                  questions 1, 2, and 3. For question 4, there is no
+                  recent update on nursing home death statistics
+                  mentioned in the provided evidence. For question 5,
+                  the evidence does not directly compare the reporting
+                  standards between Georgia and North Carolina. Given
+                  the high credibility of the source [1] and its
+                  direct confirmation of the claim, we can conclude
+                  that the claim is supported by the evidence.
+       Sources    :
+         • https://www.politifact.com/factchecks/2020/oct/15/roy-cooper/roy-cooper-compares-georgias-covid-19-numbers-nort/
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Supported  ██████████  1.00  |  Gold=Supported  |  ✓ MATCH
+  Sub-claims: ['Supported', 'Supported', 'Supported']
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 12/50
+══════════════════════════════════════════════════════════════════════
+  Source : Twitter   Date: 31-8-2020
+  Gold   : Refuted
+  Post   : idol of goddess Kali was burnt in West bengals Murshidabad by the muslim community.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] An idol of the goddess Kali was burnt in Murshidabad, West Bengal, by the Muslim community.
+       Q1: idol of goddess Kali burnt Murshidabad West Bengal Muslim community
+       Q2: incident of Kali idol burning Murshidabad West Bengal details
+       Q3: Kali idol burning Murshidabad West Bengal Muslim community false report
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] An idol of the goddess Kali was burnt in Murshidabad, West Bengal
+    [FCTAPI] 4 fact-check(s):
+      • Fact-check by India Today: The claim "An idol of Goddess Kali was burnt by Muslim miscreants in a temple in West Bengal’
+      • Fact-check by The Quint: The claim "Muslims burnt idol of Goddess Kali in Bengal's Murshidabad" was rated "False".
+      • Fact-check by Boom Live: The claim "Photos of a goddess Kali idol burnt by the Muslim community" was rated "False".
+      • Fact-check by Alt News: The claim "Murshidabad Kali Temple burnt by Jihadists" was rated "False".
+    [Wikipedia] 1 article(s):
+      • https://en.wikipedia.org/wiki/Arts_of_West_Bengal
+    query: incident of Kali idol burning Murshidabad West Bengal details
+      [SCRAPE-BLOCKED] https://www.facebook.com/durgapujoMG/posts/history-of-kali-pujo-you-may-not-be-aware-of-the-fact-that-most-of-the-pujos-in-/1481497915277468/
+      [SCRAPE-BLOCKED] https://www.facebook.com/groups/1450098481949400/posts/2447995828826322/
+      [ok] https://www.cambridge.org/core/journals/modern-asian-studies/article/goddess-encounters-mughals-monsters-and-the-goddess-in-bengal/6BC52342D4E548BEF99223BE4D29C17A
+    query: idol of goddess Kali burnt Murshidabad West Bengal Muslim community
+      [SCRAPE-BLOCKED] https://www.facebook.com/groups/1450098481949400/posts/2447995828826322/
+      [ok] https://www.cambridge.org/core/journals/modern-asian-studies/article/goddess-encounters-mughals-monsters-and-the-goddess-in-bengal/6BC52342D4E548BEF99223BE4D29C17A
+      [SCRAPE-BLOCKED] https://www.facebook.com/SiliguriMidDay/posts/bolla-kali-puja-in-balurghat-todaybolla-kali-puja-started-today-at-balurghat-aft/2536412423300176/
+    query: Kali idol burning Murshidabad West Bengal Muslim community false report
+      [ok] https://timesofindia.indiatimes.com/times-fact-check/news/fake-alert-accidental-fire-at-wb-temple-shared-with-communal-spin/articleshow/77892191.cms
+      [SCRAPE-BLOCKED] https://www.facebook.com/logical.indian/videos/fact-check-images-of-burnt-idol-of-goddess-kali-shared-with-communal-angle/1525202661001418/
+      [ok] https://www.indiatoday.in/fact-check/story/fact-check-the-curious-case-of-a-desecrated-kali-idol-in-a-bengal-temple-1718010-2020-09-02
+      ✓ scraped  cred=0.50  https://www.indiatoday.in/fact-check/story/fact-check-the-curious-case-of-a-desecrated-kali-idol-in-a-bengal-temple-1718010-2020-09-02
+      ✓ scraped  cred=0.50  https://timesofindia.indiatimes.com/times-fact-check/news/fake-alert-accidental-fire-at-wb-temple-shared-with-communal-spin/articleshow/77892191.cms
+      ✓ scraped  cred=0.50  https://www.cambridge.org/core/journals/modern-asian-studies/article/goddess-encounters-mughals-monsters-and-the-goddess-in-bengal/6BC52342D4E548BEF99223BE4D29C17A
+    [rerank+MMR] 8 → 8 → 6 items
+    → 8 raw  8 reranked  6 final  (5 structured, 3 scraped)  |  0 cred-blocked  4 scrape-blocked
+      → 6 evidence items  |  4 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] An idol of the goddess Kali was burnt in Murshidabad, West Bengal
+       Verdict    : Refuted  ✓ (gold=Refuted)
+       Confidence : ██████████  1.00
+       Justific.  : The claim that an idol of the goddess Kali was burnt in Murshidabad, West Bengal, by the Muslim community is refuted by credible sources, including fact-checks by India Today, The Quint, Boom Live, and Alt News, which all conclude the fire was accidental and not a communal act.
+       Reasoning  :
+                  1. The source of the claim that an idol of the
+                  goddess Kali was burnt in Murshidabad, West Bengal,
+                  is primarily from social media posts and tweets by
+                  BJP MP Arjun Singh and other users, as reported by
+                  https://timesofindia.indiatimes.com/ and
+                  https://www.indiatoday.in/. 2. Local authorities,
+                  including Murshidabad Police, have reported that the
+                  fire was accidental and not caused by any communal
+                  actions, as stated in
+                  https://timesofindia.indiatimes.com/ and
+                  https://www.indiatoday.in/. 3. The official response
+                  from the police and administration in Murshidabad,
+                  as per https://timesofindia.indiatimes.com/, was
+                  that the temple caught fire accidentally, with no
+                  communal angle involved. 4. There are no
+                  photographs, videos, or eyewitness accounts that
+                  corroborate the burning of the idol as a deliberate
+                  act by the Muslim community; instead, evidence
+                  suggests an accidental fire, as noted in
+                  https://www.thequint.com/ and
+                  https://www.boomlive.in/. 5. Religious and community
+                  leaders in Murshidabad, including the temple
+                  committee secretary, have denied any communal act,
+                  as mentioned in https://www.indiatoday.in/. 6. The
+                  historical or cultural context of such acts in the
+                  region is not directly relevant to this specific
+                  incident, given the accidental nature of the fire.
+                  7. No legal actions were taken following the alleged
+                  burning of the idol, as the incident was deemed
+                  accidental, according to
+                  https://timesofindia.indiatimes.com/. 8. The stance
+                  of the Muslim community in Murshidabad on this
+                  matter is not one of involvement, as all credible
+                  sources indicate the fire was an accident, not a
+                  communal act.
+       Sources    :
+         • https://timesofindia.indiatimes.com/times-fact-check/news/fake-alert-accidental-fire-at-wb-temple-shared-with-communal-spin/articleshow/77892191.cms
+         • https://www.indiatoday.in/fact-check/story/fact-check-the-curious-case-of-a-desecrated-kali-idol-in-a-bengal-temple-1718010-2020-09-02
+         • https://www.thequint.com/news/webqoof/accidental-burning-of-idol-in-bengals-murshidabad-viral-with-false-communal-angle
+         • https://www.boomlive.in/fake-news/murshidabad-police-rule-out-communal-angle-in-burnt-kali-idol-incident-9590
+         • https://www.altnews.in/images-of-charred-idol-of-hindu-deity-kali-in-west-bengal-viral-with-baseless-communal-angle/
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Refuted  ██████████  1.00  |  Gold=Refuted  |  ✓ MATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 13/50
+══════════════════════════════════════════════════════════════════════
+  Source : Facebook   Date: 22-9-2020
+  Gold   : Refuted
+  Post   : Premier Daniel Andrews of the state of Victoria in Australia borrowed money from the IMF and now is in default.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   2 atomic claim(s)
+
+  [A] Premier Daniel Andrews of the state of Victoria in Australia borrowed money from the IMF.
+       Q1: Premier Daniel Andrews Victoria Australia IMF loan
+       Q2: Victoria state government IMF loan details
+       Q3: Did Victoria Premier Daniel Andrews take a loan from IMF?
+  [B] Premier Daniel Andrews of the state of Victoria in Australia is in default.
+       Q1: Victoria Premier Daniel Andrews loan default status
+       Q2: Is Victoria state government in default on IMF loan?
+       Q3: Victoria Australia financial default Premier Daniel Andrews
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Premier Daniel Andrews of the state of Victoria in Australia borr
+[wikipedia] Error: 429 Client Error: Too Many Requests for url: https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Premier+Daniel+Andrews+of+the+state+of+Victoria+in+Australia+borrowed+money+from+the+IMF.&srlimit=2&format=json
+    query: Victoria state government IMF loan details
+      [ok] https://www.elibrary.imf.org/display/book/9781557756633/ch008.xml
+    query: Did Victoria Premier Daniel Andrews take a loan from IMF?
+      [SCRAPE-BLOCKED] https://www.facebook.com/CitizensPartyAU/posts/foreign-debt-makes-australia-extremely-vulnerablein-the-1-trillion-debt-berg-wha/2032918030113169/
+      [SCRAPE-BLOCKED] https://www.facebook.com/LukeHowarthMP/posts/chatting-with-the-minister-for-small-business-senator-michaelia-cash-about-deliv/2151095154940724/
+    query: Premier Daniel Andrews Victoria Australia IMF loan
+      [SCRAPE-BLOCKED] https://www.facebook.com/DanielAndrewsMP/posts/today-i-met-with-some-nurses-on-the-first-day-of-parliament-and-i-told-them-this/2089474917783700/
+      [ok] https://www.reddit.com/r/AustralianPolitics/comments/inydjp/australias_worst_prime_minister/
+      ✗ empty    cred=0.50  https://www.reddit.com/r/AustralianPolitics/comments/inydjp/australias_worst_prime_minister/
+      ✓ scraped  cred=0.50  https://www.elibrary.imf.org/display/book/9781557756633/ch008.xml
+    [rerank+MMR] 1 → 1 → 1 items
+    → 1 raw  1 reranked  1 final  (0 structured, 1 scraped)  |  0 cred-blocked  3 scrape-blocked
+      → 1 evidence items  |  3 blocked by domain filter
+
+  [B] Premier Daniel Andrews of the state of Victoria in Australia is i
+[wikipedia] Error: 429 Client Error: Too Many Requests for url: https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Premier+Daniel+Andrews+of+the+state+of+Victoria+in+Australia+is+in+default.&srlimit=2&format=json
+    query: Victoria Premier Daniel Andrews loan default status
+      [SCRAPE-BLOCKED] https://www.facebook.com/financialreview/posts/victorian-premier-daniel-andrews-has-defended-his-strict-road-map-but-has-said-t/3431762813540603/
+      [ok] https://7news.com.au/politics/world-politics/victorias-daniel-andrews-slammed-over-china-deal-belt-and-road-scheme-explained--c-1073892
+      [SCRAPE-BLOCKED] https://www.facebook.com/theaustralian/posts/victorian-premiers-latest-stunt-goes-far-beyond-cocking-a-snook-writes-the-mocke/10151184455644978/
+    query: Is Victoria state government in default on IMF loan?
+    query: Victoria Australia financial default Premier Daniel Andrews
+      [ok] https://en.wikipedia.org/wiki/Daniel_Andrews
+      [ok] https://ipa.org.au/research/australias-prosperity/daniel-andrews-big-build-leaves-a-big-bill-and-theres-no-relief-in-sight
+      [ok] https://www.afr.com/politics/the-price-of-getting-sh-t-done-victoria-s-debt-blowout-20260507-p5zukg
+      ✗ empty    cred=0.50  https://ipa.org.au/research/australias-prosperity/daniel-andrews-big-build-leaves-a-big-bill-and-theres-no-relief-in-sight
+      ✓ scraped  cred=0.50  https://en.wikipedia.org/wiki/Daniel_Andrews
+      ✓ scraped  cred=0.50  https://www.afr.com/politics/the-price-of-getting-sh-t-done-victoria-s-debt-blowout-20260507-p5zukg
+      ✓ scraped  cred=0.50  https://7news.com.au/politics/world-politics/victorias-daniel-andrews-slammed-over-china-deal-belt-and-road-scheme-explained--c-1073892
+    [rerank+MMR] 3 → 3 → 3 items
+    → 3 raw  3 reranked  3 final  (0 structured, 3 scraped)  |  0 cred-blocked  2 scrape-blocked
+      → 3 evidence items  |  2 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Premier Daniel Andrews of the state of Victoria in Australia borr
+       Verdict    : Not Enough Evidence  ✗ (gold=Refuted)
+       Confidence : ██████████  1.00
+       Justific.  : The claim that Premier Daniel Andrews borrowed money from the IMF cannot be confirmed or denied due to a lack of relevant evidence. The provided evidence does not address the claim directly.
+       Reasoning  :
+                  1. No evidence found. 2. No evidence found. 3. The
+                  provided evidence does not discuss the process for
+                  subnational governments to obtain loans from the
+                  IMF. 4. No evidence found. 5. No evidence found.
+                  Given the lack of direct evidence addressing the
+                  claim, it's reasonable to conclude that there is
+                  insufficient information to support or refute the
+                  claim that Premier Daniel Andrews of Victoria
+                  borrowed money from the IMF. The provided evidence
+                  does not mention Victoria borrowing from the IMF or
+                  any process related to such an action.
+       Sources    :
+         • https://www.elibrary.imf.org/display/book/9781557756633/ch008.xml
+
+  [B] Premier Daniel Andrews of the state of Victoria in Australia is i
+       Verdict    : Not Enough Evidence  ✗ (gold=Refuted)
+       Confidence : ██████████  1.00
+       Justific.  : The claim that Premier Daniel Andrews of the state of Victoria in Australia is in default cannot be confirmed due to a lack of direct evidence from official financial reports, institutions, or creditors. The available information does not provide a clear indication of default.
+       Reasoning  :
+                  To assess the claim that Premier Daniel Andrews of
+                  the state of Victoria in Australia is in default, we
+                  need to examine the provided evidence and answer the
+                  verifying questions. 1. What official financial
+                  reports or statements indicate that Premier Daniel
+                  Andrews is in default? - No evidence found. 2. Has
+                  any official body or financial institution declared
+                  Victoria in default on its debts? - No evidence
+                  found. 3. What are the criteria for a subnational
+                  government to be considered in default? - No
+                  evidence found. 4. Have any creditors, including the
+                  IMF, publicly stated that Victoria is in default? -
+                  No evidence found. 5. What is the current debt
+                  status of the state of Victoria as reported by its
+                  government? - Evidence [3] mentions a 'debt blowout'
+                  but does not explicitly state that Victoria is in
+                  default. Given the lack of direct evidence
+                  addressing the claim and the absence of any official
+                  statements or reports indicating default, we must
+                  rely on the available information. The mention of a
+                  'debt blowout' in [3] suggests financial challenges
+                  but does not confirm default. Without explicit
+                  statements from credible sources, we cannot
+                  conclusively determine the default status of Premier
+                  Daniel Andrews or the state of Victoria. The
+                  credibility of the sources ranges from 0.50, which
+                  is moderate. However, none of the sources directly
+                  address the claim of default, leading to
+                  insufficient evidence for a definitive conclusion.
+       Sources    :
+         • https://en.wikipedia.org/wiki/Daniel_Andrews
+         • https://7news.com.au/politics/world-politics/victorias-daniel-andrews-slammed-over-china-deal-belt-and-road-scheme-explained--c-1073892
+         • https://www.afr.com/politics/the-price-of-getting-sh-t-done-victoria-s-debt-blowout-20260507-p5zukg
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Not Enough Evidence  ██████████  1.00  |  Gold=Refuted  |  ✗ MISMATCH
+  Sub-claims: ['Not Enough Evidence', 'Not Enough Evidence']
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 14/50
+══════════════════════════════════════════════════════════════════════
+  Source : Daily Mail   Date: 23-10-2020
+  Gold   : Refuted
+  Post   : Deliberately infecting children to COVID-19 at “pox parties” could be a good way to help create herd immunity against COVID-19 without a vaccine.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] Deliberately infecting children with COVID-19 at 'pox parties' could help create herd immunity against COVID-19 without a vaccine.
+       Q1: Deliberately infecting children with COVID-19 herd immunity effectiveness
+       Q2: Pox parties as a method for creating herd immunity against COVID-19
+       Q3: Deliberately infecting children with coronavirus false claims
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Deliberately infecting children with COVID-19 at 'pox parties' co
+[wikipedia] Error: 429 Client Error: Too Many Requests for url: https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Deliberately+infecting+children+with+COVID-19+at+%27pox+parties%27+could+help+create+herd+immunity+against+COVID-19+without+a+vaccine.&srlimit=2&format=json
+    query: Deliberately infecting children with COVID-19 herd immunity effectiveness
+      [ok] https://pids.org/2020/10/08/open-letter-from-stanford-university-regarding-dr-scott-atlas/
+      [ok] https://pmc.ncbi.nlm.nih.gov/articles/PMC7259898/
+      [ok] https://theconversation.com/the-ethical-case-for-allowing-medical-trials-that-deliberately-infect-humans-with-covid-19-144240
+    query: Pox parties as a method for creating herd immunity against COVID-19
+      [ok] https://www.lung.org/blog/understanding-covid-herd-immunity
+      [ok] https://pmc.ncbi.nlm.nih.gov/articles/PMC9129114/
+      [ok] https://en.wikipedia.org/wiki/Pox_party
+    query: Deliberately infecting children with coronavirus false claims
+      [ok] https://www.nbcnews.com/news/us-news/alabama-officials-warn-students-holding-coronavirus-parties-intentionally-get-infected-n1232760
+      [ok] https://stacklaw.com.au/news/family-law/knowingly-exposing-children-to-risk-of-coronavirus-infection-reflects-poorly-in-family-law-matters
+      [ok] https://pmc.ncbi.nlm.nih.gov/articles/PMC7342934/
+      ✓ scraped  cred=0.50  https://en.wikipedia.org/wiki/Pox_party
+      ✓ scraped  cred=0.50  https://pmc.ncbi.nlm.nih.gov/articles/PMC7259898/
+      ✓ scraped  cred=0.50  https://theconversation.com/the-ethical-case-for-allowing-medical-trials-that-deliberately-infect-humans-with-covid-19-144240
+      ✓ scraped  cred=0.50  https://www.lung.org/blog/understanding-covid-herd-immunity
+      ✓ scraped  cred=0.50  https://pids.org/2020/10/08/open-letter-from-stanford-university-regarding-dr-scott-atlas/
+      ✓ scraped  cred=0.50  https://www.nbcnews.com/news/us-news/alabama-officials-warn-students-holding-coronavirus-parties-intentionally-get-infected-n1232760
+      ✓ scraped  cred=0.50  https://pmc.ncbi.nlm.nih.gov/articles/PMC9129114/
+      ✓ scraped  cred=0.50  https://stacklaw.com.au/news/family-law/knowingly-exposing-children-to-risk-of-coronavirus-infection-reflects-poorly-in-family-law-matters
+      ✓ scraped  cred=0.50  https://pmc.ncbi.nlm.nih.gov/articles/PMC7342934/
+    [rerank+MMR] 9 → 9 → 6 items
+    → 9 raw  9 reranked  6 final  (0 structured, 9 scraped)  |  0 cred-blocked  0 scrape-blocked
+      → 6 evidence items  |  0 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Deliberately infecting children with COVID-19 at 'pox parties' co
+       Verdict    : Refuted  ✓ (gold=Refuted)
+       Confidence : ██████████  1.00
+       Justific.  : The claim is refuted due to the lack of scientific consensus, the risks and complications associated with COVID-19 infection in children, and the lack of endorsement from public health authorities.
+       Reasoning  :
+                  To assess the claim that deliberately infecting
+                  children with COVID-19 at 'pox parties' could help
+                  create herd immunity against COVID-19 without a
+                  vaccine, we must examine the evidence provided. 1.
+                  The scientific consensus on the effectiveness of
+                  'pox parties' in achieving herd immunity is not
+                  supported by the evidence. According to the American
+                  Lung Association
+                  (https://www.lung.org/blog/understanding-covid-herd-immunity),
+                  herd immunity is typically achieved through
+                  vaccination, not through intentional infection. 2.
+                  Public health authorities such as the CDC or WHO do
+                  not endorse intentionally infecting children with
+                  COVID-19 as a strategy for herd immunity. In fact,
+                  the practice of holding 'pox parties' has been
+                  discouraged by public health officials in favor of
+                  vaccination
+                  (https://en.wikipedia.org/wiki/Pox_party). 3. The
+                  documented risks and complications associated with
+                  children contracting COVID-19 naturally include
+                  severe illness, hospitalization, and even death,
+                  especially among those with underlying health
+                  conditions
+                  (https://en.wikipedia.org/wiki/Pox_party). 4. The
+                  current understanding of how long immunity lasts
+                  after natural infection with SARS-CoV-2 in children
+                  is not well established and requires further
+                  research
+                  (https://pmc.ncbi.nlm.nih.gov/articles/PMC7259898/).
+                  5. No peer-reviewed studies have demonstrated that
+                  'pox parties' are a safe or effective method for
+                  achieving herd immunity. In fact, the concept of
+                  human challenge trials, which involves deliberately
+                  infecting volunteers with a disease, is still a
+                  topic of debate among health professionals and
+                  academics
+                  (https://theconversation.com/the-ethical-case-for-allowing-medical-trials-that-deliberately-infect-humans-with-covid-19-144240).
+                  6. The mortality and hospitalization rate among
+                  children infected with COVID-19 compared to other
+                  age groups is generally lower, but children can
+                  still experience severe illness and long-term health
+                  consequences
+                  (https://www.nbcnews.com/news/us-news/alabama-officials-warn-students-holding-coronavirus-parties-intentionally-get-infected-n1232760).
+                  7. There is no evidence to suggest that children are
+                  less likely to transmit SARS-CoV-2 than adults,
+                  which might influence the rationale for 'pox
+                  parties'
+                  (https://www.nbcnews.com/news/us-news/alabama-officials-warn-students-holding-coronavirus-parties-intentionally-get-infected-n1232760).
+                  Based on the evidence, the claim that deliberately
+                  infecting children with COVID-19 at 'pox parties'
+                  could help create herd immunity against COVID-19
+                  without a vaccine is not supported. The risks and
+                  complications associated with COVID-19 infection in
+                  children, combined with the lack of scientific
+                  consensus and endorsement from public health
+                  authorities, make this practice unsafe and
+                  ineffective.
+       Sources    :
+         • https://www.lung.org/blog/understanding-covid-herd-immunity
+         • https://en.wikipedia.org/wiki/Pox_party
+         • https://pmc.ncbi.nlm.nih.gov/articles/PMC7259898/
+         • https://theconversation.com/the-ethical-case-for-allowing-medical-trials-that-deliberately-infect-humans-with-covid-19-144240
+         • https://www.nbcnews.com/news/us-news/alabama-officials-warn-students-holding-coronavirus-parties-intentionally-get-infected-n1232760
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Refuted  ██████████  1.00  |  Gold=Refuted  |  ✓ MATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 15/50
+══════════════════════════════════════════════════════════════════════
+  Source : Facebook   Date: 19-9-2020
+  Gold   : Refuted
+  Post   : Two Sigma Investments is owned by George Soros.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] Two Sigma Investments is owned by George Soros.
+       Q1: Two Sigma Investments ownership George Soros
+       Q2: George Soros Two Sigma Investments company details
+       Q3: Is George Soros owner of Two Sigma Investments false
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Two Sigma Investments is owned by George Soros.
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/Renaissance_Technologies
+      • https://en.wikipedia.org/wiki/Paul_Tudor_Jones
+    query: Two Sigma Investments ownership George Soros
+      [ok] https://finance.yahoo.com/news/the-top-20-hedge-funds-made-their-investors-16-1-billion-last-year-170032872.html
+      [ok] https://www.forbes.com/sites/jonathanponciano/2020/09/08/richest-hedge-fund-managers-2020/
+      [ok] https://www.quora.com/Are-the-traders-such-as-Paul-Tudor-Warren-Buffett-Ray-Dalio-and-George-Soros-quants-or-just-traders-who-use-quants-to-gather-information
+    query: Is George Soros owner of Two Sigma Investments false
+      [ok] https://www.quora.com/Are-the-traders-such-as-Paul-Tudor-Warren-Buffett-Ray-Dalio-and-George-Soros-quants-or-just-traders-who-use-quants-to-gather-information
+      [ok] https://www.forbes.com/sites/nathanvardi/2016/03/01/the-worlds-hedge-fund-billionaires-some-are-less-rich-than-they-used-to-be/
+      [SCRAPE-BLOCKED] https://www.facebook.com/billoreillyofficial/posts/bill-oreilly-on-fox-news-awkward-george-soros-moment-soros-is-using-his-billions/10158379782401357/
+    query: George Soros Two Sigma Investments company details
+      [ok] https://www.forbes.com/sites/nathanvardi/2016/03/01/the-worlds-hedge-fund-billionaires-some-are-less-rich-than-they-used-to-be/
+      [ok] https://www.insidermonkey.com/blog/two-sigma-advisors-return-aum-and-holdings-692231/
+      [ok] https://www.institutionalinvestor.com/article/2bswhgrmp6rwew5okdo8w/portfolio/the-best-hedge-fund-manager-of-all-time-is
+      ✗ empty    cred=0.50  https://www.quora.com/Are-the-traders-such-as-Paul-Tudor-Warren-Buffett-Ray-Dalio-and-George-Soros-quants-or-just-traders-who-use-quants-to-gather-information
+      ✓ scraped  cred=0.50  https://www.insidermonkey.com/blog/two-sigma-advisors-return-aum-and-holdings-692231/
+      ✓ scraped  cred=0.50  https://www.institutionalinvestor.com/article/2bswhgrmp6rwew5okdo8w/portfolio/the-best-hedge-fund-manager-of-all-time-is
+      ✓ scraped  cred=0.50  https://finance.yahoo.com/news/the-top-20-hedge-funds-made-their-investors-16-1-billion-last-year-170032872.html
+      ✓ scraped  cred=0.50  https://www.forbes.com/sites/jonathanponciano/2020/09/08/richest-hedge-fund-managers-2020/
+      ✓ scraped  cred=0.50  https://www.forbes.com/sites/nathanvardi/2016/03/01/the-worlds-hedge-fund-billionaires-some-are-less-rich-than-they-used-to-be/
+    [rerank+MMR] 7 → 7 → 6 items
+    → 7 raw  7 reranked  6 final  (2 structured, 5 scraped)  |  0 cred-blocked  1 scrape-blocked
+      → 6 evidence items  |  1 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Two Sigma Investments is owned by George Soros.
+       Verdict    : Refuted  ✓ (gold=Refuted)
+       Confidence : ██████████  1.00
+       Justific.  : The evidence does not support the claim that Two Sigma Investments is owned by George Soros, as it consistently mentions the founders as John Overdeck and David Siegel without any reference to George Soros as an owner.
+       Reasoning  :
+                  To verify the claim that Two Sigma Investments is
+                  owned by George Soros, we need to examine the
+                  provided evidence. Question 1 asks about the
+                  official ownership structure of Two Sigma
+                  Investments. Evidence [2] states that Two Sigma
+                  Advisors was founded by John Overdeck and David
+                  Siegel, with no mention of George Soros as an owner.
+                  Question 2 inquires if George Soros is listed as a
+                  major shareholder or owner of Two Sigma Investments.
+                  None of the evidence directly lists George Soros as
+                  an owner or major shareholder of Two Sigma. Question
+                  3 asks about the public financial disclosure of Two
+                  Sigma Investments regarding ownership. While the
+                  evidence does not provide direct public financial
+                  disclosures, it implies through the founders'
+                  backgrounds that the ownership is not associated
+                  with George Soros. Question 4 asks for official
+                  statements from Two Sigma Investments denying George
+                  Soros as an owner. There are no direct statements
+                  found in the evidence, but the absence of his name
+                  in the context of ownership implies a lack of
+                  association. Question 5 explores the relationship
+                  between George Soros and Two Sigma Investments. The
+                  evidence does not suggest any direct relationship
+                  between George Soros and the ownership or management
+                  of Two Sigma Investments. Given the information, the
+                  claim that Two Sigma Investments is owned by George
+                  Soros is not supported by the evidence provided.
+       Sources    :
+         • https://www.insidermonkey.com/blog/two-sigma-advisors-return-aum-and-holdings-692231/
+         • https://finance.yahoo.com/news/the-top-20-hedge-funds-made-their-investors-16-1-billion-last-year-170032872.html
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Refuted  ██████████  1.00  |  Gold=Refuted  |  ✓ MATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 16/50
+══════════════════════════════════════════════════════════════════════
+  Source : Independence Anniversary Speech   Date: 1-10-2020
+  Gold   : Supported
+  Post   : 52% of Nigeria’s current population lives in urban areas
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] 52% of Nigeria’s current population lives in urban areas
+       Q1: Nigeria urban population percentage 2025
+       Q2: Nigeria urban population statistics current
+       Q3: Nigeria 52% urban population claim verified
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] 52% of Nigeria’s current population lives in urban areas
+    [FCTAPI] 5 fact-check(s):
+      • Fact-check by Africa Check: The claim "But the comparison with neighbouring countries is more complicated." was rated "C
+      • Fact-check by Africa Check: The claim "‘For a cumulative 29 of our 60 years of existence as a nation, we have been under
+      • Fact-check by Africa Check: The claim "‘Today, we grapple with multiple challenges with a population exceeding 200 milli
+      • Fact-check by Africa Check: The claim "At independence, Nigeria had a population of 45 million" was rated "Correct".
+      • Fact-check by Africa Check: The claim "52% of Nigeria’s current population lives in urban areas" was rated "Correct".
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/Urban_area
+      • https://en.wikipedia.org/wiki/World_population
+    query: Nigeria 52% urban population claim verified
+      [SCRAPE-BLOCKED] https://www.facebook.com/NasscoNigeria/posts/the-national-social-register-currently-holds-over-four-million-poor-vulnerable-h/774353343306871/
+      [SCRAPE-BLOCKED] https://www.facebook.com/nativereportersng/posts/we-identified-poor-nigerians-through-sim-card-registration-buharis-minister-in-v/2623284977953452/
+      [ok] https://pmc.ncbi.nlm.nih.gov/articles/PMC5676403/
+    query: Nigeria urban population percentage 2025
+      [ok] https://tradingeconomics.com/nigeria/urban-population-wb-data.html
+      [ok] https://tradingeconomics.com/nigeria/urban-population-percent-of-total-wb-data.html
+      [ok] https://data.worldbank.org/indicator/SP.URB.TOTL.IN.ZS
+    query: Nigeria urban population statistics current
+      [ok] https://data.worldbank.org/indicator/SP.URB.TOTL?locations=NG
+      [ok] https://data.worldbank.org/indicator/SP.URB.GROW?locations=NG
+      [ok] https://www.worldometers.info/world-population/nigeria-population/
+      ✓ scraped  cred=0.50  https://data.worldbank.org/indicator/SP.URB.TOTL.IN.ZS
+      ✓ scraped  cred=0.50  https://www.worldometers.info/world-population/nigeria-population/
+      ✓ scraped  cred=0.50  https://pmc.ncbi.nlm.nih.gov/articles/PMC5676403/
+      ✓ scraped  cred=0.50  https://tradingeconomics.com/nigeria/urban-population-wb-data.html
+      ✓ scraped  cred=0.50  https://data.worldbank.org/indicator/SP.URB.TOTL?locations=NG
+      ✓ scraped  cred=0.50  https://tradingeconomics.com/nigeria/urban-population-percent-of-total-wb-data.html
+      ✓ scraped  cred=0.50  https://data.worldbank.org/indicator/SP.URB.GROW?locations=NG
+    [rerank+MMR] 14 → 10 → 6 items
+    → 14 raw  10 reranked  6 final  (7 structured, 7 scraped)  |  0 cred-blocked  2 scrape-blocked
+      → 6 evidence items  |  2 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] 52% of Nigeria’s current population lives in urban areas
+       Verdict    : Supported  ✓ (gold=Supported)
+       Confidence : ██████████  1.00
+       Justific.  : The claim that 52% of Nigeria's current population lives in urban areas is supported by a fact-check from Africa Check and is generally consistent with data from other credible sources, although the exact figure may vary slightly depending on the source and year.
+       Reasoning  :
+                  To verify the claim that 52% of Nigeria's current
+                  population lives in urban areas, we examined the
+                  provided evidence. The most direct answer comes from
+                  Africa Check
+                  (https://africacheck.org/fact-checks/reports/nigerias-population-economy-and-history-fact-checking-buharis-independence-day),
+                  which fact-checked the claim and rated it as
+                  'Correct'. This suggests that the claim is supported
+                  by credible sources. Other sources, such as the
+                  World Bank
+                  (https://data.worldbank.org/indicator/SP.URB.GROW?locations=NG,
+                  https://data.worldbank.org/indicator/SP.URB.TOTL?locations=NG)
+                  and Worldometers
+                  (https://www.worldometers.info/world-population/nigeria-population/),
+                  provide data on urban population growth and total
+                  population but do not directly address the 52%
+                  figure. Trading Economics
+                  (https://tradingeconomics.com/nigeria/urban-population-percent-of-total-wb-data.html)
+                  reports an urban population percentage of 55.03% in
+                  2024, which is close to but not exactly the claimed
+                  52%. Given the credibility of Africa Check and the
+                  supportive, though not perfectly matching, data from
+                  other sources, the claim appears to be generally
+                  supported.
+       Sources    :
+         • https://africacheck.org/fact-checks/reports/nigerias-population-economy-and-history-fact-checking-buharis-independence-day
+         • https://tradingeconomics.com/nigeria/urban-population-percent-of-total-wb-data.html
+         • https://data.worldbank.org/indicator/SP.URB.GROW?locations=NG
+         • https://www.worldometers.info/world-population/nigeria-population/
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Supported  ██████████  1.00  |  Gold=Supported  |  ✓ MATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 17/50
+══════════════════════════════════════════════════════════════════════
+  Source : The Federalist   Date: 29-10-2020
+  Gold   : Refuted
+  Post   : The plentiful evidence we have indicates that masks would not meaningfully help with aerosol transmission of COVID 19.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] Masks would not meaningfully help with aerosol transmission of COVID-19.
+       Q1: masks effectiveness against aerosol transmission of COVID-19
+       Q2: scientific studies on masks and aerosol transmission of COVID-19
+       Q3: masks do not help with aerosol transmission of COVID-19 false or true
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Masks would not meaningfully help with aerosol transmission of CO
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/COVID-19
+      • https://en.wikipedia.org/wiki/2021_in_science
+    query: scientific studies on masks and aerosol transmission of COVID-19
+      [ok] https://www.sciencedirect.com/science/article/pii/S1201971220306214
+      [ok] https://wwwnc.cdc.gov/eid/article/26/7/20-0885_article
+      [ok] https://scitechdaily.com/scientists-compare-how-covid-19-cough-clouds-travel-with-and-without-face-masks/
+    query: masks do not help with aerosol transmission of COVID-19 false or true
+      [ok] https://www.nature.com/articles/s41598-020-72798-7
+      [ok] https://www.cidrap.umn.edu/covid-19/commentary-masks-all-covid-19-not-based-sound-data
+      [ok] https://www.ucsf.edu/news/2020/06/417906/still-confused-about-masks-heres-science-behind-how-face-masks-prevent
+    query: masks effectiveness against aerosol transmission of COVID-19
+      [ok] https://www.pnas.org/doi/10.1073/pnas.2014564118
+      [ok] https://www.phc.ox.ac.uk/news/comprehensive-review-confirms-masks-reduce-covid-19-transmission
+      [ok] https://www.mayoclinic.org/diseases-conditions/coronavirus/in-depth/coronavirus-mask/art-20485449
+      ✓ scraped  cred=0.50  https://scitechdaily.com/scientists-compare-how-covid-19-cough-clouds-travel-with-and-without-face-masks/
+      ✗ empty    cred=0.50  https://www.pnas.org/doi/10.1073/pnas.2014564118
+      ✗ empty    cred=0.50  https://www.sciencedirect.com/science/article/pii/S1201971220306214
+      ✗ empty    cred=0.50  https://www.mayoclinic.org/diseases-conditions/coronavirus/in-depth/coronavirus-mask/art-20485449
+      ✓ scraped  cred=0.50  https://www.phc.ox.ac.uk/news/comprehensive-review-confirms-masks-reduce-covid-19-transmission
+      ✗ empty    cred=0.50  https://www.ucsf.edu/news/2020/06/417906/still-confused-about-masks-heres-science-behind-how-face-masks-prevent
+      ✓ scraped  cred=0.50  https://www.cidrap.umn.edu/covid-19/commentary-masks-all-covid-19-not-based-sound-data
+      ✓ scraped  cred=0.50  https://www.nature.com/articles/s41598-020-72798-7
+      ✓ scraped  cred=0.50  https://wwwnc.cdc.gov/eid/article/26/7/20-0885_article
+    [rerank+MMR] 7 → 7 → 6 items
+    → 7 raw  7 reranked  6 final  (2 structured, 5 scraped)  |  0 cred-blocked  0 scrape-blocked
+      → 6 evidence items  |  0 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Masks would not meaningfully help with aerosol transmission of CO
+       Verdict    : Refuted  ✓ (gold=Refuted)
+       Confidence : ██████████  1.00
+       Justific.  : The majority of the evidence from credible sources indicates that masks are effective in reducing aerosol transmission of COVID-19, thus refuting the claim.
+       Reasoning  :
+                  To assess the claim that masks would not
+                  meaningfully help with aerosol transmission of
+                  COVID-19, we examined the evidence from various
+                  sources. For question 1, peer-reviewed scientific
+                  studies like the one found at
+                  https://www.phc.ox.ac.uk/news/comprehensive-review-confirms-masks-reduce-covid-19-transmission
+                  suggest that masks are effective in reducing the
+                  transmission of respiratory infections like
+                  COVID-19. The World Health Organization's guidance,
+                  as mentioned in
+                  https://en.wikipedia.org/wiki/COVID-19, implies the
+                  use of masks in reducing transmission, addressing
+                  question 2. Clinical trials and observational
+                  studies, such as those referenced in
+                  https://www.nature.com/articles/s41598-020-72798-7,
+                  demonstrate that masks can significantly reduce
+                  aerosol transmission, answering question 3. The
+                  consensus among infectious disease experts, as
+                  indicated by the comprehensive review in
+                  https://www.phc.ox.ac.uk/news/comprehensive-review-confirms-masks-reduce-covid-19-transmission,
+                  supports the role of masks in mitigating aerosol
+                  transmission, addressing question 4. Laboratory
+                  experiments on mask filtration efficiency, like
+                  those mentioned in
+                  https://scitechdaily.com/scientists-compare-how-covid-19-cough-clouds-travel-with-and-without-face-masks/,
+                  support the claim that masks do help with aerosol
+                  transmission, contrary to the claim, answering
+                  question 5. Public health agencies like the CDC have
+                  issued statements supporting the effectiveness of
+                  masks against aerosol transmission, as can be
+                  inferred from the general guidance on COVID-19,
+                  addressing question 6. Lastly, evidence from
+                  real-world settings, such as the study in
+                  https://wwwnc.cdc.gov/eid/article/26/7/20-0885_article,
+                  shows that mask use can correlate with reduced
+                  aerosol transmission, answering question 7. Given
+                  the preponderance of evidence supporting the
+                  effectiveness of masks in reducing aerosol
+                  transmission of COVID-19, the claim is refuted.
+       Sources    :
+         • https://www.phc.ox.ac.uk/news/comprehensive-review-confirms-masks-reduce-covid-19-transmission
+         • https://www.nature.com/articles/s41598-020-72798-7
+         • https://scitechdaily.com/scientists-compare-how-covid-19-cough-clouds-travel-with-and-without-face-masks/
+         • https://wwwnc.cdc.gov/eid/article/26/7/20-0885_article
+         • https://en.wikipedia.org/wiki/COVID-19
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Refuted  ██████████  1.00  |  Gold=Refuted  |  ✓ MATCH
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 18/50
+══════════════════════════════════════════════════════════════════════
+  Source : Twitter   Date: 29-10-2020
+  Gold   : Not Enough Evidence
+  Post   : Illegal drug, border crossings, and human smuggling activities have decreased in areas where barriers are deployed in the United States.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   3 atomic claim(s)
+
+  [A] Illegal drug activities have decreased in areas where barriers are deployed in the United States.
+       Q1: Illegal drug activities decreased after border barriers US
+       Q2: US border barriers impact on drug smuggling statistics
+       Q3: Did US border barriers reduce illegal drug trafficking?
+  [B] Border crossings have decreased in areas where barriers are deployed in the United States.
+       Q1: US border crossings decreased after barriers deployed
+       Q2: Effect of border barriers on US border crossings
+       Q3: Did US border barriers reduce unauthorized crossings?
+  [C] Human smuggling activities have decreased in areas where barriers are deployed in the United States.
+       Q1: Human smuggling decreased after US border barriers deployed
+       Q2: Impact of US border barriers on human smuggling
+       Q3: Did US border barriers reduce human smuggling activities?
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Illegal drug activities have decreased in areas where barriers ar
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/Mexican_drug_war
+      • https://en.wikipedia.org/wiki/Illegal_immigration_to_the_United_States
+    query: US border barriers impact on drug smuggling statistics
+    query: Did US border barriers reduce illegal drug trafficking?
+      [ok] https://www.congress.gov/crs-product/R46218
+      [ok] https://cis.org/Arthur/Barriers-Shift-Drug-Smuggling-Away-Border
+      [ok] https://www.washingtonpost.com/news/fact-checker/wp/2017/09/11/president-trumps-claim-that-a-wall-will-stop-much-of-the-drugs-from-pouring-into-this-country/
+    query: Illegal drug activities decreased after border barriers US
+      [ok] https://www.ksl.com/article/news/us/us-drug-czar-says-border-wall-will-reduce-influx-of-drugs/46513159
+      [ok] https://www.cato.org/commentary/wall-wont-end-pot-smuggling-border-legalization-will
+      [ok] https://www.congress.gov/crs-product/R46218
+      ✗ empty    cred=0.50  https://www.congress.gov/crs-product/R46218
+      ✓ scraped  cred=0.50  https://www.cato.org/commentary/wall-wont-end-pot-smuggling-border-legalization-will
+      ✓ scraped  cred=0.50  https://www.ksl.com/article/news/us/us-drug-czar-says-border-wall-will-reduce-influx-of-drugs/46513159
+      ✓ scraped  cred=0.50  https://cis.org/Arthur/Barriers-Shift-Drug-Smuggling-Away-Border
+      ✗ empty    cred=0.50  https://www.washingtonpost.com/news/fact-checker/wp/2017/09/11/president-trumps-claim-that-a-wall-will-stop-much-of-the-drugs-from-pouring-into-this-country/
+    [rerank+MMR] 5 → 5 → 5 items
+    → 5 raw  5 reranked  5 final  (2 structured, 3 scraped)  |  0 cred-blocked  0 scrape-blocked
+      → 5 evidence items  |  0 blocked by domain filter
+
+  [B] Border crossings have decreased in areas where barriers are deplo
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/Mexico%E2%80%93United_States_border
+      • https://en.wikipedia.org/wiki/Mexico%E2%80%93United_States_border_wall
+    query: US border crossings decreased after barriers deployed
+      [ok] https://forumtogether.org/article/border-security-along-the-southwest-border-fact-sheet/
+      [ok] https://www.rpc.senate.gov/policy-papers/border-security-by-the-numbers
+    query: Did US border barriers reduce unauthorized crossings?
+      [ok] https://www.migrationpolicy.org/article/borders-and-walls-do-barriers-deter-unauthorized-migration
+      [ok] https://www.americanimmigrationcouncil.org/fact-sheet/cost-of-border-wall/
+      [ok] https://www.brookings.edu/articles/the-wall-the-real-costs-of-a-barrier-between-the-united-states-and-mexico/
+    query: Effect of border barriers on US border crossings
+      [ok] https://www.biologicaldiversity.org/campaigns/border_wall/
+      [ok] https://www.southernborder.org/aclu_border_rights_center_and_partners_release_report_on_devastating_impact_of_trump_s_wall
+      ✗ empty    cred=0.50  https://www.americanimmigrationcouncil.org/fact-sheet/cost-of-border-wall/
+      ✗ empty    cred=0.50  https://www.rpc.senate.gov/policy-papers/border-security-by-the-numbers
+      ✓ scraped  cred=0.50  https://forumtogether.org/article/border-security-along-the-southwest-border-fact-sheet/
+      ✓ scraped  cred=0.50  https://www.biologicaldiversity.org/campaigns/border_wall/
+      ✓ scraped  cred=0.50  https://www.brookings.edu/articles/the-wall-the-real-costs-of-a-barrier-between-the-united-states-and-mexico/
+      ✓ scraped  cred=0.50  https://www.migrationpolicy.org/article/borders-and-walls-do-barriers-deter-unauthorized-migration
+      ✓ scraped  cred=0.50  https://www.southernborder.org/aclu_border_rights_center_and_partners_release_report_on_devastating_impact_of_trump_s_wall
+    [rerank+MMR] 7 → 7 → 6 items
+    → 7 raw  7 reranked  6 final  (2 structured, 5 scraped)  |  0 cred-blocked  0 scrape-blocked
+      → 6 evidence items  |  0 blocked by domain filter
+
+  [C] Human smuggling activities have decreased in areas where barriers
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/Mexican_drug_war
+      • https://en.wikipedia.org/wiki/Mexico%E2%80%93United_States_border_wall
+    query: Human smuggling decreased after US border barriers deployed
+      [ok] https://items.ssrc.org/border-battles/impacts-of-border-enforcement-on-unauthorized-mexican-migration-to-the-united-states/
+      [SCRAPE-BLOCKED] https://www.youtube.com/watch?v=kPgM9m6O_E4
+    query: Did US border barriers reduce human smuggling activities?
+      [ok] https://www.antitraffickingreview.org/index.php/atrjournal/article/view/29/49
+      [ok] https://www.brookings.edu/articles/the-wall-the-real-costs-of-a-barrier-between-the-united-states-and-mexico/
+      [ok] https://www.dhs.gov/archive/news/2020/10/29/border-wall-system-deployed-effective-and-disrupting-criminals-and-smugglers
+    query: Impact of US border barriers on human smuggling
+      [ok] https://www.unodc.org/toc/en/crimes/migrant-smuggling.html
+      [ok] https://www.congress.gov/crs-product/R46218
+      ✗ empty    cred=0.50  https://www.congress.gov/crs-product/R46218
+      ✓ scraped  cred=0.50  https://www.brookings.edu/articles/the-wall-the-real-costs-of-a-barrier-between-the-united-states-and-mexico/
+      ✓ scraped  cred=0.50  https://www.unodc.org/toc/en/crimes/migrant-smuggling.html
+      ✓ scraped  cred=0.50  https://www.antitraffickingreview.org/index.php/atrjournal/article/view/29/49
+      ✓ scraped  cred=0.50  https://items.ssrc.org/border-battles/impacts-of-border-enforcement-on-unauthorized-mexican-migration-to-the-united-states/
+      ✓ scraped  cred=0.50  https://www.dhs.gov/archive/news/2020/10/29/border-wall-system-deployed-effective-and-disrupting-criminals-and-smugglers
+    [rerank+MMR] 7 → 7 → 6 items
+    → 7 raw  7 reranked  6 final  (2 structured, 5 scraped)  |  0 cred-blocked  1 scrape-blocked
+      → 6 evidence items  |  1 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Illegal drug activities have decreased in areas where barriers ar
+       Verdict    : Not Enough Evidence  ✓ (gold=Not Enough Evidence)
+       Confidence : ████████░░  0.80
+       Justific.  : The evidence does not conclusively support the claim that illegal drug activities have decreased in areas with deployed barriers, due to insufficient direct data and conflicting perspectives on the effectiveness of barriers.
+       Reasoning  :
+                  To assess the claim that illegal drug activities
+                  have decreased in areas where barriers are deployed
+                  in the United States, we must examine the evidence
+                  provided. 1. The data sources or studies supporting
+                  the claim are not clearly identified in the
+                  evidence, but [1] mentions a report from San Ysidro,
+                  Calif., indicating a shift in drug smuggling to the
+                  sea after the completion of 14 miles of new bollard
+                  fencing. 2. The timeframe over which the decrease is
+                  measured is not explicitly stated, but [1] refers to
+                  the past year and the last six months. 3. Other
+                  factors contributing to the decrease, such as
+                  increased law enforcement or changes in drug
+                  trafficking patterns, are mentioned in [2] and [3],
+                  suggesting that legalization in the United States
+                  and the adaptability of smugglers play significant
+                  roles. 4. The metrics used to measure the decrease
+                  are not specified, but [1] mentions the seizure of
+                  various drugs. 5. Peer-reviewed studies
+                  contradicting the claim are not directly cited, but
+                  [2] and [3] provide perspectives that question the
+                  effectiveness of barriers in reducing drug
+                  smuggling. Drawing conclusions from these points,
+                  the evidence does not strongly support the claim.
+                  While some sources suggest a shift in drug smuggling
+                  patterns, possibly due to the deployment of
+                  barriers, others indicate that the decrease in drug
+                  activities might be attributed to different factors
+                  such as legalization and changes in smuggling
+                  tactics. The credibility of the sources varies, with
+                  Wikipedia articles having a higher credibility score
+                  but not directly addressing the claim. Therefore,
+                  the verdict is NotEnoughEvidence because the
+                  evidence provided is insufficient to conclusively
+                  confirm or deny the claim, with conflicting
+                  perspectives and a lack of direct, peer-reviewed
+                  studies supporting the assertion.
+       Sources    :
+         • https://cis.org/Arthur/Barriers-Shift-Drug-Smuggling-Away-Border
+         • https://www.cato.org/commentary/wall-wont-end-pot-smuggling-border-legalization-will
+         • https://en.wikipedia.org/wiki/Mexican_drug_war
+
+  [B] Border crossings have decreased in areas where barriers are deplo
+       Verdict    : Not Enough Evidence  ✓ (gold=Not Enough Evidence)
+       Confidence : ██████████  1.00
+       Justific.  : The claim that border crossings have decreased in areas where barriers are deployed in the United States lacks sufficient direct evidence to be conclusively supported, with the provided sources either not addressing the claim directly or challenging the effectiveness of border barriers.
+       Reasoning  :
+                  To assess the claim that border crossings have
+                  decreased in areas where barriers are deployed in
+                  the United States, we must examine the evidence
+                  provided. 1. The data or reports from U.S. Customs
+                  and Border Protection (CBP) that support the claim
+                  about decreased border crossings are not directly
+                  mentioned in the provided evidence. 2. The
+                  geographic scope of the areas where barriers have
+                  been deployed and where the decrease in crossings is
+                  reported includes the Southwest border, as mentioned
+                  in evidence [2], which notes that by 2015, the
+                  United States had built border fencing along 654
+                  miles of the Southwest border. 3. Other factors
+                  influencing the decrease in border crossings, such
+                  as policy changes or economic conditions, are not
+                  explicitly discussed in the provided evidence,
+                  though [5] touches on global migration trends and
+                  the purpose of borders shifting to prevent
+                  unauthorized movement. 4. The time period being
+                  referenced for the reported decrease in border
+                  crossings is not clearly defined in the evidence. 5.
+                  Official reports or analyses that challenge this
+                  claim are found in [4] and [6], which discuss the
+                  negative environmental and social impacts of the
+                  border wall, suggesting it is not an effective
+                  solution for border security. Given the lack of
+                  direct evidence supporting the claim and the
+                  presence of sources challenging its effectiveness,
+                  we must reason that the claim is not strongly
+                  supported by the provided evidence.
+       Sources    :
+         • https://forumtogether.org/article/border-security-along-the-southwest-border-fact-sheet/
+         • https://www.migrationpolicy.org/article/borders-and-walls-do-barriers-deter-unauthorized-migration
+         • https://www.southernborder.org/aclu_border_rights_center_and_partners_release_report_on_devastating_impact_of_trump_s_wall
+
+  [C] Human smuggling activities have decreased in areas where barriers
+       Verdict    : Not Enough Evidence  ✓ (gold=Not Enough Evidence)
+       Confidence : ████████░░  0.80
+       Justific.  : The claim that human smuggling activities have decreased in areas where barriers are deployed in the United States is not conclusively supported or refuted due to mixed and incomplete evidence.
+       Reasoning  :
+                  To assess the claim that human smuggling activities
+                  have decreased in areas where barriers are deployed
+                  in the United States, we analyzed the provided
+                  evidence. 1. Evidence supporting the assertion: The
+                  first evidence item
+                  (https://www.dhs.gov/archive/news/2020/10/29/border-wall-system-deployed-effective-and-disrupting-criminals-and-smugglers)
+                  suggests that illegal drug, border crossings, and
+                  human smuggling activities have decreased in areas
+                  where barriers are deployed, citing specific
+                  examples from the San Diego and Yuma Sectors. 2.
+                  Timeframe for the reported decrease: The same
+                  evidence item mentions that in the Yuma Sector,
+                  illegal entries in areas with new border wall system
+                  plummeted over 87% in FY 20 compared to FY 19,
+                  providing a specific timeframe. 3. Confirmation by
+                  law enforcement agencies: The first evidence item is
+                  from the Department of Homeland Security, indicating
+                  that law enforcement agencies have confirmed this
+                  decrease. 4. Indicators measuring the decrease: The
+                  decrease is measured by the reduction in illegal
+                  entries and the redeployment of agents to other
+                  areas, as mentioned in the first evidence item. 5.
+                  Conflicting findings: Other evidence items
+                  (https://items.ssrc.org/border-battles/impacts-of-border-enforcement-on-unauthorized-mexican-migration-to-the-united-states/,
+                  https://www.brookings.edu/articles/the-wall-the-real-costs-of-a-barrier-between-the-united-states-and-mexico/)
+                  suggest that the effectiveness of border barriers in
+                  reducing human smuggling is not straightforward and
+                  may have unintended consequences, such as promoting
+                  permanent settlement in the U.S. or pushing
+                  smuggling operations to other areas. Given the mixed
+                  evidence, with some sources suggesting a decrease in
+                  human smuggling activities where barriers are
+                  deployed and others highlighting potential
+                  unintended consequences or lack of clear
+                  effectiveness, the claim is not conclusively
+                  supported or refuted.
+       Sources    :
+         • https://www.dhs.gov/archive/news/2020/10/29/border-wall-system-deployed-effective-and-disrupting-criminals-and-smugglers
+         • https://items.ssrc.org/border-battles/impacts-of-border-enforcement-on-unauthorized-mexican-migration-to-the-united-states/
+         • https://www.brookings.edu/articles/the-wall-the-real-costs-of-a-barrier-between-the-united-states-and-mexico/
+
+──────────────────────────────────────────────────────────────────────
+  POST VERDICT  Not Enough Evidence  ████████░░  0.87  |  Gold=Not Enough Evidence  |  ✓ MATCH
+  Sub-claims: ['Not Enough Evidence', 'Not Enough Evidence', 'Not Enough Evidence']
+──────────────────────────────────────────────────────────────────────
+
+══════════════════════════════════════════════════════════════════════
+  CLAIM 19/50
+══════════════════════════════════════════════════════════════════════
+  Source : Speech, Republican National Convention   Date: 23-10-2020
+  Gold   : Conflicting Evidence/Cherrypicking
+  Post   : Joe Biden said he wants to ban fracking in the US.
+
+──────────────────────────────────────────────────────────────────────
+  STEP 1 — CLAIM EXTRACTION  [qwen/qwen3-32b]
+──────────────────────────────────────────────────────────────────────
+  Checkable: Yes   |   1 atomic claim(s)
+
+  [A] Joe Biden said he wants to ban fracking in the US.
+       Q1: Joe Biden statement ban fracking US
+       Q2: Joe Biden fracking policy 2025
+       Q3: Joe Biden ban fracking false claim
+
+──────────────────────────────────────────────────────────────────────
+  STEP 2 — RETRIEVAL  [Serper → Trafilatura → CRED-1]
+──────────────────────────────────────────────────────────────────────
+
+  [A] Joe Biden said he wants to ban fracking in the US.
+    [FCTAPI] 5 fact-check(s):
+      • Fact-check by FactCheck.org: The claim "TV ad says: “If Joe Biden’s elected, he’ll end fracking."" was rated "Misleading
+      • Fact-check by The Washington Post: The claim "“If Joe Biden’s elected, he’ll end fracking. … That would be the end of my
+      • Fact-check by USA Today: The claim "Joe Biden wants to eliminate fracking." was rated "Partly False".
+      • Fact-check by AFP Fact Check: The claim "Joe Biden plans to ban fracking" was rated "Misleading".
+      • Fact-check by AFP Fact Check: The claim "Joe Biden wants to ban fracking" was rated "Missing context".
+    [Wikipedia] 2 article(s):
+      • https://en.wikipedia.org/wiki/Political_positions_of_Joe_Biden
+      • https://en.wikipedia.org/wiki/John_Fetterman
+    query: Joe Biden ban fracking false claim
+      [ok] https://www.usatoday.com/story/news/factcheck/2020/06/19/fact-check-joe-biden-doesnt-want-ban-all-fracking-only-new-permits/3215253001/
+      [ok] https://www.cnn.com/2020/10/23/politics/biden-fracking-fact-check
+      [ok] https://www.washingtonpost.com/politics/2020/10/07/trump-campaign-promotes-false-claim-that-biden-would-end-fracking/
+    query: Joe Biden fracking policy 2025
+      [ok] https://www.usatoday.com/story/news/factcheck/2020/06/19/fact-check-joe-biden-doesnt-want-ban-all-fracking-only-new-permits/3215253001/
+      [ok] https://www.politifact.com/factchecks/2020/mar/20/facebook-posts/debate-joe-biden-said-no-more-oil-drilling-and-no-/
+      [ok] https://thehill.com/policy/energy-environment/522397-biden-i-would-transition-from-the-oil-industry/
+    query: Joe Biden statement ban fracking US
+      [ok] https://www.c-span.org/clip/white-house-event/user-clip-joe-biden-on-fracking/4957660
+      [SCRAPE-BLOCKED] https://www.reuters.com/world/us-presidential-hopeful-biden-says-he-would-not-ban-fracking-2020-08-31/
+      [ok] https://www.foodandwaterwatch.org/2021/09/15/federal-drilling-and-fracking-update-biden-promised-a-ban-hes-doing-the-opposite/
+      ✗ empty    cred=0.50  https://thehill.com/policy/energy-environment/522397-biden-i-would-transition-from-the-oil-industry/
+      ✓ scraped  cred=0.50  https://www.usatoday.com/story/news/factcheck/2020/06/19/fact-check-joe-biden-doesnt-want-ban-all-fracking-only-new-permits/3215253001/
+      ✓ scraped  cred=0.50  https://www.politifact.com/factchecks/2020/mar/20/facebook-posts/debate-joe-biden-said-no-more-oil-drilling-and-no-/
+      ✓ scraped  cred=0.50  https://www.c-span.org/clip/white-house-event/user-clip-joe-biden-on-fracking/4957660
+      ✓ scraped  cred=0.50  https://www.foodandwaterwatch.org/2021/09/15/federal-drilling-and-fracking-update-biden-promised-a-ban-hes-doing-the-opposite/
+      ✓ scraped  cred=0.50  https://www.cnn.com/2020/10/23/politics/biden-fracking-fact-check
+      ✗ empty    cred=0.50  https://www.washingtonpost.com/politics/2020/10/07/trump-campaign-promotes-false-claim-that-biden-would-end-fracking/
+    [rerank+MMR] 12 → 10 → 6 items
+    → 12 raw  10 reranked  6 final  (7 structured, 5 scraped)  |  0 cred-blocked  1 scrape-blocked
+      → 6 evidence items  |  1 blocked by domain filter
+
+──────────────────────────────────────────────────────────────────────
+  STEP 3 — VERIFICATION  [llama-3.3-70b-versatile]
+──────────────────────────────────────────────────────────────────────
+Traceback (most recent call last):
+  File "/Users/danieldager/Desktop/misinform/project/evaluate.py", line 168, in <module>
+    main(args.n, args.seed)
+  File "/Users/danieldager/Desktop/misinform/project/evaluate.py", line 109, in main
+    vr = verify_claim(ce)
+         ^^^^^^^^^^^^^^^^
+  File "/Users/danieldager/Desktop/misinform/project/pipeline/verification.py", line 65, in verify_claim
+    response = _client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/danieldager/Desktop/misinform/project/.venv/lib/python3.11/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/danieldager/Desktop/misinform/project/.venv/lib/python3.11/site-packages/openai/resources/chat/completions/completions.py", line 1215, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/Users/danieldager/Desktop/misinform/project/.venv/lib/python3.11/site-packages/openai/_base_client.py", line 1332, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/danieldager/Desktop/misinform/project/.venv/lib/python3.11/site-packages/openai/_base_client.py", line 1105, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kr3rxwhwe2yars3664wmke4g` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99350, Requested 2604. Please try again in 28m8.255999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}

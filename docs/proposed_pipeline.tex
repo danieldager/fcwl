@@ -1,0 +1,188 @@
+\section{Overview}
+
+A two-tier pipeline for real-time misinformation detection on social media posts.
+Tier~1 is a fast language-signal pre-filter that acts in under 250ms.
+Tier~2 is a slower, evidence-based fact-checking pipeline that runs asynchronously.
+The nudging decision can be made on either tier independently, allowing speed and accuracy to be traded off as a tunable experimental parameter.
+
+\begin{figure}[h]
+\centering
+\begin{verbatim}
+Post received
+  |
+  +-- Tier 1: Encoder ensemble (~100-250ms)
+  |     |
+  |     +-- Risk score HIGH --> nudge user immediately
+  |     |                   --> trigger Tier 2 async
+  |     |
+  |     +-- Risk score LOW  --> pass to Tier 2
+  |
+  +-- Tier 2: Full fact-check pipeline (seconds to minutes)
+        |
+        +-- Step 1+2: Claim detection + decomposition (small LLM)
+        |     |
+        |     +-- No checkable claims --> exit, no nudge
+        |
+        +-- Step 3+4: Embedding DB lookup
+        |     |
+        |     +-- HIT  --> return cached verdict --> nudge if false
+        |     +-- MISS --> Step 5
+        |
+        +-- Step 5: Novel claim verification (async web search + LLM)
+              |
+              +-- Verdict cached in DB for future users
+              +-- First user: no nudge or soft provisional message
+\end{verbatim}
+\end{figure}
+
+\section{Tier 1: Language-Signal Pre-Filter}
+
+An ensemble of fine-tuned encoder classifiers assessing stylistic and rhetorical signals.
+Runs fully in parallel; total latency target is under 250ms on M1 (8GB).
+Literature establishes that fine-tuned encoders outperform prompted small LLMs on all sub-tasks here, with 10--50$\times$ lower latency.
+
+\subsection{Ensemble Components}
+
+\begin{itemize}
+
+  \item \textbf{Logical fallacy detection} (14 classes: \textit{ad hominem}, \textit{false dichotomy}, \textit{slippery slope}, etc.)\\
+    Model: \href{https://huggingface.co/q3fer/distilbert-base-fallacy-classification}{\texttt{q3fer/distilbert-base-fallacy-classification}}\\
+    Architecture: DistilBERT, 67M params. Trained on the LOGIC dataset (Jin et al., EMNLP 2022).\\
+    Estimated latency: 20--50ms on M1. English only.
+
+  \item \textbf{Media bias detection} (binary: biased / not biased, sentence-level)\\
+    Model (EN): \href{https://huggingface.co/himel7/bias-detector}{\texttt{himel7/bias-detector}}\\
+    Architecture: RoBERTa-base, 125M params. Trained on BABE (Spinde et al., 2021). Accuracy 92\%.\\
+    Model (EN+FR fallback): \href{https://huggingface.co/mediabiasgroup/da-roberta-babe-ft}{\texttt{mediabiasgroup/da-roberta-babe-ft}}\\
+    Architecture: XLM-RoBERTa-base, 100M params. Macro F1 = 0.804. Not formally evaluated on French but transfers reasonably given XLM-R pretraining.\\
+    Estimated latency: 25--60ms on M1.
+
+  \item \textbf{Clickbait / sensationalism detection} (binary, English + French)\\
+    Model: \href{https://huggingface.co/mradermacher/XLM_RoBERTa-Multilingual-Clickbait-Detection-GGUF}{\texttt{mradermacher/XLM\_RoBERTa-Multilingual-Clickbait-Detection-GGUF}}\\
+    Architecture: XLM-RoBERTa-large (quantized GGUF). Trained on 8-language dataset.\\
+    Performance: EN macro-F1 = 97.8\%, FR macro-F1 = 96.9\%.\\
+    Estimated latency: 100--300ms on M1 (quantized). This is the primary multilingual signal.
+
+  \item \textbf{Propaganda / manipulation detection} (binary)\\
+    Model: \href{https://huggingface.co/valurank/distilroberta-propaganda-2class}{\texttt{valurank/distilroberta-propaganda-2class}}\\
+    Architecture: DistilRoBERTa, 82M params.\\
+    Estimated latency: 15--30ms on M1. English only.
+
+  \item \textbf{Rule-based credibility signals} (no model, $<$5ms)\\
+    \begin{itemize}
+      \item VADER sentiment extremity score (strong sentiment correlates with low credibility)
+      \item TextBlob subjectivity score
+      \item LanguageTool error count (grammar/spelling errors as credibility proxy)
+      \item Punctuation pattern features (excessive caps, exclamation marks)
+    \end{itemize}
+
+\end{itemize}
+
+\subsection{Score Aggregation}
+
+Ensemble outputs are combined into a single risk float $r \in [0, 1]$.
+Aggregation method TBD (weighted average, learned meta-classifier).
+If $r \geq \theta_1$ (tunable threshold), the user is nudged immediately and Tier~2 is triggered asynchronously.
+
+\subsection{Known Limitation}
+
+The pre-filter reliably detects sensationalist and rhetorically manipulative content.
+It \textbf{does not} reliably detect sophisticated political misinformation stated in neutral prose.
+Empirical ceiling on LIAR-style political text: weighted F1 $\approx$ 0.32 across all models; a linear SVM matches RoBERTa (Generalization Gaps in Political Fake News Detection, 2024).
+Neutral-sounding false claims are linguistically indistinguishable from true ones without external evidence --- these must be handled by Tier~2.
+
+\section{Tier 2: Full Fact-Checking Pipeline}
+
+\subsection{Step 1 + 2 --- Claim Detection and Decomposition}
+
+A single small LLM instance handles both steps, prompts processed sequentially or batched.
+Target model: Qwen2.5-1.5B or Phi-3.5-mini (fits within 8GB M1 RAM via Ollama).
+
+\begin{itemize}
+  \item \textbf{Step 1} --- Binary: does the post make any fact-checkable claims? If no, exit early with no nudge.
+  \item \textbf{Step 2} --- Decompose the post into a list of atomic, independently verifiable claims.
+\end{itemize}
+
+\subsection{Steps 3 + 4 --- Embedding Database Lookup}
+
+\begin{itemize}
+  \item Each extracted claim is embedded with a lightweight multilingual model (\texttt{paraphrase-multilingual-MiniLM-L12-v2}).
+  \item The embedding is queried against a growing vector database (FAISS or ChromaDB).
+  \item \textbf{Database seeding}: Google Fact Check Tools API (aggregates PolitiFact, Snopes, AFP Fact Check, Full Fact, and others).
+  \item \textbf{Database growth}: every novel claim verified in Step~5 is added with its embedding and verdict, making the expensive step progressively rarer.
+  \item If cosine similarity to a known claim exceeds threshold $\theta_2$: return that claim's verdict directly.
+  \item Key parameter: $\theta_2$ too tight $\Rightarrow$ too many misses; too loose $\Rightarrow$ wrong verdicts applied to different claims.
+\end{itemize}
+
+\subsection{Step 5 --- Novel Claim Verification (Async)}
+
+For claims not found in the database:
+\begin{itemize}
+  \item Web search via Brave Search API (free tier), querying in order of domain trust rank (list TBD; anchored on Reuters, AP, BBC, AFP, peer-reviewed outlets).
+  \item Small LLM synthesizes evidence from top results into a verdict on the PolitiFact scale.
+  \item Result stored in the embedding database for all future users.
+  \item \textbf{First-user problem}: the first user encountering a novel claim triggers this step but may not receive a nudge. Options: no nudge, soft provisional message, or Tier~1 score used as a stand-in.
+\end{itemize}
+
+\subsection{Step 6 --- Verdict Aggregation}
+
+Per-claim verdicts follow the PolitiFact six-point scale:
+\textit{True / Mostly True / Half True / Mostly False / False / Pants on Fire}.
+
+Post-level score: float $s \in [0, 1]$ representing estimated falsity.
+If $s \geq \theta_3$, the user is nudged. Aggregation method and threshold $\theta_3$ are key experimental variables --- different values correspond to different operating points of the theoretical model.
+
+Candidate aggregation methods:
+\begin{itemize}
+  \item Worst-case (min): one false claim flags the post.
+  \item Weighted average by claim centrality (centrality TBD --- could be LLM-scored relevance to post's main point).
+\end{itemize}
+
+\section{Content Regimes}
+
+\begin{itemize}
+  \item \textbf{Regime A} --- Stylistically suspicious post (sensationalist, propaganda, fallacies):
+    Tier~1 fires and nudges in $<$250ms. Full pipeline runs async and updates cached verdict.
+
+  \item \textbf{Regime B, known claim} --- Neutral-sounding post with a claim already in the database:
+    Tier~1 passes. Steps~1--4 return a cached verdict quickly. User nudged if verdict is false.
+
+  \item \textbf{Regime C, novel claim} --- Neutral-sounding post with an unknown claim:
+    Tier~1 passes. Steps~1--4 miss. Step~5 runs async. First user may not be nudged; subsequent users receive cached verdict.
+
+  \item \textbf{Regime D} --- No checkable claims (opinion, satire, personal post):
+    Steps~1--2 exit early. No nudge, no pipeline cost.
+\end{itemize}
+
+\section{Precision vs.\ Recall Tradeoff}
+
+The theoretical model's \textit{loss of faith} variable corresponds directly to the false positive rate.
+Each nudge on a true post reduces user trust in the tool, degrading future salience.
+This means \textbf{precision should be prioritized over recall}: it is better to miss some misinformation than to incorrectly warn on true content.
+Thresholds $\theta_1$, $\theta_2$, $\theta_3$ should be set conservatively, and varying them across user cohorts is itself the experimental design.
+
+\section{Local Evaluation Setup}
+
+Before browser extension development, validate the pipeline with a CLI harness:
+
+\begin{itemize}
+  \item \textbf{Input}: posts with ground-truth veracity labels.
+  \item \textbf{Test datasets}:
+    \begin{itemize}
+      \item FakeNewsNet (GossipCop) --- stylistically distinct fake news; Tier~1 expected to perform well.
+      \item LIAR --- neutral political claims; Tier~1 expected to fail; tests Tier~2 path.
+      \item Manually curated French posts (no public dataset available yet).
+    \end{itemize}
+  \item \textbf{Metrics per tier}: precision, recall, F1, false positive rate, latency distribution.
+  \item \textbf{Cross-tier metrics}: \% of false posts caught by Tier~1 only / Tier~2 only / both / neither.
+\end{itemize}
+
+\section{Open Questions}
+
+\begin{itemize}
+  \item Domain trust ranking for Step~5 web search --- definition and maintenance.
+  \item Post-level score aggregation method --- worst-case vs.\ weighted.
+  \item First-user experience for novel claims --- no nudge, provisional message, or Tier~1 score as stand-in.
+  \item French fallacy detection --- no public fine-tuned model exists; may require fine-tuning XLM-RoBERTa on translated LOGIC / CoCoLoFa data.
+  \item IRB approval timeline and consent flow for general public data collection.
+\end{itemize}
