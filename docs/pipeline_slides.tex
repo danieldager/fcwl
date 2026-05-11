@@ -1,9 +1,8 @@
 % ============================================================
-%  Fact-Checking Pipeline — Beamer presentation (15 slides)
-%  Compile with XeLaTeX on Overleaf (Menu → Compiler) for
-%  Fira Sans fonts. pdfLaTeX also works (fallback fonts).
+%  Fact-Checking Pipeline — Beamer presentation
+%  Compile with XeLaTeX on Overleaf for Fira Sans fonts.
 % ============================================================
-\documentclass[10pt, aspectratio=169]{beamer}
+\documentclass[11pt, aspectratio=169]{beamer}
 
 \usetheme{metropolis}
 \usepackage{booktabs}
@@ -29,12 +28,10 @@
 \setbeamercolor{block body}{bg=lightgray}
 \metroset{progressbar=frametitle, numbering=fraction, sectionpage=none}
 
-% ── Helpers ─────────────────────────────────────────────────
 \newcommand{\good}{\textcolor{forestg}{\checkmark}}
 \newcommand{\bad}{\textcolor{crimson}{$\times$}}
-\newcommand{\src}[1]{{\footnotesize\textcolor{slate}{#1}}}
+\newcommand{\src}[1]{{\small\textcolor{slate}{#1}}}
 
-% ── Meta ────────────────────────────────────────────────────
 \title{Fact-Checking Pipeline}
 \subtitle{Design, Implementation \& Early Evaluation}
 \date{May 2026}
@@ -48,37 +45,17 @@
 
 % ── 2. Goal ──────────────────────────────────────────────────
 \begin{frame}{What We Are Building}
-  \begin{columns}[T]
-    \begin{column}{0.56\textwidth}
-      \textbf{Goal:} A browser extension that intercepts social media posts
-      \emph{before sharing} and issues a misinformation nudge if the content
-      is likely false or misleading.
+  A \textbf{browser extension} that intercepts social media posts
+  \emph{before sharing} and issues a misinformation nudge if the
+  content is likely false or misleading.
 
-      \bigskip
-      \textbf{Research arm:} Empirical validation of the Guriev et al.\
-      theoretical model of persuasion and belief updating.
-      Anonymised behavioural interaction data is collected
-      to test the model's predictions.
-
-      \bigskip
-      \begin{itemize}
-        \item Platforms: Twitter/X, Facebook
-        \item Languages: English + French
-        \item Deadline: July 2026
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.40\textwidth}
-      \begin{block}{Key design constraint}
-        User-facing latency must be \textbf{under one second.}
-
-        \medskip
-        Long-running verification is dispatched
-        \emph{asynchronously} — a nudge can fire before
-        the full fact-check completes, with results cached
-        for future users sharing the same claim.
-      \end{block}
-    \end{column}
-  \end{columns}
+  \bigskip
+  \begin{itemize}\setlength{\itemsep}{10pt}
+    \item \textbf{Platforms:} Twitter/X and Facebook
+    \item \textbf{Languages:} English + French
+    \item \textbf{Research arm:} Empirical validation of the Guriev et al.\ persuasion model — anonymised behavioural data collected at scale
+    \item \textbf{Key constraint:} User-facing latency under one second; verification is dispatched asynchronously
+  \end{itemize}
 \end{frame}
 
 % ── 3. Pipeline Overview ─────────────────────────────────────
@@ -115,286 +92,283 @@
 \end{tikzpicture}
 \end{center}
 
-\medskip
+\bigskip
 \begin{columns}[T]
   \begin{column}{0.25\textwidth}
-    \centering\small\textcolor{slate}{Model}\\[2pt]
-    Qwen3-32B\\{\footnotesize Groq}
+    \centering\textcolor{slate}{Model}\\[4pt]
+    Qwen3-32B\\{\small Groq}
   \end{column}
   \begin{column}{0.25\textwidth}
-    \centering\small\textcolor{slate}{Sources}\\[2pt]
+    \centering\textcolor{slate}{Sources}\\[4pt]
     FCTAPI · Wiki\\Serper + scrape
   \end{column}
   \begin{column}{0.25\textwidth}
-    \centering\small\textcolor{slate}{Model}\\[2pt]
-    Llama-3.3-70B\\{\footnotesize Groq}
+    \centering\textcolor{slate}{Model}\\[4pt]
+    Llama-3.3-70B\\{\small Groq}
   \end{column}
   \begin{column}{0.25\textwidth}
-    \centering\small\textcolor{slate}{Priority rule}\\[2pt]
+    \centering\textcolor{slate}{Priority rule}\\[4pt]
     Refuted $>$ CE\\$>$ NEI $>$ Supp.
   \end{column}
 \end{columns}
-
-\medskip
-{\footnotesize\textcolor{slate}{This deck covers the current PoC (Tiers 2--3). Tier~1 language pre-filter (encoder ensemble, $<$250\,ms) is designed but not yet implemented.}}
 \end{frame}
 
-% ── 4. Claim Extraction ──────────────────────────────────────
-\begin{frame}{Step 1 — Claim Extraction \hfill \normalsize\textcolor{slate}{Qwen3-32B via Groq · 2 sequential LLM calls}}
+% ── 4. Claim Extraction A ────────────────────────────────────
+\begin{frame}{Step 1 — Detection \& Decomposition \hfill \normalsize\textcolor{slate}{Qwen3-32B · Call 1}}
+
+  \begin{itemize}\setlength{\itemsep}{14pt}
+    \item \textbf{Is this post factually checkable?}\\
+          Decided by \emph{form}, not plausibility.
+          ``The earth is flat'' is checkable. Opinions, predictions, and questions are not.
+    \item \textbf{Decompose into atomic claims}\\
+          Each claim is a single, independently verifiable assertion.
+    \item \textbf{Generate 3 search queries per claim}\\
+          Direct factual · contextual · debunking-oriented
+    \item \textbf{Early exit} if no checkable claims found
+  \end{itemize}
+\end{frame}
+
+% ── 5. Claim Extraction B ────────────────────────────────────
+\begin{frame}{Step 1 — Verifying Questions \hfill \normalsize\textcolor{slate}{Qwen3-32B · Call 2}}
+
+  5--8 \alert{analytical questions} per claim — the interpretive scaffold the verifier
+  reasons over in Step 3. Not search queries.
+
+  \bigskip
+  \begin{itemize}\setlength{\itemsep}{12pt}
+    \item Official statements and attributions
+    \item Expert or scientific consensus
+    \item Contradicting sources
+    \item Quantitative specifics — numbers, dates, scope
+    \item Temporal anchoring
+  \end{itemize}
+\end{frame}
+
+% ── 6. Evidence Retrieval A ──────────────────────────────────
+\begin{frame}{Step 2 — Evidence Sources \hfill \normalsize\textcolor{slate}{Three parallel streams}}
+
+  \begin{itemize}\setlength{\itemsep}{16pt}
+    \item \textbf{\textcolor{forestg}{Google Fact Check Tools API}} \hfill cred\,=\,0.90\\
+          Structured verdicts from AFP, PolitiFact, Snopes, and hundreds of regional outlets
+    \item \textbf{Wikipedia} \hfill cred\,=\,0.75\\
+          Top-2 article summaries for named entities and events in the claim
+    \item \textbf{Serper web search} \hfill cred from CRED-1\\
+          3 queries $\times$ 3 URLs, date-capped to the claim date\\
+          Filtered: fake/unreliable domains (CRED-1 $<$ 0.30) and structural blocklist (paywalls, login walls)
+  \end{itemize}
+\end{frame}
+
+% ── 7. Evidence Retrieval B ──────────────────────────────────
+\begin{frame}{Step 2 — Filtering \& Ranking}
+
+  After scraping, all evidence from the three streams is merged and processed:
+
+  \bigskip
+  \begin{itemize}\setlength{\itemsep}{16pt}
+    \item \textbf{BM25 chunk extraction}\\
+          Top-2 $\times$ 300-word chunks per scraped page, scored against the claim text
+    \item \textbf{Cross-encoder reranking} \hfill \texttt{ms-marco-MiniLM-L6-v2}\\
+          All items scored versus the claim; top 10 retained
+    \item \textbf{MMR diversification} \hfill $\lambda = 0.75$ relevance\,/\,$0.25$ diversity\\
+          Selects up to 5 final items; prevents the verifier from receiving
+          multiple paraphrases of the same source
+  \end{itemize}
+\end{frame}
+
+% ── 8. FIRE A ────────────────────────────────────────────────
+\begin{frame}{Step 3 — Single Verification Round \hfill \normalsize\textcolor{slate}{Llama-3.3-70B via Groq}}
+
+  \begin{itemize}\setlength{\itemsep}{14pt}
+    \item Answers each verifying question from evidence, citing source URLs
+    \item Weights higher-credibility sources ($\geq 0.6$) more heavily
+    \item Rates \alert{all four labels independently} on a 1--5 Likert scale:\\
+          Supported · Refuted · NEI · Conflicting Evidence
+    \item Verdict = label with highest Likert score\\
+          Ties: Refuted $>$ Supported $>$ CE $>$ NEI
+    \item Returns reasoning trace, one-sentence justification, and key URLs
+  \end{itemize}
+\end{frame}
+
+% ── 9. FIRE B ────────────────────────────────────────────────
+\begin{frame}{Step 3 — FIRE Iterative Loop}
+
+  After each verification round:
+
+  \bigskip
+  \begin{itemize}\setlength{\itemsep}{14pt}
+    \item Compute \textbf{label margin} = top Likert score $-$ second-highest
+    \item \textbf{Exit immediately} if verdict $\neq$ NEI and margin $\geq 4$
+    \item \textbf{Always continue} if verdict = NEI — model declared insufficient evidence
+    \item \textbf{Stop} if follow-up query is redundant (cosine sim $> 0.9$ vs.\ all past queries)
+    \item Otherwise: generate targeted follow-up query, retrieve, merge, and repeat
+  \end{itemize}
+
+  \bigskip
+  {\small\textcolor{slate}{Maximum 5 rounds.}}
+\end{frame}
+
+% ── 10. Likert rubric A ──────────────────────────────────────
+\begin{frame}{Likert Rubric — Supported \& Refuted}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \textbf{Call 1 — Detection \& Decomposition}
-      \begin{itemize}
-        \item Is the post \emph{factually checkable}?\\
-              {\footnotesize Decided by \textbf{form}, not plausibility.
-              ``The earth is flat'' is checkable.
-              Opinions, predictions, and questions are not.}
-        \item Decompose into \alert{atomic claims} —\\
-              single independently verifiable assertions
-        \item Generate \textbf{3 search queries} per claim:\\
-              {\footnotesize direct factual · contextual · debunking-oriented}
-        \item \textbf{Early exit} if no checkable claims
+      \textbf{\textcolor{forestg}{Supported}} — ``evidence confirms the claim''
+      \begin{itemize}\setlength{\itemsep}{8pt}
+        \item[\textbf{5}] Two+ credible sources ($\geq 0.6$) confirm all key qualifiers; no credible contradiction
+        \item[\textbf{4}] Multiple sources agree, or one high-cred ($\geq 0.7$) source confirms directly
+        \item[\textbf{3}] One credible ($\geq 0.5$) source supports; no corroboration
+        \item[\textbf{1--2}] Weak or off-topic support only
       \end{itemize}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \textbf{Call 2 — Verifying Questions}
-      \begin{itemize}
-        \item 5--8 \alert{analytical questions} per claim\\
-              {\footnotesize Not search queries — the interpretive
-              scaffold the verifier reasons over in Step~3.}
-        \item Question types:\\
-              {\footnotesize
-              \quad• Official statements \& attributions\\
-              \quad• Expert / scientific consensus\\
-              \quad• Contradicting sources\\
-              \quad• Quantitative specifics (numbers, dates)\\
-              \quad• Temporal anchoring
-              }
+      \textbf{\textcolor{crimson}{Refuted}} — ``evidence contradicts the claim''
+      \begin{itemize}\setlength{\itemsep}{8pt}
+        \item[\textbf{5}] Two+ credible sources ($\geq 0.6$) contradict a load-bearing qualifier; no credible support
+        \item[\textbf{4}] One high-cred ($\geq 0.7$) source directly refutes a key element
+        \item[\textbf{3}] One credible ($\geq 0.5$) source contradicts; no corroboration
+        \item[\textbf{1--2}] Weak or off-topic contradiction only
       \end{itemize}
     \end{column}
   \end{columns}
 \end{frame}
 
-% ── 5. Evidence Retrieval ────────────────────────────────────
-\begin{frame}{Step 2 — Evidence Retrieval}
+% ── 11. Likert rubric B ──────────────────────────────────────
+\begin{frame}{Likert Rubric — NEI \& Conflicting Evidence}
   \begin{columns}[T]
-    \begin{column}{0.50\textwidth}
-      \textbf{Three parallel sources}
-      \begin{itemize}
-        \item \alert{Google Fact Check Tools API}\\
-              {\footnotesize Structured verdicts from AFP, PolitiFact, Snopes, \ldots}\\
-              {\small\textcolor{forestg}{cred\,=\,0.90}}
-        \item \alert{Wikipedia} — top-2 article summaries\\
-              {\small\textcolor{steel}{cred\,=\,0.75}}
-        \item \alert{Serper web search}\\
-              {\footnotesize 3 queries $\times$ 3 URLs, date-capped to claim date}\\
-              {\small\textcolor{slate}{cred from CRED-1 (2\,673 domains)}}
+    \begin{column}{0.48\textwidth}
+      \textbf{\textcolor{slate}{Not Enough Evidence}}\\
+      ``evidence does not address the claim''
+
+      \bigskip
+      \begin{itemize}\setlength{\itemsep}{8pt}
+        \item[\textbf{5}] No retrieved item touches the claim at all
+        \item[\textbf{3--4}] Topically related sources only; no direct address
+        \item[\textbf{1--2}] At least one credible source ($\geq 0.5$) speaks to the substance — \emph{must not} score NEI above 2 in this case
       \end{itemize}
+
       \medskip
-      \textbf{Before scraping each URL}
-      \begin{itemize}
-        \item CRED-1 filter: drop fake / unreliable / cred $<$ 0.30
-        \item Structural blocklist: login walls, hard paywalls
-        \item \textbf{BM25} — top-2 $\times$ 300-word chunks per page
-      \end{itemize}
+      {\small\textcolor{slate}{NEI is about coverage, not certainty.}}
     \end{column}
-    \begin{column}{0.46\textwidth}
-      \textbf{Post-retrieval pipeline}
+    \begin{column}{0.48\textwidth}
+      \textbf{\textcolor{amber}{Conflicting Evidence}}\\
+      ``credible sources meaningfully disagree''
+
+      \bigskip
+      \begin{itemize}\setlength{\itemsep}{8pt}
+        \item[\textbf{5}] Two+ high-cred ($\geq 0.6$) sources on each side
+        \item[\textbf{4}] One credible source supports AND one credible source refutes the same load-bearing element
+        \item[\textbf{1--3}] All credible sources agree, or only minor wording differences
+      \end{itemize}
+
       \medskip
-      \begin{enumerate}
-        \item \textbf{Cross-encoder rerank}\\
-              {\footnotesize \texttt{ms-marco-MiniLM-L6-v2}}\\
-              {\footnotesize All items scored vs.\ claim $\to$ keep top 10}
-        \smallskip
-        \item \textbf{MMR diversification}\\
-              {\footnotesize Maximal Marginal Relevance}\\
-              {\footnotesize $\lambda = 0.75$ relevance $\;/\;$ $0.25$ diversity}\\
-              {\footnotesize $\to$ up to 5 final items to the verifier}
-      \end{enumerate}
-      \bigskip
-      {\footnotesize\textcolor{slate}{Prevents the verifier from receiving\\
-      multiple rephrased versions of the same source.}}
+      {\small\textcolor{slate}{If Supported and Refuted both $\geq 3$, raise CE to at least max(Supp,~Ref).}}
     \end{column}
   \end{columns}
 \end{frame}
 
-% ── 6. FIRE Verification ─────────────────────────────────────
-\begin{frame}{Step 3 — FIRE Iterative Verification \hfill \normalsize\textcolor{slate}{Llama-3.3-70B via Groq\,{\tiny(→ DeepSeek V3)}}}
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-      \textbf{Each round — \texttt{verify\_claim}}
-      \begin{itemize}
-        \item Answers each verifying question from evidence,\\
-              weighting higher-credibility sources ($\geq 0.6$) more
-        \item Rates \alert{all four labels independently} on\\
-              a 1--5 Likert scale (rubric on next slide):\\
-              {\footnotesize Supported · Refuted · NEI · Conflicting Evidence}
-        \item Verdict $=$ argmax Likert\\
-              {\footnotesize Ties: Refuted $>$ Supported $>$ CE $>$ NEI}
-        \item Returns reasoning trace, justification, key URLs
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \textbf{FIRE loop (up to 5 rounds)}
-      \begin{enumerate}
-        \item Compute \alert{label margin}\\
-              {\footnotesize $\text{margin} = \text{top Likert} - \text{2nd Likert}$\\
-              High $\to$ model decided; low $\to$ torn between labels}
-        \item \textbf{Exit} if verdict $\neq$ NEI and margin $\geq 4$
-        \item \textbf{Always continue} if verdict $=$ NEI\\
-              {\footnotesize Model declared insufficient evidence}
-        \item \textbf{Stop} if follow-up query is redundant\\
-              {\footnotesize cosine sim $> 0.9$ vs.\ all past queries}
-        \item Otherwise: generate targeted follow-up query\\
-              $\to$ retrieve $\to$ dedup-merge $\to$ repeat
-      \end{enumerate}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-% ── 7. Likert Rubric ─────────────────────────────────────────
-\begin{frame}{Verifier Scoring Rubric — Likert 1--5 Per Label}
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-      \textbf{\textcolor{forestg}{Supported}} — ``evidence confirms the claim''\\[3pt]
-      {\footnotesize
-      \textbf{5:} Two+ credible sources ($\geq 0.6$) confirm including all key qualifiers; no credible contradiction.\\
-      \textbf{4:} Multiple sources agree, or one high-cred ($\geq 0.7$) source confirms directly.\\
-      \textbf{3:} One credible ($\geq 0.5$) source supports; no corroboration.\\
-      \textbf{1--2:} Weak / off-topic support only.
-      }
-
-      \bigskip
-      \textbf{\textcolor{crimson}{Refuted}} — ``evidence contradicts the claim''\\[3pt]
-      {\footnotesize
-      \textbf{5:} Two+ credible sources ($\geq 0.6$) contradict a load-bearing qualifier; no credible support.\\
-      \textbf{4:} One high-cred ($\geq 0.7$) source directly refutes a key element.\\
-      \textbf{3:} One credible ($\geq 0.5$) source contradicts; no corroboration.\\
-      \textbf{1--2:} Weak / off-topic contradiction only.
-      }
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \textbf{\textcolor{slate}{Not Enough Evidence (NEI)}} — ``evidence does not address the claim''\\[3pt]
-      {\footnotesize
-      \textbf{Must score $\leq 2$} whenever any credible source ($\geq 0.5$) speaks to the claim — even partially.\\
-      \textbf{5:} No retrieved item touches the claim at all.\\
-      \textbf{3--4:} Topically related sources only; no direct address.\\
-      NEI is about \emph{coverage}, not certainty.
-      }
-
-      \bigskip
-      \textbf{\textcolor{amber}{Conflicting Evidence (CE)}} — ``credible sources disagree''\\[3pt]
-      {\footnotesize
-      \textbf{Must score $\geq 4$} whenever one credible source supports AND one credible source refutes the same load-bearing element.\\
-      \textbf{5:} Two+ high-cred ($\geq 0.6$) sources on each side.\\
-      \textbf{3:} One credible / one weak-credibility source disagree.
-      }
-
-      \bigskip
-      {\footnotesize\textcolor{slate}{\textbf{Tie-break:} If Supported and Refuted both $\geq 3$, raise CE to at least max(Supp, Ref).}}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-% ── 8. Research Foundations ──────────────────────────────────
+% ── 12. Research Foundations I ───────────────────────────────
 \begin{frame}{Research Foundations}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-
       \href{https://arxiv.org/abs/2510.01226}{\textbf{ClaimCheck}}
-      \src{arXiv:2510.01226 — NAACL 2025}\\[3pt]
-      Multi-hop QA generation: 5--8 targeted questions before retrieval.
-      Qwen3-4B achieves \alert{76.4\%} on AVeriTeC dev,
-      outperforming GPT-4o. Our current pipeline scores $\approx$60\%.
-      Gap is architecture, not model quality.\\[3pt]
-      \src{$\to$ Verifying-question generation (Step~1)}
+      \src{arXiv:2510.01226 · NAACL 2025}
 
       \bigskip
+      Multi-hop QA generation: 5--8 targeted verifying questions before retrieval.
+      Qwen3-4B achieves \alert{76.4\%} on AVeriTeC dev, outperforming GPT-4o.
+      Our pipeline scores $\approx$60\%. Gap is architecture, not model size.
 
+      \bigskip
+      \src{$\to$ Verifying-question generation (Step 1)}
+    \end{column}
+    \begin{column}{0.48\textwidth}
       \href{https://arxiv.org/abs/2411.00784}{\textbf{FIRE}}
-      \src{arXiv:2411.00784 — NAACL 2025 Findings}\\[3pt]
+      \src{arXiv:2411.00784 · NAACL 2025 Findings}
+
+      \bigskip
       Confidence-gated iterative retrieval with early exit.
       Comparable accuracy with \alert{7.6$\times$ fewer LLM calls}
-      and 16.5$\times$ fewer search calls.\\[3pt]
-      \src{$\to$ FIRE loop (Step~3)}
-
-    \end{column}
-    \begin{column}{0.48\textwidth}
-
-      \href{https://arxiv.org/abs/2507.11004}{\textbf{HerO 2}}
-      \src{arXiv:2507.11004 — AVeriTeC 2025}\\[3pt]
-      Per-document summarisation + answer reformulation before
-      verification. Enforces temporal anchoring on evidence text,
-      preventing the model from using parametric knowledge.\\[3pt]
-      \src{$\to$ Planned next iteration (targets date-sensitivity failure)}
+      and 16.5$\times$ fewer search calls.
 
       \bigskip
-
-      \href{https://arxiv.org/abs/2508.04390}{\textbf{CTU AIC}}
-      \src{arXiv:2508.04390 — AVeriTeC 2025 winner}\\[3pt]
-      Likert per-label confidence scoring + MMR diversity reranking.
-      Ablation: thinking tokens provide \emph{no gain} vs.\ standard
-      output — budget better spent on retrieval coverage.\\[3pt]
-      \src{$\to$ Likert scoring \& MMR diversification (Steps 2--3)}
-
+      \src{$\to$ FIRE loop (Step 3)}
     \end{column}
   \end{columns}
 \end{frame}
 
-% ── 9. Misleadingness Detection ──────────────────────────────
-\begin{frame}{Misleadingness Detection — Our Differentiator}
+% ── 13. Research Foundations II ──────────────────────────────
+\begin{frame}{Research Foundations (cont.)}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \textbf{The problem SOTA systems miss}
-
-      \medskip
-      ClaimCheck, FIRE, HerO 2, CTU AIC all target
-      \emph{stated factual claims} — they assess whether
-      what the post says is true.
-
-      \medskip
-      They do not detect posts that are \alert{technically true but misleading.}
+      \href{https://arxiv.org/abs/2507.11004}{\textbf{HerO 2}}
+      \src{arXiv:2507.11004 · AVeriTeC 2025}
 
       \bigskip
-      \textbf{Two categories}\\[4pt]
-      \textbf{Misleading by scope:} A broad claim backed by only a narrow instance.\\
-      {\footnotesize ``A study shows vaccines cause autism.'' — one retracted paper, not evidence.}
+      Per-document summarisation and answer reformulation before verification.
+      Enforces temporal anchoring on evidence text — prevents the model
+      from substituting parametric knowledge for period-appropriate sources.
 
-      \medskip
-      \textbf{Misleading by implication / omission:} A true statement that naturally
-      suggests a false conclusion, or is only true under unstated conditions.\\
-      {\footnotesize ``Cities with more immigrants have higher crime rates'' — implies causation; omits
-      confounders, time period, and absolute magnitudes.}
+      \bigskip
+      \src{$\to$ Planned next iteration (targets date-sensitivity failure)}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \textbf{4-step stripping algorithm (per claim A)}
+      \href{https://arxiv.org/abs/2508.04390}{\textbf{CTU AIC}}
+      \src{arXiv:2508.04390 · AVeriTeC 2025 winner}
 
-      \medskip
-      \begin{enumerate}
-        \item Establish A is likely true, preserving all qualifiers
-              (time period, sample size, population).
-        \item \textbf{Strip qualifiers} $\to \tilde{A}$.
-              If $\tilde{A}$ is likely false $\to$ \alert{misleading by scope.}
-        \item \textbf{Derive implication} B: the first factual inference
-              a reasonable person draws from A.
-              If B is likely false $\to$ \alert{misleading by implication.}
-        \item \textbf{Augment with silent assumptions} $\to A^+$.
-              If $A^+$ is likely false $\to$ \alert{misleading by omission.}
-      \end{enumerate}
+      \bigskip
+      Likert per-label confidence scoring and MMR diversity reranking.
+      Ablation: thinking tokens provide \emph{no accuracy gain} — token
+      budget better spent on retrieval coverage.
 
-      \medskip
-      Each derived claim ($\tilde{A}$, B, $A^+$) is fed through
-      the standard retrieval + verification sub-pipeline.
-      A misleading verdict raises the post's falsity score
-      even when the literal claim is \emph{Supported.}
-
-      \medskip
-      \src{$\to$ Applied after explicit claim verification in Tier~3. Status: designed, not yet implemented.}
+      \bigskip
+      \src{$\to$ Likert scoring \& MMR diversification (Steps 2--3)}
     \end{column}
   \end{columns}
 \end{frame}
 
-% ── 10. AVeriTeC results — table ─────────────────────────────
+% ── 14. Misleadingness A ─────────────────────────────────────
+\begin{frame}{Misleadingness Detection — The Problem}
+
+  All SOTA systems target \emph{stated factual claims}: is what the post says true?
+  None detect posts that are \alert{technically true but misleading.}
+
+  \bigskip
+  \begin{itemize}\setlength{\itemsep}{14pt}
+    \item \textbf{Misleading by scope}\\
+          A broad claim backed only by a narrow instance.\\
+          {\small ``A study shows vaccines cause autism'' — one retracted paper, not evidence.}
+    \item \textbf{Misleading by implication}\\
+          A true statement that naturally suggests a false conclusion.\\
+          {\small ``Cities with more immigrants have higher crime rates'' — implies causation; omits confounders.}
+    \item \textbf{Misleading by omission}\\
+          True only under unstated conditions.
+  \end{itemize}
+\end{frame}
+
+% ── 15. Misleadingness B ─────────────────────────────────────
+\begin{frame}{Misleadingness Detection — The Algorithm}
+
+  Applied after explicit claim verification. For each verified claim A:
+
+  \bigskip
+  \begin{enumerate}\setlength{\itemsep}{12pt}
+    \item Establish A is true, preserving all qualifiers (time period, sample size, scope)
+    \item \textbf{Strip qualifiers} $\to \tilde{A}$.
+          If $\tilde{A}$ is false $\to$ \alert{misleading by scope}
+    \item \textbf{Derive implication} B: the first factual inference a reasonable person draws from A.
+          If B is false $\to$ \alert{misleading by implication}
+    \item \textbf{Augment with silent assumptions} $\to A^+$.
+          If $A^+$ is false $\to$ \alert{misleading by omission}
+  \end{enumerate}
+
+  \bigskip
+  {\small Each derived claim is fed through the standard retrieval + verification sub-pipeline.
+  A misleading verdict raises the post's falsity score even when the literal claim is \emph{Supported.}}
+
+  \smallskip
+  {\small\textcolor{slate}{Status: designed, not yet implemented.}}
+\end{frame}
+
+% ── 16. AVeriTeC table ───────────────────────────────────────
 \begin{frame}{Evaluation — AVeriTeC Benchmark (10-claim sample)}
   \begin{center}
   \renewcommand{\arraystretch}{1.22}
@@ -418,65 +392,35 @@
     \bottomrule
   \end{tabular}
   \end{center}
-  \vspace{4pt}
-  {\footnotesize $^\dagger$ AP, PolitiFact, Snopes all rated this Refuted.
+  {\small $^\dagger$ AP, PolitiFact, and Snopes all rated this Refuted.
   AVeriTeC gold = NEI (stricter wording interpretation).}
 \end{frame}
 
-% ── 11. AVeriTeC results — error analysis ────────────────────
+% ── 17. Error analysis ───────────────────────────────────────
 \begin{frame}{Evaluation — Error Analysis}
-  \begin{columns}[T]
-    \begin{column}{0.31\textwidth}
-      \textbf{Retrieval gap}\\
-      \textcolor{slate}{\footnotesize Claims 3, 10}
 
-      \medskip
-      {\footnotesize Regional / niche claims with no English-language
-      web coverage. The verifier returns NEI correctly given what
-      it received — the failure is upstream in retrieval,
-      not in reasoning.}
-    \end{column}
-    \begin{column}{0.31\textwidth}
-      \textbf{Date sensitivity}\\
-      \textcolor{slate}{\footnotesize Claim 5}
-
-      \medskip
-      {\footnotesize Nigeria urban-population claim from 2020.
-      Verifier retrieved a 2024 Statista figure (62.98\%)
-      and used its parametric knowledge instead of
-      period-appropriate evidence.}
-
-      \medskip
-      {\footnotesize \textcolor{steel}{Fix: HerO~2 per-document
-      summarisation with explicit temporal anchoring.}}
-    \end{column}
-    \begin{column}{0.31\textwidth}
-      \textbf{Annotation disagreement}\\
-      \textcolor{slate}{\footnotesize Claim 6}
-
-      \medskip
-      {\footnotesize Genuine label conflict, not a pipeline error.
-      Four professional fact-checkers (AP, PolitiFact, Snopes,
-      USA Today) rated the Biden quote Refuted.
-      AVeriTeC's gold label of NEI reflects a stricter
-      wording test of the exact quote.}
-    \end{column}
-  \end{columns}
+  Of the 5 misses:
 
   \bigskip
-  \begin{block}{Takeaway}
-    Of the 5 misses: 2 are retrieval coverage failures,
-    1 is a date-anchoring failure with a targeted fix,
-    1 is a genuine annotation disagreement.
-    Only 1 (claim~2) is an unresolved reasoning failure.
-  \end{block}
+  \begin{itemize}\setlength{\itemsep}{14pt}
+    \item \textbf{Retrieval coverage gaps} (claims 3, 10)\\
+          Regional or niche claims with no English web coverage.
+          NEI is correct given what retrieval returned — the failure is upstream.
+    \item \textbf{Date sensitivity} (claim 5)\\
+          Verifier retrieved 2024 statistics for a 2020 claim and used parametric
+          knowledge instead of period-appropriate evidence.\\
+          {\small\textcolor{steel}{Fix: HerO 2 per-document summarisation with temporal anchoring.}}
+    \item \textbf{Annotation disagreement} (claim 6)\\
+          Four professional fact-checkers rated it Refuted; AVeriTeC gold = NEI on stricter wording.
+          Genuine label conflict, not a pipeline error.
+  \end{itemize}
 \end{frame}
 
-% ── 11. Larger-scale results ──────────────────────────────────
+% ── 18. Larger-scale results ─────────────────────────────────
 \begin{frame}{Evaluation — Larger-Scale Runs}
   \begin{columns}[T]
-    \begin{column}{0.44\textwidth}
-      \renewcommand{\arraystretch}{1.2}
+    \begin{column}{0.42\textwidth}
+      \renewcommand{\arraystretch}{1.3}
       \begin{tabular}{lrr}
         \toprule
         Run & $n$ & Accuracy \\
@@ -486,395 +430,215 @@
         \bottomrule
       \end{tabular}
 
-      \medskip
+      \bigskip
       \begin{tabular}{lrr}
         \toprule
-        Label (SC run, $n$=200) & Gold $n$ & Recall \\
+        Label (SC, $n$=200) & Gold & Recall \\
         \midrule
         Refuted             & 123 & 67\% \\
         Supported           &  55 & 62\% \\
-        Not Enough Evidence &  10 & 60\% \\
+        NEI                 &  10 & 60\% \\
         \rowcolor{crimson!15}
-        \textbf{Conflicting Evidence} & \textbf{12} & \textbf{0\%} \\
+        \textbf{CE}         & \textbf{12} & \textbf{0\%} \\
         \bottomrule
       \end{tabular}
-
-      \medskip
-      {\footnotesize ECE\,=\,0.35 at 61\% accuracy\\
-      (mean confidence $\approx$ 0.95 — severely overconfident).}
     \end{column}
     \begin{column}{0.52\textwidth}
-      \textbf{What SC changed vs.\ FIRE}
-      \begin{itemize}
-        \item Supported recall \alert{$+$19\,pp} (43\% $\to$ 62\%):\\
-              {\footnotesize SC reduces false-NEI on well-supported claims.}
-        \item Refuted recall $-$4\,pp (71\% $\to$ 67\%):\\
-              {\footnotesize Averaging 3 rounds makes the model
-              marginally more cautious.}
-        \item Net accuracy wash — runs use different seeds;
-              a controlled same-seed comparison is still pending.
+      \begin{itemize}\setlength{\itemsep}{10pt}
+        \item SC lifted Supported recall \alert{+19\,pp} (43\% $\to$ 62\%)
+        \item Refuted recall dropped slightly (71\% $\to$ 67\%)
+        \item Net accuracy unchanged — runs use different seeds
+        \item ECE = 0.35: mean confidence $\approx$0.95 vs.\ accuracy = 0.61 — severely overconfident
+        \item Dominant failure: NEI over-prediction\\
+              {\small 57/200 (28.5\%) predicted NEI vs.\ 5\% gold-NEI}
       \end{itemize}
-
-      \bigskip
-      \textbf{Dominant failure: NEI over-prediction}\\
-      {\footnotesize 57/200 (28.5\%) predictions are NEI vs.\ 5\% gold-NEI.
-      51/57 are wrong. The verifier defaults to NEI when retrieval
-      gives it nothing to commit on. SC cannot fix a retrieval
-      failure — it averages over the \emph{same} evidence set.}
     \end{column}
   \end{columns}
 \end{frame}
 
-% ── 12. CE Recall ────────────────────────────────────────────
-\begin{frame}{Conflicting Evidence Recall = 0\% — Problem \& Fix}
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-      \textbf{What happened}
+% ── 19. CE recall ────────────────────────────────────────────
+\begin{frame}{Conflicting Evidence Recall = 0\%}
 
-      \medskip
-      12 gold-CE claims in the 200-claim run.\\
-      Predicted: 6 Refuted, 5 NEI, 1 Supported, \alert{0 CE.}
+  12 gold-CE claims in the 200-claim run.
+  Predicted: 6 Refuted, 5 NEI, 1 Supported, \alert{0 CE.}
 
-      Only 6 predictions of CE across the whole sample — all wrong class.
+  \medskip
+  Under self-consistency ($\times 3$ runs), averaging Likert scores across rounds
+  systematically suppresses CE: if runs 1 and 3 lean Refuted and run 2 leans CE,
+  the averaged CE score rarely becomes the argmax.
 
-      \bigskip
-      \textbf{Why the verifier avoids CE}
-
-      \begin{enumerate}
-        \item CE requires the model to find credible evidence
-              \emph{on both sides} of the same claim — a retrieval task
-              that a single-query strategy rarely satisfies.
-        \item Under self-consistency ($\times 3$ runs), averaging Likert scores
-              across rounds systematically suppresses CE: if runs 1 and 3
-              lean Refuted and run 2 leans CE, the averaged CE score
-              rarely becomes the argmax.
-      \end{enumerate}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \textbf{Fix candidates}
-
-      \medskip
-      \textbf{1. Majority-vote aggregation}\\
-      {\footnotesize Instead of argmax of averaged Likert,
-      take the verdict with the most votes across the $n$ SC rounds.
-      If two runs say CE and one says Refuted, the verdict is CE.
-      Cheap to implement — does not change \texttt{verify\_claim}.}
-
-      \medskip
-      \textbf{2. Targeted CE retrieval}\\
-      {\footnotesize After an initial Supported or Refuted verdict,
-      explicitly generate a follow-up query designed to surface
-      \emph{contradicting} evidence. Forces the FIRE loop
-      to look for the other side.}
-
-      \medskip
-      \textbf{3. Separate CE classifier}\\
-      {\footnotesize Fine-tune a small classifier on CE vs.\ non-CE
-      cases using retrieved evidence pairs, bypassing the LLM's
-      CE-avoidance bias entirely.}
-
-      \medskip
-      {\footnotesize\textcolor{slate}{Priority: majority-vote is a one-line change;
-      test it first.}}
-    \end{column}
-  \end{columns}
+  \bigskip
+  \textbf{Fix candidates:}
+  \begin{itemize}\setlength{\itemsep}{10pt}
+    \item \textbf{Majority-vote aggregation} — one-line change; test this first
+    \item \textbf{Targeted CE retrieval} — after Supported/Refuted, generate a query
+          explicitly searching for the opposing view
+    \item \textbf{Separate CE classifier} — fine-tuned on evidence pairs;
+          bypasses LLM CE-avoidance bias
+  \end{itemize}
 \end{frame}
 
-% ── 13. Scenario A: Cost Table ───────────────────────────────
-\begin{frame}{Scenario A — Experimentation Phase: Cost Breakdown}
-  \textbf{One-time experiment:} 1\,000 users $\times$ 100 posts each $=$ \textbf{100\,000 total pipeline calls.}
+% ── 20. Scenario A cost ──────────────────────────────────────
+\begin{frame}{Scenario A — Experimentation Phase: Cost}
+
+  \textbf{One-time experiment:} 1\,000 users $\times$ 100 posts = \textbf{100\,000 pipeline calls.}
 
   \bigskip
   \begin{columns}[T]
-    \begin{column}{0.52\textwidth}
-      \textbf{Token breakdown per check}\\[4pt]
-      \renewcommand{\arraystretch}{1.2}
-      \begin{tabular}{llr}
+    \begin{column}{0.44\textwidth}
+      \textbf{Tokens per check}\\[6pt]
+      \renewcommand{\arraystretch}{1.3}
+      \begin{tabular}{lr}
         \toprule
-        Component & Model & Tokens \\
+        Component & Tokens \\
         \midrule
-        Extraction (2 calls) & Qwen3-32B   & $\sim$1\,700 \\
-        FIRE verification     & Llama-3.3-70B & $\sim$14\,400 \\
-        \quad{\footnotesize 1.5 claims $\times$ 2.5 rounds $\times$ 3\,500} & & \\
+        Extraction (Qwen3-32B)   & $\sim$1\,700 \\
+        FIRE (Llama-3.3-70B)     & $\sim$14\,400 \\
         \midrule
-        \textbf{Total / check} & & \textbf{$\sim$16\,100} \\
+        \textbf{Total / check}   & \textbf{$\sim$16\,100} \\
         \bottomrule
       \end{tabular}
     \end{column}
-    \begin{column}{0.44\textwidth}
-      \textbf{Total experiment cost}\\[4pt]
-      \renewcommand{\arraystretch}{1.2}
+    \begin{column}{0.48\textwidth}
+      \textbf{Experiment cost}\\[6pt]
+      \renewcommand{\arraystretch}{1.3}
       \begin{tabular}{lr}
         \toprule
         Item & Total \\
         \midrule
-        Qwen3-32B (170M tokens)    & \$119  \\
-        Llama-3.3-70B (1.44B tokens) & \$994  \\
-        Serper (700K queries)      & \$700  \\
-        FCTAPI + Wikipedia         & free   \\
-        Backend hosting            & \$50   \\
+        Qwen3-32B            & \$119  \\
+        Llama-3.3-70B        & \$994  \\
+        Serper               & \$700  \\
+        Hosting              & \$50   \\
         \midrule
-        \textbf{One run} & \textbf{\$\,{\raise.17ex\hbox{$\scriptstyle\sim$}}1\,900} \\
-        \midrule
-        3-config model comparison  & $\sim$\$4\,000 \\
+        \textbf{One run}     & \textbf{$\sim$\$1\,900} \\
+        3-config comparison  & $\sim$\$4\,000 \\
         \bottomrule
       \end{tabular}
     \end{column}
   \end{columns}
-
-  \medskip
-  {\footnotesize\textcolor{slate}{Model comparison reuses cached retrieval results — only the verifier call changes, so 3 configs cost $\sim$3$\times$ LLM + 1$\times$ search $\approx$ \$4\,000 total.}}
 \end{frame}
 
-% ── 14. Scenario A: Stack ─────────────────────────────────────
-\begin{frame}{Scenario A — Experimentation Phase: Stack \& Approach}
+% ── 21. Scenario A stack ─────────────────────────────────────
+\begin{frame}{Scenario A — Experimentation Phase: Stack}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \textbf{Stack — all cloud APIs, no owned hardware}
-      \begin{itemize}
+      \textbf{Stack — cloud APIs only}
+      \begin{itemize}\setlength{\itemsep}{10pt}
         \item Extraction: Qwen3-32B via Groq
-        \item Verification: Llama-3.3-70B via Groq, \alert{full FIRE loop}
-        \item Retrieval: BM25 + cross-encoder rerank + MMR
+        \item Verification: Llama-3.3-70B via Groq, full FIRE loop
+        \item Retrieval: BM25 + cross-encoder + MMR
         \item Web search: Serper API
-        \item Fact-check DB: Google FCTAPI (free)
-        \item Backend: single FastAPI server ($\sim$\$50 one-time)
-        \item Browser extension: Chrome, manifest V3
-      \end{itemize}
-
-      \bigskip
-      \textbf{What we skip for now}
-      \begin{itemize}
-        \item Vector DB / claim caching
-        \item Async job queue
-        \item French language support
+        \item Fact-check KB: Google FCTAPI (free)
+        \item Backend: single FastAPI server ($\sim$\$50)
       \end{itemize}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \textbf{Model comparison strategy}\\[4pt]
-      {\footnotesize Retrieval is the expensive step in wall-clock time
-      but cheap in API cost. Run retrieval once per claim, store
-      the evidence set, then re-run only the verifier call with
-      different model configs. Each additional config adds
-      $\sim$\$1\,100 in LLM cost.}
+      \textbf{Model comparison strategy}
+
+      \medskip
+      Run retrieval once per claim, cache the evidence set,
+      then re-run only the verifier with different model configs.
+      Each additional config adds $\sim$\$1\,100.
 
       \bigskip
-      \textbf{Configs worth testing}
-      \begin{itemize}
-        \item Llama-3.3-70B (current baseline)
-        \item Qwen3-32B as verifier
-        \item Larger frontier model (GPT-4o, DeepSeek V3) as upper bound
-      \end{itemize}
+      \textbf{What we skip for now:}
+      vector DB, async queue, French language support
 
       \bigskip
-      \textbf{Human resources}\\
-      1--2 engineers · 2--4 weeks to deploy and run
+      \textbf{Timeline:} 1--2 engineers · 2--4 weeks
     \end{column}
   \end{columns}
 \end{frame}
 
-% ── 15. KB Routing ───────────────────────────────────────────
+% ── 22. KB routing ───────────────────────────────────────────
 \begin{frame}{Cost Lever: KB Routing Before Web Search}
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-      \textbf{The problem with the current architecture}\\[4pt]
-      {\footnotesize All three retrieval sources — FCTAPI, Wikipedia,
-      and Serper — run \emph{in parallel} on every claim, regardless
-      of whether a professional fact-check already exists.
-      At scale, this means paying for Serper queries on claims that
-      could be answered for free.}
 
-      \bigskip
-      \textbf{The fix: sequential KB-first routing}
-      \begin{enumerate}
-        \item Query FCTAPI + vector DB first
-              {\footnotesize (~300ms, free)}
-        \item If a high-confidence match is found:\\
-              return cached verdict, skip Serper entirely,
-              FIRE exits after 1 round
-        \item If no match:\\
-              proceed to full Serper retrieval + FIRE
-      \end{enumerate}
+  Currently all three sources (FCTAPI, Wikipedia, Serper) run in parallel on every claim.
+  At scale, this means paying for Serper queries on claims professional fact-checkers have already verified.
 
-      \bigskip
-      {\footnotesize\textcolor{slate}{Code change: the parallel
-      \texttt{ThreadPoolExecutor} in \texttt{retrieval.py} becomes
-      two-phase. Latency cost is negligible in an async Tier~3
-      pipeline (already 5--30\,s total).}}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \textbf{What qualifies as a KB hit?}
-      \begin{itemize}
-        \item \textbf{FCTAPI match} — a professional fact-checker
-              (AFP, PolitiFact, Snopes, \ldots) has already reviewed
-              this claim or a semantically close one
-        \item \textbf{Vector DB match} — our own growing database of
-              previously verified claims (cosine similarity above
-              threshold)
-      \end{itemize}
+  \bigskip
+  \textbf{Fix: two-phase sequential routing}
+  \begin{enumerate}\setlength{\itemsep}{8pt}
+    \item Query FCTAPI + vector DB first {\small (free, $\sim$300\,ms)}
+    \item KB hit $\to$ return verdict, skip Serper, FIRE exits after round 1
+    \item No match $\to$ proceed to full Serper retrieval + FIRE
+  \end{enumerate}
 
-      \bigskip
-      \textbf{Expected hit rate (mature system)}\\[4pt]
-      {\footnotesize For viral political and health misinformation —
-      the content our users are most likely to share — professional
-      fact-checkers have high coverage. Conservative estimate: \alert{40\%}
-      of novel claims (post cache-miss) resolved without Serper.
-      Hit rate grows as the vector DB matures.}
+  \bigskip
+  \textbf{Expected impact:} $\sim$40\% of novel claims resolved by KB in a mature system.
+  KB hits carry credibility 0.90 — FIRE almost always exits after round 1.
 
-      \bigskip
-      \textbf{Effect on FIRE}\\[4pt]
-      {\footnotesize KB hits carry credibility 0.90. The verifier
-      receives a strong, directly relevant source and almost always
-      exits after round~1, cutting verification tokens by $\sim$60\%
-      for those claims.}
-    \end{column}
-  \end{columns}
+  \bigskip
+  {\small\textcolor{slate}{Code change: parallel \texttt{ThreadPoolExecutor} in \texttt{retrieval.py} becomes two-phase.}}
 \end{frame}
 
-% ── 16. Scenario B: Cost Table ───────────────────────────────
-\begin{frame}{Scenario B — Wide Study: Cost Breakdown}
-  \textbf{Recurring deployment:} 2\,000 participants $\times$ 10 countries $=$ 20\,000 users,
-  100 fact-checked posts/user/day $=$ \textbf{2M pipeline calls/day.}
+% ── 23. Scenario B cost ──────────────────────────────────────
+\begin{frame}{Scenario B — Wide Study: Cost}
+
+  \textbf{Recurring:} 20\,000 users $\times$ 100 posts/day = \textbf{2M pipeline calls/day.}
 
   \bigskip
   \begin{columns}[T]
-    \begin{column}{0.56\textwidth}
-      \textbf{Combined LLM + search cost at API pricing}\\[4pt]
+    \begin{column}{0.54\textwidth}
+      \textbf{LLM + search at API pricing}\\[6pt]
       \renewcommand{\arraystretch}{1.3}
       \begin{tabular}{lrrr}
         \toprule
-        Optimisation & Novel checks/day & Cost/day & /month \\
+        Optimisation & Calls/day & /day & /month \\
         \midrule
-        None (raw)               & 2M    & \alert{\$35\,500} & \alert{\$1.1M} \\
-        Claim cache (80\% hit)   & 400K  & \$7\,100          & \$213K \\
-        Cache + KB routing       & 240K Serper & \$5\,050   & \$152K \\
+        None (raw)             & 2M   & \alert{\$35\,500} & \alert{\$1.1M} \\
+        Claim cache (80\% hit) & 400K & \$7\,100          & \$213K \\
+        Cache + KB routing     & 240K & \$5\,050          & \$152K \\
         \bottomrule
       \end{tabular}
 
-      \medskip
-      {\footnotesize\textit{Cache + KB routing:} of 400K post-cache novel checks,
-      40\% resolved by FCTAPI (no Serper, FIRE exits round~1).
-      Remaining 60\% run full Serper + FIRE (2.5 rounds avg).}
-
       \bigskip
-      \textbf{$\Rightarrow$ All three scenarios require self-hosted HPC.}\\
-      {\footnotesize But compute requirement drops \alert{6$\times$} from raw
-      to optimised: 32B tokens/day $\to$ 5B tokens/day.}
+      All three scenarios require self-hosted HPC.\\
+      Compute drops \alert{6$\times$} from raw to optimised.
     \end{column}
-    \begin{column}{0.44\textwidth}
-      \textbf{Human resources}\\[4pt]
-      \renewcommand{\arraystretch}{1.2}
+    \begin{column}{0.38\textwidth}
+      \textbf{Team}\\[6pt]
+      \renewcommand{\arraystretch}{1.3}
       \begin{tabular}{ll}
         \toprule
-        Role & Responsibility \\
+        Role & \\
         \midrule
-        2--3 engineers   & Backend + infra \\
-        1 engineer       & Browser extension \\
-        1 ML engineer    & Eval, calibration \\
-        1 PM/researcher  & IRB, participants \\
-        \bottomrule
-      \end{tabular}
-
-      \bigskip
-      \textbf{Additional infrastructure}\\[4pt]
-      \begin{tabular}{ll}
-        \toprule
-        Component & Purpose \\
-        \midrule
-        Qdrant        & Claim cache \\
-        Redis + Celery & Async Tier~3 \\
-        Load balancer  & Multi-region \\
-        Observability  & Latency / nudge rate \\
+        Backend + infra  & 2--3 \\
+        Browser ext.     & 1    \\
+        ML / eval        & 1    \\
+        PM / IRB         & 1    \\
         \bottomrule
       \end{tabular}
     \end{column}
   \end{columns}
 \end{frame}
 
-% ── 16. Scenario B: Stack ────────────────────────────────────
+% ── 24. Scenario B stack ─────────────────────────────────────
 \begin{frame}{Scenario B — Wide Study: Stack \& Compute}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \textbf{Why caching changes the economics}\\[4pt]
-      {\footnotesize Viral misinformation is shared repeatedly — the same
-      false claim reaches thousands of users in hours. After the first
-      user triggers a full Tier~3 check, every subsequent user gets
-      the cached verdict instantly at zero compute cost. At 80\% cache
-      hit rate, the effective load drops \alert{5$\times$} from 2M to
-      400K novel checks per day.}
-
-      \bigskip
-      \textbf{Compute options for self-hosted inference}
-      \begin{itemize}
-        \item \textbf{HPC allocation} — DRAC (Canada), Jean Zay (France),
-              university cluster. GPU-hours at zero marginal cost
-              for academic research. \alert{Recommended path.}
-        \item \textbf{Cloud GPU cluster} — \$30--50K/month for a
-              dedicated vLLM setup ($\sim$50--80$\times$ A100 80GB)
-        \item \textbf{Smaller model} — 7B parameter model cuts
-              GPU needs $\approx$10$\times$ at some accuracy cost
+      \textbf{Compute path}
+      \begin{itemize}\setlength{\itemsep}{12pt}
+        \item \textbf{HPC allocation} — DRAC (Canada), Jean Zay (France)\\
+              GPU-hours at zero marginal cost for academic research.
+              \alert{Recommended path.}
+        \item \textbf{Cloud GPU cluster} — \$30--50K/month\\
+              $\sim$50--80$\times$ A100 80\,GB with vLLM
+        \item \textbf{Smaller model} — 7B params cuts GPU needs $\approx$10$\times$ at some accuracy cost
       \end{itemize}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \textbf{Architecture additions vs.\ Scenario A}
-      \begin{itemize}
-        \item \textbf{Vector DB (Qdrant)} — stores claim embeddings
-              and verdicts; cosine similarity lookup on every incoming
-              claim before hitting Tier~3
-        \item \textbf{Async job queue (Redis + Celery)} — first user
-              triggers a background Tier~3 job; result written to
-              cache on completion
-        \item \textbf{Multi-region load balancer} — 10-country
-              deployment requires low-latency routing
-        \item \textbf{Observability stack} — latency per tier,
-              nudge rate, cache hit rate, per-country dashboards
+      \textbf{New infrastructure vs.\ Scenario A}
+      \begin{itemize}\setlength{\itemsep}{12pt}
+        \item \textbf{Qdrant} — vector DB for claim cache
+        \item \textbf{Redis + Celery} — async Tier 3 job queue
+        \item \textbf{Load balancer} — 10-country deployment
+        \item \textbf{Observability} — latency per tier, nudge rate, cache hit rate
       \end{itemize}
 
       \bigskip
       \textbf{Timeline to production:} 4--6 months
-    \end{column}
-  \end{columns}
-\end{frame}
-
-% ── 15. Open Questions ───────────────────────────────────────
-\begin{frame}{Open Questions \& Next Steps}
-  \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-      \textbf{Pipeline improvements}
-      \begin{enumerate}
-        \item \textbf{Majority-vote CE aggregation}\\
-              {\footnotesize One-line change; test vs.\ Likert-argmax immediately.}
-        \item \textbf{Hybrid retrieval} (BM25 + dense + cross-encoder)\\
-              {\footnotesize Lexical match for named entities, numbers, quotes.
-              Directly addresses the Nigeria date-sensitivity failure.}
-        \item \textbf{HerO 2 document summarisation}\\
-              {\footnotesize Per-source temporal anchoring before verification.}
-        \item \textbf{Temperature scaling}\\
-              {\footnotesize ECE 0.35 $\to$ target $<$0.10.
-              200-claim labeled set is now large enough to fit $T$.}
-        \item \textbf{Misleadingness detection} (IDEA-009)\\
-              {\footnotesize Implement the 4-step stripping algorithm.}
-      \end{enumerate}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \textbf{Evaluation}
-      \begin{itemize}
-        \item Controlled same-seed FIRE vs.\ SC comparison
-        \item French-language evaluation\\
-              {\footnotesize No public benchmark; manual curation needed.}
-        \item Tier~1 encoder ensemble: implement + evaluate\\
-              {\footnotesize Latency target $<$250\,ms on M1.}
-      \end{itemize}
-
-      \bigskip
-      \textbf{Research \& deployment}
-      \begin{itemize}
-        \item Domain trust ranking for web search
-        \item First-user experience for novel claims\\
-              {\footnotesize No nudge? Provisional message? Tier~1 estimate?}
-        \item IRB approval timeline
-        \item Consent \& anonymised data collection flow\\
-              {\footnotesize GDPR (EU), PIPEDA (Canada) implications.}
-      \end{itemize}
     \end{column}
   \end{columns}
 \end{frame}
