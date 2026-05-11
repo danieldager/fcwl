@@ -394,58 +394,82 @@
   \end{columns}
 \end{frame}
 
-% ── 10. AVeriTeC 10-claim evaluation ─────────────────────────
+% ── 10. AVeriTeC results — table ─────────────────────────────
 \begin{frame}{Evaluation — AVeriTeC Benchmark (10-claim sample)}
+  \begin{center}
+  \renewcommand{\arraystretch}{1.22}
+  \begin{tabular}{clllc}
+    \toprule
+    \# & Claim (abbreviated) & Gold & Pipeline & \\
+    \midrule
+    1  & Trump canceled HR6666             & Ref.  & Ref.  & \good \\
+    2  & US--Africa trade declined          & Supp. & NEI   & \bad  \\
+    3  & Chakraborty father statement       & Ref.  & NEI   & \bad  \\
+    4  & Fox News unavailable in Canada     & Ref.  & Ref.  & \good \\
+    5  & Nigeria 52\% urban                 & Supp. & Ref.  & \bad  \\
+    \midrule
+    6  & Biden transgender quote            & NEI   & Ref.  & \bad$^\dagger$ \\
+    7  & RBG age-of-consent claim           & Ref.  & Ref.  & \good \\
+    8  & Trump canceled ID2020              & Ref.  & Ref.  & \good \\
+    9  & Thackeray / Kangana (compound)     & Ref.  & Ref.  & \good \\
+    10 & Schools reopened (New Brunswick)   & Supp. & NEI   & \bad  \\
+    \midrule
+    \multicolumn{4}{l}{\textbf{Accuracy}} & \textbf{5/10 (50\%)} \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  \vspace{4pt}
+  {\footnotesize $^\dagger$ AP, PolitiFact, Snopes all rated this Refuted.
+  AVeriTeC gold = NEI (stricter wording interpretation).}
+\end{frame}
+
+% ── 11. AVeriTeC results — error analysis ────────────────────
+\begin{frame}{Evaluation — Error Analysis}
   \begin{columns}[T]
-    \begin{column}{0.52\textwidth}
-      \footnotesize
-      \renewcommand{\arraystretch}{1.18}
-      \begin{tabular}{clllc}
-        \toprule
-        \# & Claim (abbreviated) & Gold & Pipeline & \\
-        \midrule
-        1  & Trump canceled HR6666             & Ref.  & Ref.  & \good \\
-        2  & US--Africa trade declined          & Supp. & NEI   & \bad  \\
-        3  & Chakraborty father statement       & Ref.  & NEI   & \bad  \\
-        4  & Fox News unavailable in Canada     & Ref.  & Ref.  & \good \\
-        5  & Nigeria 52\% urban                 & Supp. & Ref.  & \bad  \\
-        \midrule
-        6  & Biden transgender quote            & NEI   & Ref.  & \bad$^\dagger$ \\
-        7  & RBG age-of-consent claim           & Ref.  & Ref.  & \good \\
-        8  & Trump canceled ID2020              & Ref.  & Ref.  & \good \\
-        9  & Thackeray / Kangana (compound)     & Ref.  & Ref.  & \good \\
-        10 & Schools reopened (New Brunswick)   & Supp. & NEI   & \bad  \\
-        \midrule
-        \multicolumn{4}{l}{\textbf{Accuracy}} & \textbf{5/10 (50\%)} \\
-        \bottomrule
-      \end{tabular}\\[4pt]
-      {\tiny $^\dagger$ AP, PolitiFact, Snopes all rated this Refuted.
-      AVeriTeC gold = NEI (stricter wording interpretation).}
-    \end{column}
-    \begin{column}{0.44\textwidth}
-      \textbf{Three failure modes}
+    \begin{column}{0.31\textwidth}
+      \textbf{Retrieval gap}\\
+      \textcolor{slate}{\footnotesize Claims 3, 10}
 
       \medskip
-      \textbf{Retrieval gap} (claims 3, 10)\\
       {\footnotesize Regional / niche claims with no English-language
-      web coverage. Verifier returns NEI correctly given the
-      evidence — it's a retrieval problem, not a reasoning problem.}
+      web coverage. The verifier returns NEI correctly given what
+      it received — the failure is upstream in retrieval,
+      not in reasoning.}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \textbf{Date sensitivity}\\
+      \textcolor{slate}{\footnotesize Claim 5}
 
       \medskip
-      \textbf{Date sensitivity} (claim 5)\\
       {\footnotesize Nigeria urban-population claim from 2020.
       Verifier retrieved a 2024 Statista figure (62.98\%)
-      and applied its parametric knowledge instead of
-      period-appropriate evidence. Fix: HerO~2 document
-      summarisation with explicit temporal anchoring.}
+      and used its parametric knowledge instead of
+      period-appropriate evidence.}
 
       \medskip
-      \textbf{Annotation disagreement} (claim 6)\\
+      {\footnotesize \textcolor{steel}{Fix: HerO~2 per-document
+      summarisation with explicit temporal anchoring.}}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \textbf{Annotation disagreement}\\
+      \textcolor{slate}{\footnotesize Claim 6}
+
+      \medskip
       {\footnotesize Genuine label conflict, not a pipeline error.
-      Four professional fact-checkers rated Refuted;
-      AVeriTeC's gold label reflects a stricter wording test.}
+      Four professional fact-checkers (AP, PolitiFact, Snopes,
+      USA Today) rated the Biden quote Refuted.
+      AVeriTeC's gold label of NEI reflects a stricter
+      wording test of the exact quote.}
     \end{column}
   \end{columns}
+
+  \bigskip
+  \begin{block}{Takeaway}
+    Of the 5 misses: 2 are retrieval coverage failures,
+    1 is a date-anchoring failure with a targeted fix,
+    1 is a genuine annotation disagreement.
+    Only 1 (claim~2) is an unresolved reasoning failure.
+  \end{block}
 \end{frame}
 
 % ── 11. Larger-scale results ──────────────────────────────────
@@ -556,114 +580,195 @@
   \end{columns}
 \end{frame}
 
-% ── 13. Fast Shipping ────────────────────────────────────────
-\begin{frame}{Deployment Scenario A — Fast Shipping}
-  \textbf{Goal:} A working product in $\leq$1 week for a small pilot cohort (\textasciitilde100 users).
+% ── 13. Scenario A: Cost Table ───────────────────────────────
+\begin{frame}{Scenario A — Experimentation Phase: Cost Breakdown}
+  \textbf{One-time experiment:} 1\,000 users $\times$ 100 posts each $=$ \textbf{100\,000 total pipeline calls.}
 
   \bigskip
   \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \textbf{Token breakdown per check}\\[4pt]
+      \renewcommand{\arraystretch}{1.2}
+      \begin{tabular}{llr}
+        \toprule
+        Component & Model & Tokens \\
+        \midrule
+        Extraction (2 calls) & Qwen3-32B   & $\sim$1\,700 \\
+        FIRE verification     & Llama-3.3-70B & $\sim$14\,400 \\
+        \quad{\footnotesize 1.5 claims $\times$ 2.5 rounds $\times$ 3\,500} & & \\
+        \midrule
+        \textbf{Total / check} & & \textbf{$\sim$16\,100} \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \textbf{Total experiment cost}\\[4pt]
+      \renewcommand{\arraystretch}{1.2}
+      \begin{tabular}{lr}
+        \toprule
+        Item & Total \\
+        \midrule
+        Qwen3-32B (170M tokens)    & \$119  \\
+        Llama-3.3-70B (1.44B tokens) & \$994  \\
+        Serper (700K queries)      & \$700  \\
+        FCTAPI + Wikipedia         & free   \\
+        Backend hosting            & \$50   \\
+        \midrule
+        \textbf{One run} & \textbf{\$\,{\raise.17ex\hbox{$\scriptstyle\sim$}}1\,900} \\
+        \midrule
+        3-config model comparison  & $\sim$\$4\,000 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+
+  \medskip
+  {\footnotesize\textcolor{slate}{Model comparison reuses cached retrieval results — only the verifier call changes, so 3 configs cost $\sim$3$\times$ LLM + 1$\times$ search $\approx$ \$4\,000 total.}}
+\end{frame}
+
+% ── 14. Scenario A: Stack ─────────────────────────────────────
+\begin{frame}{Scenario A — Experimentation Phase: Stack \& Approach}
+  \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \textbf{Stack (all cloud APIs, no owned hardware)}
+      \textbf{Stack — all cloud APIs, no owned hardware}
       \begin{itemize}
-        \item Claim extraction: Qwen3-32B via Groq
-        \item Verification: single-pass (no FIRE loop), Llama-3.3-70B
+        \item Extraction: Qwen3-32B via Groq
+        \item Verification: Llama-3.3-70B via Groq, \alert{full FIRE loop}
+        \item Retrieval: BM25 + cross-encoder rerank + MMR
         \item Web search: Serper API
         \item Fact-check DB: Google FCTAPI (free)
-        \item Backend: single FastAPI server (Render or Fly.io, \$0--50/month)
-        \item Browser extension: Chrome, manifest~V3
+        \item Backend: single FastAPI server ($\sim$\$50 one-time)
+        \item Browser extension: Chrome, manifest V3
       \end{itemize}
 
       \bigskip
-      \textbf{What we skip to move fast}
+      \textbf{What we skip for now}
       \begin{itemize}
-        \item FIRE iterative loop
         \item Vector DB / claim caching
         \item Async job queue
         \item French language support
       \end{itemize}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \textbf{Cost estimate}\\[4pt]
-      \renewcommand{\arraystretch}{1.2}
-      \begin{tabular}{lr}
-        \toprule
-        Item & /month \\
-        \midrule
-        Groq API (100 users $\times$ 100 posts/day) & \$840--1\,700 \\
-        Serper search API & \$50 \\
-        Backend hosting & \$0--50 \\
-        \midrule
-        \textbf{Total} & \textbf{\$900--1\,800} \\
-        \bottomrule
-      \end{tabular}
+      \textbf{Model comparison strategy}\\[4pt]
+      {\footnotesize Retrieval is the expensive step in wall-clock time
+      but cheap in API cost. Run retrieval once per claim, store
+      the evidence set, then re-run only the verifier call with
+      different model configs. Each additional config adds
+      $\sim$\$1\,100 in LLM cost.}
 
       \bigskip
-      {\footnotesize\textit{Assumptions:} 100 posts/user/day reaching the
-      pipeline (after lexical pre-filter and DB cache). Each check $\approx$4\,300
-      tokens (800 extraction + 3\,500 verification).
-      Groq pricing $\approx$\$0.59--0.80/1M input tokens.}
+      \textbf{Configs worth testing}
+      \begin{itemize}
+        \item Llama-3.3-70B (current baseline)
+        \item Qwen3-32B as verifier
+        \item Larger frontier model (GPT-4o, DeepSeek V3) as upper bound
+      \end{itemize}
 
       \bigskip
       \textbf{Human resources}\\
-      1--2 engineers, 1 week to deploy
+      1--2 engineers · 2--4 weeks to deploy and run
     \end{column}
   \end{columns}
 \end{frame}
 
-% ── 14. Wide Deployment ──────────────────────────────────────
-\begin{frame}{Deployment Scenario B — Wide Study}
-  \textbf{Goal:} 2\,000 participants $\times$ 10 countries = 20\,000 users.
+% ── 15. Scenario B: Cost Table ───────────────────────────────
+\begin{frame}{Scenario B — Wide Study: Cost Breakdown}
+  \textbf{Recurring deployment:} 2\,000 participants $\times$ 10 countries $=$ 20\,000 users,
+  100 fact-checked posts/user/day $=$ \textbf{2M pipeline calls/day.}
 
   \bigskip
   \begin{columns}[T]
-    \begin{column}{0.50\textwidth}
-      \textbf{Scale}\\[3pt]
-      20\,000 users $\times$ 100 posts/day $=$ \textbf{2M pipeline calls/day}\\
-      $\times$\,4\,300 tokens/check $=$ 8.6B tokens/day
+    \begin{column}{0.52\textwidth}
+      \textbf{Daily LLM cost at API pricing}\\[4pt]
+      \renewcommand{\arraystretch}{1.2}
+      \begin{tabular}{lrr}
+        \toprule
+        Scenario & Checks/day & Cost/day \\
+        \midrule
+        No caching (raw)        & 2M    & \alert{\$22\,000} \\
+        80\% cache hit rate     & 400K  & \$4\,400 \\
+        \midrule
+        \textbf{With caching} & & \textbf{\$132K/month} \\
+        \bottomrule
+      \end{tabular}
 
       \medskip
-      \textbf{Cost at API pricing: prohibitive}\\
-      {\footnotesize Groq API: \$5\,000--7\,700/\textbf{day} (\$150--230K/month)}
+      {\footnotesize Search adds $\sim$\$2\,800/day at full load,
+      $\sim$\$560/day with caching.}
 
-      \medskip
-      \textbf{Key lever: caching}\\
-      {\footnotesize Viral misinformation is shared repeatedly.
-      At 80\% cache hit rate, novel-claim checks drop to 400K/day
-      — a \alert{5$\times$ cost reduction.}}
-
-      \medskip
-      \textbf{Compute options}
-      \begin{itemize}
-        \item \textbf{HPC allocation} — DRAC (Canada), Jean Zay (France),
-              or university cluster.
-              GPU hours at zero marginal cost for academic research.
-        \item \textbf{Cloud GPU cluster} — \$30--50K/month for
-              a dedicated vLLM serving setup (A100s)
-        \item \textbf{Smaller model} — Qwen2.5-7B reduces GPU needs
-              $\approx$10$\times$ at some accuracy cost
-      \end{itemize}
+      \bigskip
+      \textbf{$\Rightarrow$ API pricing is unviable even with caching.\\
+      Self-hosted inference on HPC is required.}
     \end{column}
-    \begin{column}{0.46\textwidth}
-      \textbf{Additional infrastructure}\\[3pt]
+    \begin{column}{0.44\textwidth}
+      \textbf{Human resources}\\[4pt]
+      \renewcommand{\arraystretch}{1.2}
       \begin{tabular}{ll}
         \toprule
-        Component & Purpose \\
+        Role & Responsibility \\
         \midrule
-        Vector DB (Qdrant) & Claim cache + similarity search \\
-        Redis + Celery & Async job queue for Tier~3 \\
-        Load balancer & Multi-region API distribution \\
-        Observability & Latency, error rate, nudge rate \\
+        2--3 engineers   & Backend + infra \\
+        1 engineer       & Browser extension \\
+        1 ML engineer    & Eval, calibration \\
+        1 PM/researcher  & IRB, participants \\
         \bottomrule
       \end{tabular}
 
       \bigskip
-      \textbf{Human resources}\\[3pt]
+      \textbf{Additional infrastructure}\\[4pt]
       \begin{tabular}{ll}
-        2--3 engineers & Backend + infra\\
-        1 engineer & Browser extension\\
-        1 ML engineer & Eval, calibration, fine-tuning\\
-        1 PM / researcher & IRB, participant management\\
+        \toprule
+        Component & Purpose \\
+        \midrule
+        Qdrant        & Claim cache \\
+        Redis + Celery & Async Tier~3 \\
+        Load balancer  & Multi-region \\
+        Observability  & Latency / nudge rate \\
+        \bottomrule
       \end{tabular}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ── 16. Scenario B: Stack ────────────────────────────────────
+\begin{frame}{Scenario B — Wide Study: Stack \& Compute}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Why caching changes the economics}\\[4pt]
+      {\footnotesize Viral misinformation is shared repeatedly — the same
+      false claim reaches thousands of users in hours. After the first
+      user triggers a full Tier~3 check, every subsequent user gets
+      the cached verdict instantly at zero compute cost. At 80\% cache
+      hit rate, the effective load drops \alert{5$\times$} from 2M to
+      400K novel checks per day.}
+
+      \bigskip
+      \textbf{Compute options for self-hosted inference}
+      \begin{itemize}
+        \item \textbf{HPC allocation} — DRAC (Canada), Jean Zay (France),
+              university cluster. GPU-hours at zero marginal cost
+              for academic research. \alert{Recommended path.}
+        \item \textbf{Cloud GPU cluster} — \$30--50K/month for a
+              dedicated vLLM setup ($\sim$50--80$\times$ A100 80GB)
+        \item \textbf{Smaller model} — 7B parameter model cuts
+              GPU needs $\approx$10$\times$ at some accuracy cost
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Architecture additions vs.\ Scenario A}
+      \begin{itemize}
+        \item \textbf{Vector DB (Qdrant)} — stores claim embeddings
+              and verdicts; cosine similarity lookup on every incoming
+              claim before hitting Tier~3
+        \item \textbf{Async job queue (Redis + Celery)} — first user
+              triggers a background Tier~3 job; result written to
+              cache on completion
+        \item \textbf{Multi-region load balancer} — 10-country
+              deployment requires low-latency routing
+        \item \textbf{Observability stack} — latency per tier,
+              nudge rate, cache hit rate, per-country dashboards
+      \end{itemize}
 
       \bigskip
       \textbf{Timeline to production:} 4--6 months
