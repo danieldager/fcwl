@@ -131,6 +131,23 @@ This separates the nudging decision (needs to be fast) from the verification dec
 
 ---
 
+### [IDEA-011] Source-retrieval evaluation using ClaimReview `appearance` URLs
+*Added: 2026-05-18*
+
+The Data Commons ClaimReview live feed (discovered 2026-05-18, see `clog/180526.md`) exposes `itemReviewed.appearance[].url` — the source URLs cited by human fact-checkers. ~60% of entries have these. This is a free gold standard for evaluating Tier 3 **retrieval quality**, orthogonal to verdict-level evaluation.
+
+**Eval setup:** For each ClaimReview entry, run Tier 3 retrieval on the claim, then compare retrieved URLs/domains against the fact-checker's cited sources.
+
+**Candidate metrics:**
+- **Domain-level recall** — did we surface ≥1 source from a domain the fact-checker used?
+- **URL-level recall** — exact URL overlap (likely sparse, but worth measuring)
+- **Domain-level precision** — what fraction of our top-K domains overlap with the fact-checker's domains?
+- **Trust correlation** — do our high-credibility-scored domains overlap more with fact-checker sources than our low-scored ones? (Validates the domain trust ranking, currently an open question.)
+
+**Caveat:** fact-checker sources are *one* valid retrieval; ours may surface different-but-equally-valid sources. Treat low overlap as a signal worth investigating, not as a hard failure.
+
+---
+
 ## Key Architectural Decisions (Resolved)
 
 | Decision | Choice | Reason |

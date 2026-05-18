@@ -130,3 +130,23 @@ Chronological summaries of project discussions. Append new entries as conversati
 1. Fix `is_checkable: False` prompt bug (false assertions being rejected as uncheckable)
 2. Run 50–100 claim AVeriTeC baseline on A40 with Qwen3-32B to establish a stable measurement point
 3. Implement IDEA-005 (question generation + QA-driven retrieval) as first Tier 3 change — highest single-step accuracy gain per literature
+
+---
+
+## 180526 — Session: CheckThat! 2025 Task 2 PoC eval (claim extraction)
+
+**Topic:** Designed and ran a small evaluation of the claim extraction step using gold-standard datasets, as proposed in `docs/pipeline_slides.tex` § "Claim Extraction".
+
+**Setup:** GPT-OSS 120B (Groq), 100 EN posts from the CheckThat! 2025 Task 2 dev split, METEOR metric. 6 systems compared: ours (single-claim adaptation of `pipeline/claim_extraction.py`), dfkinit2b (#1 EN leaderboard zero-shot prompt), DS@GT (#2, CoT), AKCIT-FN (fidelity-focused), TIFIN (5W1H JSON), baseline (post-as-is).
+
+**Results (METEOR, N=100):** ours 0.2934 > dsgt 0.2764 ≈ dfkinit2b 0.2759 > akcit 0.2662 > tifin 0.2617 > baseline 0.1870. Our prompt edged the top published EN prompts by ~0.017 — at threshold of meaningful at N=100.
+
+**Deeper insight:** METEOR rewards *literal phrase preservation*, not semantic accuracy. dfkinit2b's structured-criteria prompt produces near-verbatim extractions and scores 0.80-0.98 when the gold is itself a verbatim lift. Our prompt synthesizes/abstracts, losing on extractive golds but winning when gold requires picking the right specifics.
+
+**Implication for claims DB (IDEA-003):** consider storing both verbatim and synthesized forms per claim, linked by `claim_id` — covers paraphrase-match and wording-match failure modes.
+
+**New idea logged ([IDEA-011]):** Use Data Commons ClaimReview live feed's `itemReviewed.appearance[].url` field as a free gold standard for evaluating Tier 3 source retrieval quality (~60% of entries have cited sources). Orthogonal to verdict-level eval.
+
+**Caveats:** N=100 (CI ~±0.02), single model, English only. Did NOT replicate leaderboard winners' full systems (retrieval/ensemble/fine-tuning) — only their published zero-shot prompts.
+
+**Artifacts:** `eval/scripts/checkthat_t2/`, report at `eval/scripts/checkthat_t2/results/REPORT.md`, full clog at `clog/180526.md`.
