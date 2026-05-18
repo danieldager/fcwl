@@ -14,7 +14,7 @@ from pathlib import Path
 import polars as pl
 from tqdm import tqdm
 
-from eval.harmonize import GROQ_MODEL, get_llm_client, llm_map, rule_map
+from eval.harmonize import GROQ_MODEL, llm_map, rule_map
 
 SOURCE_JSONLS = [
     Path("eval/data/survey/12mo.jsonl"),
@@ -89,12 +89,11 @@ def main() -> None:
     )
 
     # LLM pass
-    client = get_llm_client()
     llm_labels = []
     failures = 0
     for row in tqdm(needs_llm.iter_rows(named=True), total=len(needs_llm), desc="LLM"):
         try:
-            llm_labels.append(llm_map(client, GROQ_MODEL, row["original_rating"] or ""))
+            llm_labels.append(llm_map(GROQ_MODEL, row["original_rating"] or ""))
         except Exception as e:
             failures += 1
             llm_labels.append(None)
@@ -108,6 +107,16 @@ def main() -> None:
         harmonisation_source=pl.when(pl.col("rule_label").is_not_null())
         .then(pl.lit("rule"))
         .otherwise(pl.lit("llm")),
+    )
+    # Binary "deployment" label: PASS only if the claim is verified true.
+    # Refuted / Conflicting Evidence / Not Enough Evidence all → FLAG
+    # (the extension nudges whenever there's any concern, including unverifiability).
+    merged = merged.with_columns(
+        binary_label=pl.when(pl.col("harmonised_label") == "Supported")
+        .then(pl.lit("pass"))
+        .when(pl.col("harmonised_label").is_null())
+        .then(pl.lit(None))
+        .otherwise(pl.lit("flag"))
     )
 
     n_unlabeled = merged.filter(pl.col("harmonised_label").is_null()).height

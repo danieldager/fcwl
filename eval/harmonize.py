@@ -9,9 +9,8 @@ free-text ratings and is handled by an LLM call against Groq.
 from __future__ import annotations
 
 import json
-import re
 
-from openai import OpenAI
+import requests
 
 from config import (
     EXTRACTION_API_KEY as GROQ_API_KEY,
@@ -131,28 +130,29 @@ LLM_SYSTEM = (
 )
 
 
-def llm_map(client: OpenAI, model: str, rating: str) -> str:
-    """LLM classification with strict label validation. Returns one of VERDICT_OPTIONS."""
-    resp = client.chat.completions.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": LLM_SYSTEM},
-            {"role": "user", "content": f"Fact-checker verdict:\n{rating}"},
-        ],
-        temperature=0,
-        response_format={"type": "json_object"},
+def llm_map(model: str, rating: str, timeout: int = 30) -> str:
+    """LLM classification via Groq REST. Returns one of VERDICT_OPTIONS."""
+    r = requests.post(
+        f"{GROQ_BASE_URL}/chat/completions",
+        headers={"Authorization": f"Bearer {GROQ_API_KEY}"},
+        json={
+            "model": model,
+            "messages": [
+                {"role": "system", "content": LLM_SYSTEM},
+                {"role": "user", "content": f"Fact-checker verdict:\n{rating}"},
+            ],
+            "temperature": 0,
+            "response_format": {"type": "json_object"},
+        },
+        timeout=timeout,
     )
-    text = resp.choices[0].message.content or ""
+    r.raise_for_status()
+    text = r.json()["choices"][0]["message"]["content"] or ""
     obj = json.loads(text)
     label = obj.get("label", "").strip()
     if label not in _VERDICT_SET:
-        # Loose recovery: substring match
         for v in VERDICT_OPTIONS:
             if v.lower() in label.lower():
                 return v
         raise ValueError(f"LLM returned non-canonical label: {label!r} for rating {rating!r}")
     return label
-
-
-def get_llm_client() -> OpenAI:
-    return OpenAI(base_url=GROQ_BASE_URL, api_key=GROQ_API_KEY)
