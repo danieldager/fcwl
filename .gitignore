@@ -21,3 +21,17 @@ venv/
 
 # Logs / run artifacts
 clog/*.log
+
+# LaTeX build artifacts
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+docs/pipeline_slides.log
+docs/pipeline_slides.nav
+docs/pipeline_slides.out
+docs/pipeline_slides.snm
+docs/pipeline_slides.toc
+
+# Large eval data
+eval/data/feed/data.json

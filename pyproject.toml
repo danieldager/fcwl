@@ -8,10 +8,12 @@ dependencies = [
     "matplotlib>=3.10.9",
     "openai>=2.35.1",
     "pandas>=3.0.2",
+    "polars>=1.40.1",
     "pydantic>=2.13.4",
     "python-dotenv>=1.2.2",
     "rank-bm25>=0.2.2",
     "requests>=2.33.1",
     "sentence-transformers>=5.4.1",
+    "tqdm>=4.67.3",
     "trafilatura>=2.0.0",
 ]
