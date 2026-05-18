@@ -1,6 +1,9 @@
 # Live Fact-Checking Pipeline — PoC Design
 *Created: 2026-05-07*
 
+> **⚠️ HISTORICAL SNAPSHOT (2026-05-07) — superseded by `CLAUDE.md` § Fact-Checking Pipeline.**
+> Kept as a point-in-time record of mid-May pipeline design. Pre-dates the Tier 3 ClaimCheck/FIRE/HerO2 evolution and the calibrated weighted verdict aggregation decision. Do not treat as current.
+
 ## Overview
 
 A proof-of-concept fact-checking pipeline for social media posts (Twitter/X, Facebook) that works in the wild using live web retrieval. No pre-built knowledge base assumption (as in FEVER benchmark systems). Targets real-time veracity scoring for the empirical arm of the Guriev et al. nudging study.

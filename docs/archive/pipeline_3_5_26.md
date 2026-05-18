@@ -1,5 +1,8 @@
 # Design document: post-level fact-checking pipeline
 
+> **⚠️ HISTORICAL SNAPSHOT (2026-05-03) — superseded by `CLAUDE.md` § Fact-Checking Pipeline.**
+> Kept as a point-in-time record of early pipeline design. Pre-dates the Tier 3 ClaimCheck/FIRE/HerO2 architecture and the calibrated verdict aggregation decision. Do not treat as current.
+
 ## Goal
 Build a low-resource, open-source pipeline that takes a post (text now, image text later) and outputs calibrated post-level scores:
 
